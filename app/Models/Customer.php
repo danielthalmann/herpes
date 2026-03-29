@@ -18,14 +18,8 @@ class Customer extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function addressCustomers(): HasMany
-    {
-        return $this->hasMany(AddressCustomer::class);
-    }
-
-    // alias
     public function addresses(): HasMany
     {
-        return $this->addressCustomers();
+        return $this->hasMany(AddressCustomer::class);
     }
 }

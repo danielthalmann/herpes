@@ -21,7 +21,7 @@ class TransactionsTable
                 TextColumn::make('date')
                     ->date('d.m.Y')
                     ->sortable(),
-                    /*
+                /*
                 TextColumn::make('transaction_group')
                     ->numeric()
                     ->sortable(),
@@ -34,17 +34,22 @@ class TransactionsTable
                     ->numeric()
                     ->sortable(),
                     */
-                SelectColumn::make('account_id')
-                    ->label('Account')
+                SelectColumn::make('account_from_id')
+                    ->label('Account from')
                     ->options(Account::query()->pluck('name', 'id'))
-                    ->searchableOptions()
-                        ,
+                    ->searchableOptions(),
+                SelectColumn::make('account_to_id')
+                    ->label('Account to')
+                    ->options(Account::query()->pluck('name', 'id'))
+                    ->searchableOptions(),
+                /*
                 TextColumn::make('invoice_id')
                     ->numeric()
                     ->sortable(),
+                    */
                 TextInputColumn::make('accounting_text')
                     ->searchable(),
-                    /*
+                /*
                 TextColumn::make('tax_code')
                     ->searchable(),
                 TextColumn::make('tax_rate')

@@ -15,8 +15,6 @@ class TransactionForm
     public static function configure(Schema $schema): Schema
     {
 
-
-
         return $schema
             ->components([
 
@@ -31,11 +29,14 @@ class TransactionForm
                 TextInput::make('account_id')
                     ->numeric(),
                 */
-                Select::make('account_id')
-                    ->label('Account')
+                Select::make('account_from_id')
+                    ->label('Account from')
                     ->options(Account::query()->pluck('name', 'id'))
-                    ->searchable()
-                        ,
+                    ->searchable(),
+                Select::make('account_to_id')
+                    ->label('Account to')
+                    ->options(Account::query()->pluck('name', 'id'))
+                    ->searchable(),
                 /*
                 SelectColumn::make('account_id')
                     ->searchableOptions()
@@ -64,7 +65,6 @@ class TransactionForm
                 TextInput::make('credit')
                     ->type('money')
                     ->numeric(),
-
 
             ]);
     }

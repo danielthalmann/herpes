@@ -9,7 +9,7 @@ use Filament\Tables\Table;
 
 class AddressCustomersRelationManager extends RelationManager
 {
-    protected static string $relationship = 'AddressCustomers';
+    protected static string $relationship = 'addresses';
 
     protected static ?string $relatedResource = AddressCustomerResource::class;
 

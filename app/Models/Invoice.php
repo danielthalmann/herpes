@@ -10,20 +10,21 @@ class Invoice extends Model
 {
     use HasUlids;
 
-    /**
-     * Get all of the comments for the Transaction
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function invoiceItems(): HasMany
-    {
-        return $this->hasMany(InvoiceItem::class);
-    }
+    protected $fillable = [
+        'ref',
+        'invoice_date',
+        'customer_id',
+        'customer_company',
+        'customer_department',
+        'customer_name',
+        'customer_street',
+        'customer_zipcode',
+        'customer_city',
+    ];
 
     //alias
     public function items(): HasMany
     {
-        return $this->invoiceItems();
+        return $this->hasMany(InvoiceItem::class);
     }
-
 }

@@ -9,4 +9,9 @@ class InvoiceItem extends Model
 {
     use HasUlids;
 
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
 }

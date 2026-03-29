@@ -22,10 +22,9 @@ class TransactionInfolist
                     ->placeholder('-'),
                 TextEntry::make('user_name')
                     ->placeholder('-'),
-                TextEntry::make('account_id')
-                    ->numeric()
+                TextEntry::make('account_from_id')
                     ->placeholder('-'),
-                TextEntry::make('account_text')
+                TextEntry::make('account_to_id')
                     ->placeholder('-'),
                 TextEntry::make('invoice_id')
                     ->numeric()
