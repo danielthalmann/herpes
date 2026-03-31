@@ -1,0 +1,24 @@
+{
+    "name": "danielthalmann/authui",
+    "description": "user interface for auth",
+    "version": "dev-master",
+    "autoload": {
+        "psr-4": {
+            "Danielthalmann\\AuthUi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel Thalmann",
+            "email": "daniel@thalmann.li"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Danielthalmann\\AuthUi\\AuthUiServiceProvider"
+            ]
+        }
+    }
+}
