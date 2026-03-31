@@ -9,7 +9,7 @@ use Filament\Tables\Table;
 
 class InvoiceItemRelationManager extends RelationManager
 {
-    protected static string $relationship = 'items';
+    protected static string $relationship = 'invoiceItems';
 
     protected static ?string $relatedResource = InvoiceItemResource::class;
 

@@ -23,7 +23,7 @@ class Invoice extends Model
     ];
 
     //alias
-    public function items(): HasMany
+    public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
     }

@@ -18,7 +18,7 @@ class Customer extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function addresses(): HasMany
+    public function addressCustomers(): HasMany
     {
         return $this->hasMany(AddressCustomer::class);
     }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="32" height="32" viewBox="0 0 8.4666665 8.4666666" version="1.1" id="svg1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1">
+    <rect x="123.03303" y="928.51489" width="310.46616" height="67.283684" id="rect76"/>
+    <rect x="123.03303" y="928.51489" width="310.46616" height="67.283684" id="rect77"/>
+  </defs>
+  <g id="layer1">
+    <g id="g76" transform="matrix(0.26458333,0,0,0.26458333,-22.447179,-34.508474)" style="display:inline">
+      <g id="g75" transform="matrix(0.96633185,0,0,0.96633185,8.1696277,29.920135)" style="stroke-width:1.03484">
+        <ellipse style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.03647;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="circle70" cx="95.898842" cy="120.56479" rx="15.156075" ry="15.15762"/>
+        <path style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.03484px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 101.47437,129.63203 c 0,-2.75787 0.93032,-6.88933 1.29466,-7.79494 0.36436,-0.90558 1.30223,-4.17482 1.20031,-5.60039 -0.10189,-1.42557 -0.41915,-1.73964 -1.83179,-2.4793 -1.41265,-0.73962 -3.978246,-1.30138 -6.167249,-1.30138 -2.18899,0 -4.556866,0.47002 -6.051499,1.02281 -1.494635,0.5528 -1.535095,1.04935 -1.83839,2.36388 -0.337174,1.46141 0.332716,3.85423 0.872374,5.41326 0.539657,1.55901 1.331793,6.47196 1.069166,8.96718 -0.07705,0.73202 -0.141985,3.70122 0.955223,4.65086 1.097211,0.9496 3.227343,1.13359 4.829267,1.13297 1.601926,0 3.227477,-0.0926 4.700088,-1.03836 1.47262,-0.94572 0.96784,-4.21678 0.96784,-5.33659 z" id="path72"/>
+        <ellipse style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.03647;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="ellipse72" cx="95.857643" cy="121.62598" rx="1.575667" ry="1.0032399"/>
+        <ellipse style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.03647;stroke-linejoin:round;stroke-opacity:1" id="ellipse73" cx="100.28725" cy="117.00406" rx="1.6961751" ry="2.0740643"/>
+        <ellipse style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.03647;stroke-linejoin:round;stroke-opacity:1" id="ellipse74" cx="91.575722" cy="116.93271" rx="1.6961751" ry="2.0740643"/>
+      </g>
+    </g>
+  </g>
+</svg>
