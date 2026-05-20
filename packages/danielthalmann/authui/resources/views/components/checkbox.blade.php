@@ -1,6 +1,6 @@
 <label class="flex items-center">
-    <input type="checkbox" name="{{ $name }}" @if($checked == 'true') checked @endif class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
-    <span class="ml-2 text-sm text-gray-600">{{ $slot }}</span>
+    <input type="checkbox" name="{{ $name }}" @if($checked == 'true') checked @endif class="rounded border-gray-300 w-8 accent-indigo-600 focus:ring-indigo-500 scale-150"/>
+    <span class="ml-2 text-sm text-gray-900 dark:text-gray-100">{{ $slot }}</span>
 </label>
 
 @if(isset($errors))

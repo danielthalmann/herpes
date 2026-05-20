@@ -12,22 +12,17 @@
             <x-authui.input name="email" required="true" :label="__('authui::login.email')" type="email"></x-authui.input>
         </div>
 
-        <div>
-            <x-authui.input name="password" required="true" :label="__('authui::login.password')" type="password"></x-authui.input>
-        </div>
-
         <div class="flex items-center justify-between pb-5">
             <x-authui.checkbox name="remember" checked="false">{{ __('authui::login.Remember me') }}</x-authui.checkbox>
         </div>
 
 
-        <x-authui.button aspect="full" type="submit" name="submit">{{ __('authui::login.Sign In') }}</x-authui.button>
+        <x-authui.button aspect="full" type="submit" name="submit">{{ __('authui::login.Reset password') }}</x-authui.button>
         <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">{{ __('authui::login.Forgot password?') }}</a>
     </form>
 
   </div>
 </div>
-
 
 @endsection
 

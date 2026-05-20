@@ -1,10 +1,10 @@
 {
-    "name": "danielthalmann/authui",
-    "description": "user interface for auth",
+    "name": "danielthalmann/coreherpes",
+    "description": "core erp system",
     "version": "dev-main",
     "autoload": {
         "psr-4": {
-            "Danielthalmann\\AuthUi\\": "src/"
+            "Danielthalmann\\Herpes\\": "src/"
         }
     },
     "authors": [
@@ -17,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Danielthalmann\\AuthUi\\AuthUiServiceProvider"
+                "Danielthalmann\\Herpes\\HerpesServiceProvider"
             ]
         }
     }

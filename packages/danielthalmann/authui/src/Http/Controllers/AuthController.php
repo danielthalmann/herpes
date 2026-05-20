@@ -1,13 +1,14 @@
 <?php
+
 namespace Danielthalmann\AuthUi\Http\Controllers;
 
+use Danielthalmann\AuthUi\Http\Requests\CredentialRequest;
+use Danielthalmann\AuthUi\Http\Requests\ResetPasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Danielthalmann\AuthUi\Http\Requests\CredentialRequest;
 
 class AuthController
 {
-
     public function login()
     {
         return view('authui::login');
@@ -19,6 +20,7 @@ class AuthController
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
+
             return redirect()->intended('/');
         }
 
@@ -34,7 +36,13 @@ class AuthController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect(config('authui.home'));
     }
 
+    public function reset(ResetPasswordRequest $request): void
+    {
+        $request->user()->forceFill([
+            'password' => $request['password'],
+        ])->save();
+    }
 }

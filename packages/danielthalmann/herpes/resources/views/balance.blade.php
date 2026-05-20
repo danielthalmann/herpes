@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Bilan</title>
-    <link href="theme.css" rel="stylesheet">
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    <meta name="description" content="">
-    <meta name="author" content="Daniel Thalmann (white-ermine.ch)">
-    <link rel="icon" href="images/logo-white-sans-32x32.svg" sizes="32x32" />
-</head>
+
+@include('herpes::layouts.head')
+
 <body class="text-[10pt]">
 
     <section class="mb-15">

@@ -1,8 +1,7 @@
 <?php
 
-namespace Danielthalmann\AuthUi;
+namespace Danielthalmann\Herpes;
 
-use Danielthalmann\AuthUi\Console\Commands\CreateUser;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
-class AuthUiServiceProvider extends ServiceProvider
+class HerpesServiceProvider extends ServiceProvider
 {
     /**
      * @return void
@@ -21,36 +20,45 @@ class AuthUiServiceProvider extends ServiceProvider
     {
         $this->loadConfig();
 
-        if (Config::get('authui.enabled')) {
+        if (Config::get('herpes.enabled')) {
 
-            $this->commands(CreateUser::class);
             $this->registerComponents();
+            $this->loadMigrations();
             $this->registerViews();
+
 
         }
     }
 
     protected function loadConfig()
     {
-        $config_module_path = implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'config', 'authui.php']);
+        $config_module_path = implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'config', 'herpes.php']);
 
         // php artisan vendor:publish --tag=netmanager-config
         $this->publishes([
-            $config_module_path => config_path('authui.php'),
+            $config_module_path => config_path('herpes.php'),
         ], 'netmanager-config');
 
-        if (! $this->app->configurationIsCached()) {
-            if (Config::get('authui.enabled') === null) {
-                Config::set('authui', (require $config_module_path));
+        if (! app()->configurationIsCached()) {
+            if (Config::get('herpes.enabled') === null) {
+                Config::set('herpes', (require $config_module_path));
             }
         }
+    }
+
+    protected function loadMigrations()
+    {
+        $this->loadMigrationsFrom(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'database', 'migrations']));
+        $this->publishes([
+            implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'database', 'migrations']) => database_path('migrations'),
+        ], 'qsimport-migration');
     }
 
     protected function loadTranslate()
     {
         $lang_path = implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'resources', 'lang']);
 
-        $this->loadTranslationsFrom($lang_path, 'authui');
+        $this->loadTranslationsFrom($lang_path, 'herpes');
     }
 
     /**
@@ -60,7 +68,7 @@ class AuthUiServiceProvider extends ServiceProvider
      */
     public function boot(\Illuminate\Routing\Router $router)
     {
-        if (Config::get('authui.enabled')) {
+        if (Config::get('herpes.enabled')) {
             $this->registerRoutes();
             $this->loadTranslate();
             $this->registerRatelimiter();
@@ -76,20 +84,19 @@ class AuthUiServiceProvider extends ServiceProvider
 
     public function registerViews()
     {
-        View::addNamespace('authui', implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'resources', 'views']));
+        View::addNamespace('herpes', implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'resources', 'views']));
     }
 
     public function registerComponents()
     {
         $components = include implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'resources', 'components.php']);
-        foreach($components as $comp) {
+        foreach ($components as $comp) {
 
-            $fragments = explode ('\\', $comp);
+            $fragments = explode('\\', $comp);
             $name = Str::lower(last($fragments));
-            Blade::component( 'authui.' . $name, $comp);
+            Blade::component('herpes.' . $name, $comp);
 
         }
-
     }
 
     public function registerRatelimiter()
@@ -98,14 +105,14 @@ class AuthUiServiceProvider extends ServiceProvider
             return Limit::perMinute(5)
                 ->by($request->ip())
                 ->response(function () use ($request) {
-                    if ($request->ajax())
+                    if ($request->ajax()) {
                         return response()->json([
-                            'message' => 'Too many attempts. Try again later.'
+                            'message' => 'Too many attempts. Try again later.',
                         ], 429);
-                    else
+                    } else {
                         abort(429, 'Too many attempts. Try again later.');
+                    }
                 });
         });
     }
-
 }

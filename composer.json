@@ -25,7 +25,8 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Danielthalmann\\AuthUi\\": "packages/danielthalmann/authui/src/"
+            "Danielthalmann\\AuthUi\\": "packages/danielthalmann/authui/src/",
+            "Danielthalmann\\Herpes\\": "packages/danielthalmann/herpes/src/"
         }
     },
     "autoload-dev": {
