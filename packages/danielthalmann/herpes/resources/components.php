@@ -1,7 +1,7 @@
 <?php
 
-use Danielthalmann\Herpes\Components\Header;
+use Danielthalmann\Herpes\Components\Layout;
 
 return [
-    Header::class
+    Layout::class
 ];

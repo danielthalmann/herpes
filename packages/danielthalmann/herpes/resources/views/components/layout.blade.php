@@ -24,7 +24,7 @@
             <div class="ml-10 flex items-baseline space-x-4">
               <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
               <a href="{{ route('dashboard') }}" @if(Route::is('dashboard')) {!! $actif !!} @else {!! $inactif !!} @endif >Dashboard</a>
-              <a href="#" @if(Route::is('team')) {!! $actif !!} @else {!! $inactif !!} @endif>Team</a>
+              <a href="{{ route('customer') }}" @if(Route::is('customer')) {!! $actif !!} @else {!! $inactif !!} @endif >Customers</a>
               <a href="{{ route('invoice', ['01kmxh37hs2eez1yyjn0sd9a62']) }}" @if(Route::is('invoice')) {!! $actif !!} @else {!! $inactif !!} @endif>Invoice</a>
               <a href="#" @if(Route::is('calendar')) {!! $actif !!} @else {!! $inactif !!} @endif>Calendar</a>
               <a href="#" @if(Route::is('reports')) {!! $actif !!} @else {!! $inactif !!} @endif>Reports</a>
@@ -42,8 +42,8 @@
             </button>
 
             <!-- Profile dropdown -->
-            <div x-data="{open : false}" class="relative ml-3">
-              <button x-on:click="open = !open" class="relative flex max-w-xs items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+            <div x-cloak x-data="{open : false}" class="relative ml-3">
+              <button x-on:click="open = !open" class="relative flex max-w-xs items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 cursor-pointer">
                 <span class="absolute -inset-1.5"></span>
                 <span class="sr-only">Open user menu</span>
                 <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="size-8 rounded-full outline -outline-offset-1 outline-white/10" />
@@ -119,8 +119,8 @@
 
   <main>
 
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      {{  $slot }}
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8" @if(isset($appid)) id="{{ trim($appid) }}" @endif>
+      {{  $slot ?? '' }}
     </div>
   </main>
 </div>

@@ -2,7 +2,11 @@
 
 @section('content')
 
-<x-herpes.header>Hello</x-herpes.header>
+<x-herpes.layout>
+
+Hello welcome
+
+</x-herpes.layout>
 
 @endsection
 
