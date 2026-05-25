@@ -6,7 +6,11 @@
     import { type ClassValue, clsx } from 'clsx';
     import { twMerge } from "tailwind-merge";
 
-    export type TableColumn = Array<{key: string, label: string, className?: string}>;
+    export type TableColumn = Array<{
+        key: string,
+        label: string,
+        className?: string
+    }>;
 
     type TableProps = {
         columns?: TableColumn;

@@ -2,7 +2,11 @@
     import { type ClassValue, clsx } from 'clsx';
     import { twMerge } from 'tailwind-merge';
 
-    type SelectOption = {value: string ; label: string ; selected? : boolean};
+    type SelectOption = {
+        value: string;
+        label: string ;
+        selected?: boolean
+    };
 
     type Props = {
         value: string;

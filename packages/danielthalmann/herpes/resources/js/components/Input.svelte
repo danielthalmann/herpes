@@ -1,16 +1,19 @@
 <script lang="ts">
     import type {HTMLInputAttributes } from "svelte/elements";
 
-    type VariantType = "default" | "search";
+    type VariantType = "default" | "search" | "full";
 
     export type InputProps = HTMLInputAttributes & {
             variant? : VariantType,
-            label? : string
+            label? : string,
+            required? : boolean
         };
 
     let {
         variant = "default",
+        value = $bindable(''),
         label,
+        required = false,
         ...restProps
     }: InputProps = $props();
 
@@ -20,16 +23,19 @@
         if (variant == "search") {
             base += " pl-9";
         }
+        if (variant == "full") {
+            base += " w-full";
+        }
         return base;
     });
 
 </script>
 
-<div class="relative inline-block">
+<div class="inline-block">
 {#if label}
     <label class="mt-2" for="{name + 'id'}">
-        <span class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">{label} @if($required === 'true') * @endif</span>
-        <input class={style} {...restProps} />
+        <span class="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">{label} {#if required === true} * {/if}</span>
+        <input bind:value={value} class={style} {...restProps} />
     </label>
 {:else}
     {#if variant == 'search'}
@@ -37,7 +43,7 @@
         <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd"></path>
     </svg>
     {/if}
-    <input class={style} {...restProps} />
+    <input bind:value={value} class={style} {...restProps} />
 {/if}
 </div>
 
