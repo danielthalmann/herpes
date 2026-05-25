@@ -7,6 +7,9 @@
         <x-slot name="appid">
             customer
         </x-slot>
+        <x-slot name="url">
+            {{ route ('api.customer') }}
+        </x-slot>
 
     </x-herpes.layout>
 

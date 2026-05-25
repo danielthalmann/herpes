@@ -3,16 +3,39 @@
     import Input from "../Input.svelte";
     import Checkbox from "../Checkbox.svelte";
     import Select from "../Select.svelte";
+    import { type ClassValue, clsx } from 'clsx';
+    import { twMerge } from "tailwind-merge";
+
+    export type TableColumn = Array<{key: string, label: string, className?: string}>;
+
+    type TableProps = {
+        columns?: TableColumn;
+        rows?: Array<any>;
+    };
+
+    let {
+        rows,
+        columns
+    }: TableProps = $props();
 
     let items = [{
-        value: '10',
-        label: '10'
-    },
-    {
-        value: '20',
-        label: 'Un long text'
+            value: '20',
+            label: '20'
+        },
+        {
+            value: '50',
+            label: '50'
+        },
+        {
+            value: '100',
+            label: '100'
+        }
+
+    ];
+
+    function cn(...inputs: ClassValue[]) {
+        return twMerge(clsx(inputs));
     }
-];
 
 </script>
 
@@ -43,19 +66,21 @@
         <table class="w-full">
             <thead>
                 <tr class="bg-gray-700 ">
-                    <th class="text-left px-2 py-3 w-3"><Checkbox/></th>
-                    <th class="text-left px-2 py-3">id</th>
-                    <th class="text-left px-2 py-3">aaa</th>
-                    <th class="text-left px-2 py-3">bbb</th>
+                    <th class="text-left px-2 py-3 w-10"><Checkbox/></th>
+                {#each columns as column}
+                    <th class={cn("text-left px-2 py-3", column.className)}>{column.label}</th>
+                {/each}
                 </tr>
             </thead>
             <tbody>
+                {#each rows as row}
                 <tr class="border-b">
                     <td class="px-2 py-3"><Checkbox/></td>
-                    <td class="px-2 py-3">id</td>
-                    <td class="px-2 py-3">aaa</td>
-                    <td class="px-2 py-3">bbb</td>
+                    {#each columns as column}
+                        <td class={cn("px-2 py-3", column.className)}>{row[column.key]}</td>
+                    {/each}
                 </tr>
+                {/each}
             </tbody>
         </table>
     </div>
@@ -66,7 +91,7 @@
 
         </div>
         <div class=" m-3 content-center">
-            <Select value="" items={items} />
+            <Select value="20" items={items} />
         </div>
     </div>
 

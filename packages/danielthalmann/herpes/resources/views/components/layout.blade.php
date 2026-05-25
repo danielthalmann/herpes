@@ -119,7 +119,7 @@
 
   <main>
 
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8" @if(isset($appid)) id="{{ trim($appid) }}" @endif>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8" @if(isset($appid)) id="{{ trim($appid) }}" @endif @if(isset($url)) data-url="{{ trim($url) }}" @endif >
       {{  $slot ?? '' }}
     </div>
   </main>
