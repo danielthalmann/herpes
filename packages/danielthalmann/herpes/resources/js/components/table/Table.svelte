@@ -11,11 +11,17 @@
     type TableProps = {
         columns?: TableColumn;
         rows?: Array<any>;
+        onselect?: (row: any) => void;
+        onshow?: (row: any) => void;
+        ondelete?: (row: any) => void;
     };
 
     let {
         rows,
-        columns
+        columns,
+        onselect = () => {},
+        onshow = () => {},
+        ondelete = () => {},
     }: TableProps = $props();
 
     let items = [{
@@ -70,15 +76,21 @@
                 {#each columns as column}
                     <th class={cn("text-left px-2 py-3", column.className)}>{column.label}</th>
                 {/each}
+                    <th class="text-left px-2 py-3 w-10"></th>
                 </tr>
             </thead>
             <tbody>
                 {#each rows as row}
-                <tr class="border-b">
+                <tr class="border-b" onclick={() => {onselect(row)}}>
                     <td class="px-2 py-3"><Checkbox/></td>
                     {#each columns as column}
                         <td class={cn("px-2 py-3", column.className)}>{row[column.key]}</td>
                     {/each}
+                    <th class="px-2 py-3 text-nowrap">
+                        <Button onclick={() => {onshow(row)}}>show</Button>
+                        <Button onclick={() => {ondelete(row)}}>delete</Button>
+                    </th>
+
                 </tr>
                 {/each}
             </tbody>
@@ -87,8 +99,7 @@
 
     <div class="flex justify-end">
         <div class="inline-block m-3  content-center">
-            <Input variant="search" placeholder="search..." name="search" />
-
+            Rows per page :
         </div>
         <div class=" m-3 content-center">
             <Select value="20" items={items} />

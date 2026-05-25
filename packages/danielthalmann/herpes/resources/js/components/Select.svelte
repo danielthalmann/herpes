@@ -100,19 +100,12 @@ from the perspective of the consumer of this component, it will be typed appropr
             shadow-popover!
             outline-hidden!
             z-2050!
-            max-h-[var(--bits-select-content-available-height)]!
-            w-[var(--bits-select-anchor-width)]!
-            min-w-[var(--bits-select-anchor-width)]!
             select-none!
             rounded-b-xl!
             border!
             border-gray-500
             px-1!
-            py-3!
-            data-[side=bottom]:translate-y-1!
-            data-[side=left]:-translate-x-1!
-            data-[side=right]:translate-x-1!
-            data-[side=top]:-translate-y-1!">
+            py-3!">
 
                 <div class="text-neutral-700! m-auto!">
                     <i class="fa-solid fa-up"></i>
