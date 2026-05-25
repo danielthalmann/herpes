@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import { onMount } from "svelte";
-    import Table, { TableColumn } from "../components/table/Table.svelte";
+    import Table, { type TableColumn } from "../components/table/Table.svelte";
     import Arianne from "../components/layouts/Arianne.svelte";
 
     let {
