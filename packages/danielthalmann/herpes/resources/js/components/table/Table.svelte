@@ -15,6 +15,8 @@
     type TableProps = {
         columns?: TableColumn;
         rows?: Array<any>;
+        multiselect?: boolean;
+        timerdelete?: number;
         onselect?: (row: any) => void;
         onshow?: (row: any) => void;
         ondelete?: (row: any) => void;
@@ -23,9 +25,11 @@
     let {
         rows,
         columns,
-        onselect = () => {},
-        onshow = () => {},
-        ondelete = () => {},
+        multiselect = false,
+        timerdelete = 3,
+        onselect = (row) => {},
+        onshow = (row) => {},
+        ondelete = (row) => {},
     }: TableProps = $props();
 
     let items = [{
@@ -40,8 +44,16 @@
             value: '100',
             label: '100'
         }
-
     ];
+
+    const ontempodelete = (row: any) => {
+        row._timerhandler = setTimeout(() => { ondelete(row); }, timerdelete * 1000);
+    }
+    const canceldelete  = (row: any) => {
+        if(row._timerhandler)
+            clearTimeout(row._timerhandler);
+        row._timerhandler = null;
+    }
 
     function cn(...inputs: ClassValue[]) {
         return twMerge(clsx(inputs));
@@ -61,7 +73,7 @@
     </div>
 </div>
 
-<div class=" bg-gray-800/90 rounded-lg">
+<div class="bg-gray-300 dark:bg-gray-800/90 rounded-lg">
     <!-- search and filter -->
     <div class="flex justify-end">
         <div class="inline-block m-3 content-center">
@@ -75,26 +87,33 @@
     <div class="mb-3">
         <table class="w-full">
             <thead>
-                <tr class="bg-gray-700 ">
+                <tr class="bg-gray-500 dark:bg-gray-700">
+                    {#if multiselect}
                     <th class="text-left px-2 py-3 w-10"><Checkbox/></th>
+                    {/if}
                 {#each columns as column}
-                    <th class={cn("text-left px-2 py-3", column.className)}>{column.label}</th>
+                    <th class={cn("text-left pl-5 py-3", column.className)}>{column.label}</th>
                 {/each}
                     <th class="text-left px-2 py-3 w-10"></th>
                 </tr>
             </thead>
             <tbody>
                 {#each rows as row}
-                <tr class="border-b" onclick={() => {onselect(row)}}>
+                <tr class="border-b border-gray-500 dark:border-gray-700" onclick={() => {onselect(row)}}>
+                    {#if multiselect}
                     <td class="px-2 py-3"><Checkbox/></td>
+                    {/if}
                     {#each columns as column}
-                        <td class={cn("px-2 py-3", column.className)}>{row[column.key]}</td>
+                        <td class={cn("pl-5 py-3", column.className)}>{row[column.key]}</td>
                     {/each}
                     <th class="px-2 py-3 text-nowrap">
-                        <Button onclick={() => {onshow(row)}}>show</Button>
-                        <Button onclick={() => {ondelete(row)}}>delete</Button>
+                        <Button variant="primary" onclick={() => {onshow(row)}}>show</Button>
+                        {#if row._timerhandler}
+                            <Button variant="warning" onclick={() => {canceldelete(row)}}>cancel delete</Button>
+                        {:else}
+                            <Button onclick={() => {ontempodelete(row)}}>delete</Button>
+                        {/if}
                     </th>
-
                 </tr>
                 {/each}
             </tbody>
@@ -102,6 +121,10 @@
     </div>
 
     <div class="flex justify-end">
+        <div class="inline-block m-3  content-center">
+
+        </div>
+
         <div class="inline-block m-3  content-center">
             Rows per page :
         </div>

@@ -2,7 +2,7 @@
 <html class="h-full" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     @include('herpes::layouts.head')
 
-    <body class="h-full bg-gray-900 text-neutral-100">
+    <body class="h-full bg-gray-400 dark:bg-gray-900 text-neutral-900 dark:text-neutral-100">
        @yield('content')
        @yield('javascript')
     </body>
