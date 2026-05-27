@@ -1,6 +1,6 @@
 <?php
 
-use Danielthalmann\Herpes\Http\Controllers\ApiCustomerController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiCustomerController;
 use Danielthalmann\Herpes\Http\Controllers\CustomerController;
 use Danielthalmann\Herpes\Http\Controllers\DashboardController;
 use Danielthalmann\Herpes\Http\Controllers\GridController;
@@ -11,8 +11,12 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::get('/customers/', CustomerController::class)->name('customer');
-    Route::get('/api/customers/', ApiCustomerController::class)->name('api.customer');
     Route::get('/invoices/{id}', InvoicePrintController::class)->name('invoice');
     Route::get('/balancesheets/{id?}', GridController::class)->name('balancesheet');
 
+
+});
+
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::apiResource('/api/customer', ApiCustomerController::class);
 });

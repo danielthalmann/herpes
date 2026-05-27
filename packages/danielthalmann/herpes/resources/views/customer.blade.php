@@ -8,7 +8,7 @@
             customer
         </x-slot>
         <x-slot name="url">
-            {{ route ('api.customer') }}
+            {{ route ('customer.index') }}
         </x-slot>
 
     </x-herpes.layout>

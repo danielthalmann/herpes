@@ -7,6 +7,30 @@
     import Form, { type FormComponent } from "../components/Form.svelte";
     import Button from "../components/Button.svelte";
 
+
+    type PaginateLink = Array<{
+        url: String | null;
+        label: String;
+        page: Number | null;
+        active: boolean
+    }>
+
+    type Paginate = {
+        current_page: Number;
+        data: Array<any>;
+        first_page_url: String | null;
+        from: Number;
+        last_page: Number;
+        last_page_url: String | null;
+        links: PaginateLink;
+        next_page_url: null;
+        path: String | null;
+        per_page: Number;
+        prev_page_url: String | null;
+        to: Number;
+        total: Number;
+    }
+
     let {
         api
     } = $props();
@@ -26,36 +50,38 @@
         }
     ]);
 
-    let customers : Array<any> = $state([]);
+    let customers : Paginate | undefined = $state();
 
     let selectedCustomer : any = $state.raw(null);
 
     onMount(() => {
-        fetch(api).then((response) => {
+        loadCustomer();
+    });
+
+    const loadCustomer = () => {
+        fetch(api + 'paginate=50').then((response) => {
             response.json().then((json) => {
                 customers = json;
             });
         });
-    });
+    }
 
     const updateCustomer = (customer : any) => {
 
-        let index = customers.findIndex((customerItem: any) => { return customer!.id === customerItem.id;});
+        let index = customers!.data.findIndex((customerItem: any) => { return customer!.id === customerItem.id;});
         if (index > -1) {
-            customers[index] = customer;
+            customers.data[index] = customer;
         }
         selectedCustomer = null;
 
     }
 
     const deleteCustomer = (customer : any) => {
-
-        let index = customers.findIndex((customerItem: any) => { return customer!.id === customerItem.id;});
+        let index = customers!.data.findIndex((customerItem: any) => { return customer!.id === customerItem.id;});
         console.log(index);
         if (index > -1) {
-            customers.splice(index, 1);
+            customers!.data.splice(index, 1);
         }
-
     }
 
 </script>
@@ -63,7 +89,9 @@
 <div>
 
     <Arianne></Arianne>
-    <Table rows={customers} columns={columns} ondelete={deleteCustomer} onshow={(row) => { selectedCustomer = JSON.parse(JSON.stringify(row)) }} ></Table>
+    {#if customers}
+        <Table rows={customers!.data} columns={columns} perpage={customers.per_page} ondelete={deleteCustomer} onshow={(row) => { selectedCustomer = JSON.parse(JSON.stringify(row)) }} ></Table>
+    {/if}
     {#if selectedCustomer}
         <Form bind:data={selectedCustomer} components={columns} onchange={(key) => { console.log(key) }} />
         <Button variant="primary" onclick={() => {updateCustomer(selectedCustomer)}}>Save</Button>
