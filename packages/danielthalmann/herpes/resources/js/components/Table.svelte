@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Button from "../Button.svelte";
-    import Input from "../Input.svelte";
-    import Checkbox from "../Checkbox.svelte";
-    import Select from "../Select.svelte";
+    import Button from "./Button.svelte";
+    import Input from "./Input.svelte";
+    import Checkbox from "./Checkbox.svelte";
+    import Select from "./Select.svelte";
     import { type ClassValue, clsx } from 'clsx';
     import { twMerge } from "tailwind-merge";
 
@@ -16,7 +16,9 @@
         columns?: TableColumn;
         rows?: Array<any>;
         multiselect?: boolean;
+        perpage?: Number;
         timerdelete?: number;
+        onchangeperpage?: (Paginate: Number) => void;
         onselect?: (row: any) => void;
         onshow?: (row: any) => void;
         ondelete?: (row: any) => void;
@@ -27,6 +29,8 @@
         columns,
         multiselect = false,
         timerdelete = 3,
+        perpage = $bindable(20),
+        onchangeperpage = (Paginate: Number) => {},
         onselect = (row) => {},
         onshow = (row) => {},
         ondelete = (row) => {},
@@ -129,7 +133,7 @@
             Rows per page :
         </div>
         <div class=" m-3 content-center">
-            <Select value="20" items={items} />
+            <Select value={(perpage).toString()} onchange={onchangeperpage} items={items} />
         </div>
     </div>
 

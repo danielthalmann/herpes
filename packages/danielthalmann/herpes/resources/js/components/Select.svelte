@@ -15,6 +15,7 @@
         class?: string | undefined | null;
         classLabel?: string | undefined | null;
         classOutline?: string | undefined | null;
+        onchange?: (value: any) => void;
         items?: SelectOption[]
     };
 
@@ -26,6 +27,7 @@
         classOutline,
         label,
         placeholder,
+        onchange = (value: any) => {},
         ...restProps
     }: Props = $props();
 
@@ -43,6 +45,9 @@
     );
 
     function selectItem(item : SelectOption) {
+        if (value != item.value) {
+            onchange(item.value);
+        }
         value = item.value;
         draweropened = false;
     }

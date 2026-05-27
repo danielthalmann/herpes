@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import { onMount } from "svelte";
-    import Table, { type TableColumn } from "../components/table/Table.svelte";
+    import Table, { type TableColumn } from "../components/Table.svelte";
     import Arianne from "../components/layouts/Arianne.svelte";
     import Form, { type FormComponent } from "../components/Form.svelte";
     import Button from "../components/Button.svelte";
@@ -32,7 +32,7 @@
     }
 
     let {
-        api
+        api,
     } = $props();
 
     let columns : TableColumn & FormComponent = $state.raw([
@@ -47,7 +47,40 @@
             label : 'Nom',
             type: 'text',
             required : true
+        },{
+            key : 'addresses',
+            label : 'Adresse',
+            type: 'table',
+            required : false,
+            columns : [
+                {
+                    key : 'company',
+                    label : 'company',
+                    type: 'text'
+                },{
+                    key : 'department',
+                    label : 'department',
+                    type: 'text'
+                },{
+                    key : 'name',
+                    label : 'name',
+                    type: 'text'
+                },{
+                    key : 'street',
+                    label : 'street',
+                    type: 'text'
+                },{
+                    key : 'zipcode',
+                    label : 'zipcode',
+                    type: 'text'
+                },{
+                    key : 'city',
+                    label : 'city',
+                    type: 'text'
+                },
+            ]
         }
+
     ]);
 
     let customers : Paginate | undefined = $state();
@@ -58,8 +91,12 @@
         loadCustomer();
     });
 
-    const loadCustomer = () => {
-        fetch(api + 'paginate=50').then((response) => {
+    const changePerPage = (perpage : Number = 20) => {
+        loadCustomer(perpage);
+    };
+
+    const loadCustomer = (perpage : Number = 20) => {
+        fetch(api + '?paginate=' + perpage).then((response) => {
             response.json().then((json) => {
                 customers = json;
             });
@@ -70,7 +107,7 @@
 
         let index = customers!.data.findIndex((customerItem: any) => { return customer!.id === customerItem.id;});
         if (index > -1) {
-            customers.data[index] = customer;
+            customers!.data[index] = customer;
         }
         selectedCustomer = null;
 
@@ -90,7 +127,7 @@
 
     <Arianne></Arianne>
     {#if customers}
-        <Table rows={customers!.data} columns={columns} perpage={customers.per_page} ondelete={deleteCustomer} onshow={(row) => { selectedCustomer = JSON.parse(JSON.stringify(row)) }} ></Table>
+        <Table rows={customers!.data} columns={columns} perpage={customers.per_page} onchangeperpage={changePerPage} ondelete={deleteCustomer} onshow={(row) => { selectedCustomer = JSON.parse(JSON.stringify(row)) }} ></Table>
     {/if}
     {#if selectedCustomer}
         <Form bind:data={selectedCustomer} components={columns} onchange={(key) => { console.log(key) }} />

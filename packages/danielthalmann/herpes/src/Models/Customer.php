@@ -21,4 +21,13 @@ class Customer extends Model
     {
         return $this->hasMany(AddressCustomer::class);
     }
+
+    /**
+     * Get all of the Address for the Customer
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(AddressCustomer::class);
+    }
+
 }

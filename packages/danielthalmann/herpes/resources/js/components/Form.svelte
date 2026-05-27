@@ -1,14 +1,16 @@
 <script lang="ts">
     import Checkbox from "./Checkbox.svelte";
 import Input from "./Input.svelte";
+    import Table, { type TableColumn } from "./Table.svelte";
 
     export type FormComponent = Array<{
-        type: 'text' | 'number' | 'checkbox',
+        type: 'text' | 'number' | 'checkbox' | 'table',
         key: string,
         label?: string,
         required?: boolean,
         columnName?: string,
-        readonly?:boolean,
+        readonly?: boolean,
+        columns?: TableColumn
     }>;
 
     export type DataRef = {
@@ -22,7 +24,7 @@ import Input from "./Input.svelte";
     };
 
     let {
-        components,
+        components = $bindable(),
         data = $bindable({}),
         onchange = (key: string) => {}
     }: FormProps = $props();
@@ -50,13 +52,16 @@ import Input from "./Input.svelte";
             </div>
         {:else}
             {#if component.type == 'text'}
-                <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} bind:value={<string>(data[component.key])} />
+                <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} bind:value={data[component.key]} />
             {/if}
             {#if component.type == 'number'}
-                <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} type="number" bind:value={<string>(data[component.key])} />
+                <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} type="number" bind:value={data[component.key]} />
             {/if}
             {#if component.type == 'checkbox'}
-                <Checkbox bind:checked={<boolean>(data[component.key])}  onchange={() => {change(component.key)}}>{component.label}</Checkbox>
+                <Checkbox bind:checked={<boolean>(data[component.key])} onchange={() => {change(component.key)}}>{component.label}</Checkbox>
+            {/if}
+            {#if component.type == 'table'}
+                <Table rows={data[component.key]} columns={component.columns} onshow={(row) => { JSON.parse(JSON.stringify(row)) }} ></Table>
             {/if}
         {/if}
         </div>

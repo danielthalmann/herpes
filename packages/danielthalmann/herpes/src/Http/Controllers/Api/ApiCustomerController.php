@@ -13,9 +13,8 @@ class ApiCustomerController extends Controller
      */
     public function index(Request $request)
     {
-        return Customer::paginate($request->input('paginate', 20));
+        return Customer::with('addresses')->paginate($request->input('paginate', 20));
     }
-
 
     /**
      * Store a newly created resource in storage.
