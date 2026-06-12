@@ -25,9 +25,12 @@
               <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
               <a href="{{ route('dashboard') }}" @if(Route::is('dashboard')) {!! $actif !!} @else {!! $inactif !!} @endif >Dashboard</a>
               <a href="{{ route('customer') }}" @if(Route::is('customer')) {!! $actif !!} @else {!! $inactif !!} @endif >Customers</a>
-              <a href="{{ route('invoice', ['01kmxh37hs2eez1yyjn0sd9a62']) }}" @if(Route::is('invoice')) {!! $actif !!} @else {!! $inactif !!} @endif>Invoice</a>
+              <a href="{{ route('invoice') }}" @if(Route::is('invoice')) {!! $actif !!} @else {!! $inactif !!} @endif>Invoice</a>
+              <a href="{{ route('transaction') }}" @if(Route::is('transaction')) {!! $actif !!} @else {!! $inactif !!} @endif>Transaction</a>
+              {{--
               <a href="#" @if(Route::is('calendar')) {!! $actif !!} @else {!! $inactif !!} @endif>Calendar</a>
               <a href="#" @if(Route::is('reports')) {!! $actif !!} @else {!! $inactif !!} @endif>Reports</a>
+              --}}
             </div>
           </div>
         </div>
