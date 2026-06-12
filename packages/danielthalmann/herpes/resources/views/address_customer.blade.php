@@ -7,17 +7,20 @@
         <x-slot name="appid">
             address-customer
         </x-slot>
+        <x-slot name="name">
+            Addresses
+        </x-slot>
         <x-slot name="index">
-            {{ route('address-customer.index', ['customer' => $customer]) }}
+            {{ route('customer.address.index', ['customer' => $customer]) }}
         </x-slot>
         <x-slot name="store">
-            {{ route('address-customer.store', ['customer' => $customer]) }}
+            {{ route('customer.address.store', ['customer' => $customer]) }}
         </x-slot>
         <x-slot name="destroy">
-            {{ route('address-customer.destroy', ['customer' => $customer, 'address' => '|id|']) }}
+            {{ route('customer.address.destroy', ['customer' => $customer, 'address' => '|id|']) }}
         </x-slot>
         <x-slot name="update">
-            {{ route('address-customer.update', ['customer' => $customer, 'address' => '|id|']) }}
+            {{ route('customer.address.update', ['customer' => $customer, 'address' => '|id|']) }}
         </x-slot>
 
     </x-herpes.layout>

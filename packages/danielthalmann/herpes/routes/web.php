@@ -13,7 +13,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::get('/customers/', CustomerController::class)->name('customer');
-    Route::get('/customers/{customer}/addresses/', AddressCustomerController::class)->name('customer.address-customers');
+    Route::get('/customers/{customer}/addresses/', AddressCustomerController::class)->name('customer.address');
     Route::get('/invoices/{id}', InvoicePrintController::class)->name('invoice');
     Route::get('/balancesheets/{id?}', GridController::class)->name('balancesheet');
 
@@ -23,10 +23,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::apiResource('/api/customer', ApiCustomerController::class);
     Route::apiResource('/api/customers/{customer}/addresses', ApiAddressCustomerController::class)->names([
-        'index'   => 'address-customer.index',
-        'store'   => 'address-customer.store',
-        'show'    => 'address-customer.show',
-        'update'  => 'address-customer.update',
-        'destroy' => 'address-customer.destroy',
+        'index'   => 'customer.address.index',
+        'store'   => 'customer.address.store',
+        'show'    => 'customer.address.show',
+        'update'  => 'customer.address.update',
+        'destroy' => 'customer.address.destroy',
     ]);
 });

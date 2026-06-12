@@ -17,8 +17,8 @@
 
     let tablecolumns: TableColumn = $state.raw([
         { key: "id", label: "id", type: "id" },
-        { key: "customer_id", label: "Client", type: "text" },
         { key: "company", label: "Société", type: "text" },
+        { key: "department", label: "Département", type: "text" },
         { key: "name", label: "Nom", type: "text" },
         { key: "street", label: "Rue", type: "text" },
         { key: "zipcode", label: "NPA", type: "text" },
@@ -26,7 +26,6 @@
     ]);
 
     let createComponents: FormComponent = $state.raw([
-        { key: "customer_id", label: "Client ID", type: "text", required: true },
         { key: "company", label: "Société", type: "text" },
         { key: "department", label: "Département", type: "text" },
         { key: "name", label: "Nom", type: "text" },
@@ -37,7 +36,6 @@
 
     let editComponents: FormComponent = $state.raw([
         { key: "id", label: "id", className: "w-12", type: "text", readonly: true },
-        { key: "customer_id", label: "Client ID", type: "text", required: true },
         { key: "company", label: "Société", type: "text" },
         { key: "department", label: "Département", type: "text" },
         { key: "name", label: "Nom", type: "text" },
@@ -75,7 +73,7 @@
             headers: { Accept: "application/json", "Content-Type": "application/json" },
             body: JSON.stringify(address),
         };
-        fetch((<string>api.store).replace("|id|", address.id ?? ""), fetchOptions).then(() => {
+        fetch((<string>api.store).replace("|id|", address.id!), fetchOptions).then(() => {
             loadRows();
         });
         newAddress = null;
@@ -89,15 +87,22 @@
                 headers: { Accept: "application/json", "Content-Type": "application/json" },
                 body: JSON.stringify(address),
             };
-            fetch((<string>api.update).replace("|id|", address.id ?? ""), fetchOptions).then(() => {
+            fetch((<string>api.update).replace("|id|", address.id!), fetchOptions).then(() => {
                 addresses!.data[index] = address;
             });
         }
         selectedAddress = null;
     };
 
-    const createRow = (_address: AddressType) => {
-        newAddress = { customer_id: "" };
+    const createRow = () => {
+        newAddress = {
+            company : '',
+            department : '',
+            name : '',
+            street : '',
+            zipcode : '',
+            city : ''
+         };
     };
 
     const editRow = (address: AddressType) => {
@@ -107,7 +112,7 @@
     const deleteRow = (address: AddressType) => {
         let index = addresses!.data.findIndex((item: any) => address!.id === item.id);
         if (index > -1) {
-            fetch((<string>api.destroy).replace("|id|", address.id ?? ""), { method: "DELETE" }).then(() => {
+            fetch((<string>api.destroy).replace("|id|", address.id!), { method: "DELETE" }).then(() => {
                 addresses!.data.splice(index, 1);
             });
         }
@@ -123,6 +128,7 @@
     <Arianne></Arianne>
     {#if addresses}
         <Table
+            title={api.name}
             rows={addresses!.data}
             columns={tablecolumns}
             perpage={addresses.per_page}

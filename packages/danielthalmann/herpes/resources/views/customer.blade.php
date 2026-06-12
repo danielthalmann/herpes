@@ -7,6 +7,9 @@
         <x-slot name="appid">
             customer
         </x-slot>
+        <x-slot name="name">
+            Customers
+        </x-slot>
         <x-slot name="index">
             {{ route ('customer.index') }}
         </x-slot>
@@ -18,6 +21,9 @@
         </x-slot>
         <x-slot name="update">
             {{ route ('customer.update' , ['customer' => '|id|']) }}
+        </x-slot>
+        <x-slot name="open">
+            {{ route ('customer.address' , ['customer' => '|id|']) }}
         </x-slot>
 
     </x-herpes.layout>

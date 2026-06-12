@@ -16,6 +16,7 @@
     }>;
 
     type TableProps = {
+        title?: string;
         columns?: TableColumn;
         rows?: Array<any>;
         multiselect?: boolean;
@@ -33,6 +34,7 @@
 
     let {
         rows,
+        title = 'Grid',
         columns = [],
         multiselect = false,
         timerdelete = 3,
@@ -81,7 +83,7 @@
 
 <div class="flex content-center mb-5">
     <h1 class="font-medium grow text-3xl content-center">
-        <span>Customers</span>
+        <span>{title}</span>
     </h1>
     {#if oncreate}
         <div class="content-center">

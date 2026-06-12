@@ -1,7 +1,7 @@
 export type AddressType = {
     city?: string;
     company?: string;
-    customer_id: string;
+    customer_id?: string;
     department?: string;
     id?: string;
     name?: string;

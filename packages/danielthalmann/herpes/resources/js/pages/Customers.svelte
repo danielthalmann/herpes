@@ -26,7 +26,7 @@
             key: "name",
             label: "Nom",
             type: "text",
-
+            className: "w-96"
         },
         {
             key: "addresses",
@@ -40,7 +40,7 @@
                 row.addresses!.forEach((address) => {
                     index++;
                     ret += address.company ? address.company + '<br/>' : '';
-                    ret += address.name + '<br/>';
+                    ret += address.name ? address.name + '<br/>' : '';
                     ret += address.street ? address.street + '<br/>' : '';
                     ret += address.zipcode ? address.zipcode + ' ' + address.city + '<br/>' : '';
                     if(index < (row.addresses?.length ?? 0)) {
@@ -75,47 +75,6 @@
             type: "text",
             required: true,
         }
-        /*
-        ,
-        {
-            key: "addresses",
-            label: "Adresse",
-            type: "table",
-            required: false,
-            columns: [
-                {
-                    key: "company",
-                    label: "company",
-                    type: "text"
-                },
-                {
-                    key: "department",
-                    label: "department",
-                    type: "text"
-                },
-                {
-                    key: "name",
-                    label: "name",
-                    type: "text"
-                },
-                {
-                    key: "street",
-                    label: "street",
-                    type: "text"
-                },
-                {
-                    key: "zipcode",
-                    label: "zipcode",
-                    type: "text"
-                },
-                {
-                    key: "city",
-                    label: "city",
-                    type: "text"
-                }
-            ]
-        }
-        */
     ]);
 
     let customers: Paginate | undefined = $state();
@@ -155,7 +114,7 @@
             },
             body: JSON.stringify(customer)
         }
-        fetch((<string>api.store).replace('|id|', customer.id), fetchOptions)
+        fetch((<string>api.store).replace('|id|', customer.id!), fetchOptions)
         .then(response => {
             loadRows();
         });
@@ -176,20 +135,24 @@
                 },
                 body: JSON.stringify(customer)
             }
-            fetch((<string>api.update).replace('|id|', customer.id), fetchOptions)
+            fetch((<string>api.update).replace('|id|', customer.id!), fetchOptions)
             .then(response => {
                 customers!.data[index] = customer;
             });
         }
         selectedCustomer = null;
     };
-    const createRow = (customer: CustomerType) => {
+    const createRow = () => {
         newCustomer = {
             name: ''
         };
     };
     const editRow = (customer: CustomerType) => {
         selectedCustomer = JSON.parse(JSON.stringify(customer));
+    };
+
+    const openRow = (customer: CustomerType) => {
+        document.location.href = (<string>api.open).replace('|id|', customer.id!);
     };
 
     const deleteRow = (customer: CustomerType) => {
@@ -200,7 +163,7 @@
             const fetchOptions: RequestInit = {
                 method: 'DELETE'
             }
-            fetch((<string>api.destroy).replace('|id|', customer.id), fetchOptions)
+            fetch((<string>api.destroy).replace('|id|', customer.id!), fetchOptions)
             .then(response => {
                 customers!.data.splice(index, 1);
             });
@@ -218,10 +181,12 @@
     <Arianne></Arianne>
     {#if customers}
         <Table
+            title={api.name}
             rows={customers!.data}
             columns={tablecolumns}
             perpage={customers.per_page}
             onchangeperpage={changePerPage}
+            onopen={openRow}
             ondelete={deleteRow}
             oncreate={createRow}
             onsearch={searchRows}

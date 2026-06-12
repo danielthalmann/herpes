@@ -120,10 +120,12 @@
   <main>
 
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8" @if(isset($appid)) id="{{ trim($appid) }}" @endif
+        @if(isset($name)) data-name="{{ trim($name) }}" @endif
         @if(isset($index)) data-index="{{ trim($index) }}" @endif
         @if(isset($store)) data-store="{{ trim($store) }}" @endif
         @if(isset($destroy)) data-destroy="{{ trim($destroy) }}" @endif
         @if(isset($update)) data-update="{{ trim($update) }}" @endif
+        @if(isset($open)) data-open="{{ trim($open) }}" @endif
          >
       {{  $slot ?? '' }}
     </div>
