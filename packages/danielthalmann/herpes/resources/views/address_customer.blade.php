@@ -22,6 +22,21 @@
         <x-slot name="update">
             {{ route('customer.address.update', ['customer' => $customer, 'address' => '|id|']) }}
         </x-slot>
+        <x-slot name="breadcrumb">
+            {{ json_encode([
+                [
+                    'label' => 'Customers',
+                    'url' => route ('customer')
+                ],
+                [
+                    'label' => 'Addresses',
+                    'url' => route ('customer.address', ['customer' => $customer])
+                ],
+                [
+                    'label' => 'List',
+                ],
+            ])  }}
+        </x-slot>
 
     </x-herpes.layout>
 

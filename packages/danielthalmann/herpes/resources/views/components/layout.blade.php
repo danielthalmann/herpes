@@ -126,6 +126,7 @@
         @if(isset($destroy)) data-destroy="{{ trim($destroy) }}" @endif
         @if(isset($update)) data-update="{{ trim($update) }}" @endif
         @if(isset($open)) data-open="{{ trim($open) }}" @endif
+        @if(isset($breadcrumb)) data-breadcrumb="{{ trim($breadcrumb) }}" @endif
          >
       {{  $slot ?? '' }}
     </div>

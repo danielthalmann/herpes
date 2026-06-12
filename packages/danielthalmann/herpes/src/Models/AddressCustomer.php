@@ -14,6 +14,7 @@ class AddressCustomer extends Model
         'company',
         'department',
         'name',
+        'firstname',
         'street',
         'zipcode',
         'city',

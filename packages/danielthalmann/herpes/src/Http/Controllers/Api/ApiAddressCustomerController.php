@@ -29,6 +29,7 @@ class ApiAddressCustomerController extends Controller
         $address->company = $request->input('company');
         $address->department = $request->input('department');
         $address->name = $request->input('name');
+        $address->firstname = $request->input('firstname');
         $address->street = $request->input('street');
         $address->zipcode = $request->input('zipcode');
         $address->city = $request->input('city');
@@ -54,6 +55,7 @@ class ApiAddressCustomerController extends Controller
             $address->company = $request->input('company');
             $address->department = $request->input('department');
             $address->name = $request->input('name');
+            $address->firstname = $request->input('firstname');
             $address->street = $request->input('street');
             $address->zipcode = $request->input('zipcode');
             $address->city = $request->input('city');

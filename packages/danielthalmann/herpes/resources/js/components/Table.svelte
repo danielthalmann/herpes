@@ -21,7 +21,11 @@
         rows?: Array<any>;
         multiselect?: boolean;
         perpage?: number;
+        currentpage?: number;
+        lastpage?: number;
+        total?: number;
         timerdelete?: number;
+        onchangepage?: (page: number) => void;
         onchangeperpage?: (paginate: number) => void;
         onsearch?: (search: string) => void;
         onpage?: (page: number) => void;
@@ -38,7 +42,11 @@
         columns = [],
         multiselect = false,
         timerdelete = 3,
-        perpage = $bindable(20),
+        perpage = 20,
+        currentpage = 1,
+        lastpage = 1,
+        total,
+        onchangepage = (page: number) => {},
         onchangeperpage = (paginate: number) => {},
         onpage = (page: number) => {},
         onsearch = (search: string) => {},
@@ -50,6 +58,10 @@
     }: TableProps = $props();
 
     let items = [{
+            value: '5',
+            label: '5'
+        },
+        {
             value: '20',
             label: '20'
         },
@@ -164,17 +176,40 @@
         </table>
     </div>
 
-    <div class="flex justify-end">
-        <div class="inline-block m-3  content-center">
+    <div class="md:flex ">
+        <div class="mx-auto sm:grow mb-3">
+        {#if lastpage > 1}
+            <div class="inline-block m-3 content-center">
 
+                <Button disabled={currentpage == 1} onclick={() => { onchangepage(currentpage - 1) }}>previous page</Button>
+                <Button disabled={currentpage == lastpage} onclick={() => { onchangepage(currentpage + 1) }} >next page</Button>
+
+            </div>
+        {/if}
         </div>
 
-        <div class="inline-block m-3  content-center">
-            Rows per page :
-        </div>
-        <div class=" m-3 content-center">
-            <Select value={(perpage).toString()} onchange={onchangeperpage} items={items} />
+        <div class="flex justify-end mb-3">
+            {#if lastpage > 1}
+                <div class="inline-block m-3 content-center">
+
+                    current page : <div class="inline-block rounded-lg border dark:bg-gray-800 border-gray-500 py-2 px-3 font-medium text-black dark:text-gray-200">{currentpage + ' / ' + lastpage}</div>
+
+                </div>
+            {/if}
+
+            {#if total}
+            <div class="mr-3 inline-block content-center">
+                total : <div class="inline-block rounded-lg border dark:bg-gray-800 border-gray-500 py-2 px-3 font-medium text-black dark:text-gray-200">{total}</div>
+            </div>
+            {/if}
+            <div class="mr-1 inline-block content-center">
+                Rows per page :
+            </div>
+            <div class="mr-3 content-center">
+                <Select value={(perpage).toString()} onchange={onchangeperpage} items={items} />
+            </div>
         </div>
     </div>
+
 
 </div>

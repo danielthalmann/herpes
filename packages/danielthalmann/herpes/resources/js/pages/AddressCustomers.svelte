@@ -1,16 +1,18 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import Table, { type TableColumn } from "../components/Table.svelte";
-    import Arianne from "../components/layouts/Arianne.svelte";
+    import Breadcrumb from "../components/Breadcrumb.svelte";
     import Form, { type FormComponent } from "../components/Form.svelte";
     import Button from "../components/Button.svelte";
     import { type Paginate } from "../types/Laravel";
     import { type AddressType } from "../types/App";
     import Dialog from "../components/Dialog.svelte";
+    import { decodeHTML } from "../Utils/Encoding";
 
     let { api } = $props();
 
     type TableContext = {
+        page: number;
         perpage: number;
         search: string;
     };
@@ -20,6 +22,7 @@
         { key: "company", label: "Société", type: "text" },
         { key: "department", label: "Département", type: "text" },
         { key: "name", label: "Nom", type: "text" },
+        { key: "firstname", label: "Prénom", type: "text" },
         { key: "street", label: "Rue", type: "text" },
         { key: "zipcode", label: "NPA", type: "text" },
         { key: "city", label: "Ville", type: "text" },
@@ -29,6 +32,7 @@
         { key: "company", label: "Société", type: "text" },
         { key: "department", label: "Département", type: "text" },
         { key: "name", label: "Nom", type: "text" },
+        { key: "firstname", label: "Prénom", type: "text" },
         { key: "street", label: "Rue", type: "text" },
         { key: "zipcode", label: "NPA", type: "text" },
         { key: "city", label: "Ville", type: "text" },
@@ -39,6 +43,7 @@
         { key: "company", label: "Société", type: "text" },
         { key: "department", label: "Département", type: "text" },
         { key: "name", label: "Nom", type: "text" },
+        { key: "firstname", label: "Prénom", type: "text" },
         { key: "street", label: "Rue", type: "text" },
         { key: "zipcode", label: "NPA", type: "text" },
         { key: "city", label: "Ville", type: "text" },
@@ -48,19 +53,25 @@
     let selectedAddress: AddressType | null = $state.raw(null);
     let newAddress: AddressType | null = $state.raw(null);
 
-    let context: TableContext = { perpage: 20, search: "" };
+    let context: TableContext = { page: 1, perpage: 20, search: "" };
 
     onMount(() => {
         loadRows();
     });
 
+    const changePage = (page: number = 1) => {
+        context.page = page;
+        loadRows();
+    };
+
     const changePerPage = (perpage: number = 20) => {
+        context.page = 1;
         context.perpage = perpage;
         loadRows();
     };
 
     const loadRows = () => {
-        fetch(api.index + "?paginate=" + context.perpage + "&search=" + context.search).then((response) => {
+        fetch(api.index + "?paginate=" + context.perpage + '&page=' + context.page + "&search=" + context.search).then((response) => {
             response.json().then((json) => {
                 addresses = json;
             });
@@ -125,13 +136,17 @@
 </script>
 
 <div>
-    <Arianne></Arianne>
+    <Breadcrumb breadcrumb={JSON.parse(decodeHTML(api.breadcrumb ?? '[]'))} />
     {#if addresses}
         <Table
             title={api.name}
             rows={addresses!.data}
             columns={tablecolumns}
             perpage={addresses.per_page}
+            currentpage={addresses.current_page}
+            lastpage={addresses.last_page}
+            total={addresses.total}
+            onchangepage={changePage}
             onchangeperpage={changePerPage}
             ondelete={deleteRow}
             oncreate={createRow}

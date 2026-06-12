@@ -1,17 +1,19 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import Table, { type TableColumn } from "../components/Table.svelte";
-    import Arianne from "../components/layouts/Arianne.svelte";
+    import Breadcrumb from "../components/Breadcrumb.svelte";
     import Form, { type FormComponent } from "../components/Form.svelte";
     import Button from "../components/Button.svelte";
     import { type Paginate } from "../types/Laravel";
     import { type CustomerType } from "../types/App";
     import Dialog from "../components/Dialog.svelte";
+    import { decodeHTML } from "../Utils/Encoding";
 
 
     let { api } = $props();
 
     type TableContext = {
+        page: number;
         perpage: number;
         search: string;
     };
@@ -37,16 +39,17 @@
                 console.log(row);
                 let ret : string = '';
                 let index : number = 0;
+                ret += '<div class="md:flex">'
                 row.addresses!.forEach((address) => {
                     index++;
+                    ret += '<div class="border rounded-lg m-3 p-3 dark:bg-gray-800 border-gray-500 inline-block">'
                     ret += address.company ? address.company + '<br/>' : '';
-                    ret += address.name ? address.name + '<br/>' : '';
+                    ret += address.name ? (address.firstname ?? '') + ' ' + address.name + '<br/>' : '';
                     ret += address.street ? address.street + '<br/>' : '';
                     ret += address.zipcode ? address.zipcode + ' ' + address.city + '<br/>' : '';
-                    if(index < (row.addresses?.length ?? 0)) {
-                        ret += '<br/>';
-                    }
+                    ret += '</div>'
                 });
+                ret += '</div>'
                 return ret;
             }
         }
@@ -84,20 +87,28 @@
 
     onMount(() => {
         loadRows();
+
     });
 
     let context : TableContext = {
+        page: 1,
         perpage : 20,
         search : ''
     };
 
+    const changePage = (page: number = 1) => {
+        context.page = page;
+        loadRows();
+    };
+
     const changePerPage = (perpage: number = 20) => {
+        context.page = 1;
         context.perpage = perpage;
         loadRows();
     };
 
     const loadRows = () => {
-        fetch(api.index + "?paginate=" + context.perpage + '&search=' + context.search).then((response) => {
+        fetch(api.index + "?paginate=" + context.perpage + '&page=' + context.page + '&search=' + context.search).then((response) => {
             response.json().then((json) => {
                 customers = json;
             });
@@ -175,16 +186,21 @@
         loadRows();
     }
 
+
 </script>
 
 <div>
-    <Arianne></Arianne>
+    <Breadcrumb breadcrumb={JSON.parse(decodeHTML(api.breadcrumb ?? '[]'))} />
     {#if customers}
         <Table
             title={api.name}
             rows={customers!.data}
             columns={tablecolumns}
             perpage={customers.per_page}
+            currentpage={customers.current_page}
+            lastpage={customers.last_page}
+            total={customers.total}
+            onchangepage={changePage}
             onchangeperpage={changePerPage}
             onopen={openRow}
             ondelete={deleteRow}

@@ -5,6 +5,7 @@ export type AddressType = {
     department?: string;
     id?: string;
     name?: string;
+    firstname?: string;
     street?: string;
     zipcode?: string;
     created_at?: string;
@@ -13,7 +14,7 @@ export type AddressType = {
 
 export type CustomerType = {
     id?: string;
-    name: string;
+    name?: string;
     addresses?: Array<AddressType>;
     created_at?: string;
     updated_at?: string;

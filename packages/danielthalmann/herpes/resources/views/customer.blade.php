@@ -25,6 +25,17 @@
         <x-slot name="open">
             {{ route ('customer.address' , ['customer' => '|id|']) }}
         </x-slot>
+        <x-slot name="breadcrumb">
+            {{ json_encode([
+                [
+                    'label' => 'Customers',
+                    'url' => route ('customer')
+                ],
+                [
+                    'label' => 'List',
+                ],
+            ])  }}
+        </x-slot>
 
     </x-herpes.layout>
 
