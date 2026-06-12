@@ -41,7 +41,7 @@
         title = 'Grid',
         columns = [],
         multiselect = false,
-        timerdelete = 3,
+        timerdelete = 1,
         perpage = 20,
         currentpage = 1,
         lastpage = 1,

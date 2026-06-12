@@ -1,21 +1,9 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-    import Table, { type TableColumn } from "../components/Table.svelte";
-    import Breadcrumb from "../components/Breadcrumb.svelte";
-    import Form, { type FormComponent } from "../components/Form.svelte";
-    import Button from "../components/Button.svelte";
-    import { type Paginate } from "../types/Laravel";
-    import { type AddressType } from "../types/App";
-    import Dialog from "../components/Dialog.svelte";
-    import { decodeHTML } from "../Utils/Encoding";
+    import { type TableColumn } from "../components/Table.svelte";
+    import { type FormComponent } from "../components/Form.svelte";
+    import Crud from "../components/Crud.svelte";
 
     let { api } = $props();
-
-    type TableContext = {
-        page: number;
-        perpage: number;
-        search: string;
-    };
 
     let tablecolumns: TableColumn = $state.raw([
         { key: "id", label: "id", type: "id" },
@@ -49,131 +37,10 @@
         { key: "city", label: "Ville", type: "text" },
     ]);
 
-    let addresses: Paginate | undefined = $state();
-    let selectedAddress: AddressType | null = $state.raw(null);
-    let newAddress: AddressType | null = $state.raw(null);
-
-    let context: TableContext = { page: 1, perpage: 20, search: "" };
-
-    onMount(() => {
-        loadRows();
-    });
-
-    const changePage = (page: number = 1) => {
-        context.page = page;
-        loadRows();
-    };
-
-    const changePerPage = (perpage: number = 20) => {
-        context.page = 1;
-        context.perpage = perpage;
-        loadRows();
-    };
-
-    const loadRows = () => {
-        fetch(api.index + "?paginate=" + context.perpage + '&page=' + context.page + "&search=" + context.search).then((response) => {
-            response.json().then((json) => {
-                addresses = json;
-            });
-        });
-    };
-
-    const addRow = (address: AddressType) => {
-        const fetchOptions: RequestInit = {
-            method: "POST",
-            headers: { Accept: "application/json", "Content-Type": "application/json" },
-            body: JSON.stringify(address),
-        };
-        fetch((<string>api.store).replace("|id|", address.id!), fetchOptions).then(() => {
-            loadRows();
-        });
-        newAddress = null;
-    };
-
-    const updateRow = (address: AddressType) => {
-        let index = addresses!.data.findIndex((item: any) => address!.id === item.id);
-        if (index > -1) {
-            const fetchOptions: RequestInit = {
-                method: "PUT",
-                headers: { Accept: "application/json", "Content-Type": "application/json" },
-                body: JSON.stringify(address),
-            };
-            fetch((<string>api.update).replace("|id|", address.id!), fetchOptions).then(() => {
-                addresses!.data[index] = address;
-            });
-        }
-        selectedAddress = null;
-    };
-
-    const createRow = () => {
-        newAddress = {
-            company : '',
-            department : '',
-            name : '',
-            street : '',
-            zipcode : '',
-            city : ''
-         };
-    };
-
-    const editRow = (address: AddressType) => {
-        selectedAddress = JSON.parse(JSON.stringify(address));
-    };
-
-    const deleteRow = (address: AddressType) => {
-        let index = addresses!.data.findIndex((item: any) => address!.id === item.id);
-        if (index > -1) {
-            fetch((<string>api.destroy).replace("|id|", address.id!), { method: "DELETE" }).then(() => {
-                addresses!.data.splice(index, 1);
-            });
-        }
-    };
-
-    const searchRows = (search: string) => {
-        context.search = search;
-        loadRows();
-    };
 </script>
 
-<div>
-    <Breadcrumb breadcrumb={JSON.parse(decodeHTML(api.breadcrumb ?? '[]'))} />
-    {#if addresses}
-        <Table
-            title={api.name}
-            rows={addresses!.data}
-            columns={tablecolumns}
-            perpage={addresses.per_page}
-            currentpage={addresses.current_page}
-            lastpage={addresses.last_page}
-            total={addresses.total}
-            onchangepage={changePage}
-            onchangeperpage={changePerPage}
-            ondelete={deleteRow}
-            oncreate={createRow}
-            onsearch={searchRows}
-            onedit={editRow}
-        />
-    {/if}
-
-    <Dialog title="Edit" open={selectedAddress ? true : false}>
-        <div class="mb-5">
-            <Form bind:data={selectedAddress!} components={editComponents} onchange={() => {}} />
-        </div>
-        <div class="border-b mb-5 border-neutral-400"></div>
-        <div class="mb-3 text-right">
-            <Button variant="primary" onclick={() => updateRow(selectedAddress!)}>Save</Button>
-            <Button onclick={() => { selectedAddress = null; }}>Close</Button>
-        </div>
-    </Dialog>
-
-    <Dialog title="Create" open={newAddress ? true : false}>
-        <div class="mb-5">
-            <Form bind:data={newAddress} components={createComponents} onchange={() => {}} />
-        </div>
-        <div class="border-b mb-5 border-neutral-400"></div>
-        <div class="mb-3 text-right">
-            <Button variant="primary" onclick={() => addRow(newAddress!)}>Save</Button>
-            <Button onclick={() => { newAddress = null; }}>Close</Button>
-        </div>
-    </Dialog>
-</div>
+<Crud api={api}
+    tablecolumns={tablecolumns}
+    createComponents={createComponents}
+    editComponents={editComponents}
+/>
