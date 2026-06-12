@@ -52,7 +52,16 @@
         }
     ]);
 
-    let components: FormComponent = $state.raw([
+    let createComponents: FormComponent = $state.raw([
+        {
+            key: "name",
+            label: "Nom",
+            type: "text",
+            required: true,
+        }
+    ]);
+
+    let editComponents: FormComponent = $state.raw([
         {
             key: "id",
             label: "id",
@@ -111,7 +120,8 @@
 
     let customers: Paginate | undefined = $state();
 
-    let selectedCustomer: any = $state.raw(null);
+    let selectedCustomer: CustomerType | null = $state.raw(null);
+    let newCustomer: CustomerType | null = $state.raw(null);
 
     onMount(() => {
         loadRows();
@@ -128,29 +138,72 @@
     };
 
     const loadRows = () => {
-        fetch(api + "?paginate=" + context.perpage + '&search=' + context.search).then((response) => {
+        fetch(api.index + "?paginate=" + context.perpage + '&search=' + context.search).then((response) => {
             response.json().then((json) => {
                 customers = json;
             });
         });
     };
 
-    const updateRow = (customer: any) => {
+    const addRow = (customer: CustomerType) => {
+
+        const fetchOptions: RequestInit = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(customer)
+        }
+        fetch((<string>api.store).replace('|id|', customer.id), fetchOptions)
+        .then(response => {
+            loadRows();
+        });
+
+        newCustomer = null;
+    };
+
+    const updateRow = (customer: CustomerType) => {
         let index = customers!.data.findIndex((customerItem: any) => {
             return customer!.id === customerItem.id;
         });
         if (index > -1) {
-            customers!.data[index] = customer;
+            const fetchOptions: RequestInit = {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(customer)
+            }
+            fetch((<string>api.update).replace('|id|', customer.id), fetchOptions)
+            .then(response => {
+                customers!.data[index] = customer;
+            });
         }
         selectedCustomer = null;
     };
+    const createRow = (customer: CustomerType) => {
+        newCustomer = {
+            name: ''
+        };
+    };
+    const editRow = (customer: CustomerType) => {
+        selectedCustomer = JSON.parse(JSON.stringify(customer));
+    };
 
-    const deleteRow = (customer: any) => {
+    const deleteRow = (customer: CustomerType) => {
         let index = customers!.data.findIndex((customerItem: any) => {
             return customer!.id === customerItem.id;
         });
         if (index > -1) {
-            customers!.data.splice(index, 1);
+            const fetchOptions: RequestInit = {
+                method: 'DELETE'
+            }
+            fetch((<string>api.destroy).replace('|id|', customer.id), fetchOptions)
+            .then(response => {
+                customers!.data.splice(index, 1);
+            });
         }
     };
 
@@ -170,10 +223,9 @@
             perpage={customers.per_page}
             onchangeperpage={changePerPage}
             ondelete={deleteRow}
+            oncreate={createRow}
             onsearch={searchRows}
-            onedit={(row) => {
-                selectedCustomer = JSON.parse(JSON.stringify(row));
-            }}
+            onedit={editRow}
         />
     {/if}
 
@@ -181,8 +233,8 @@
 
         <div class="mb-5">
             <Form
-                bind:data={selectedCustomer}
-                components={components}
+                bind:data={selectedCustomer!}
+                components={editComponents}
                 onchange={(key) => {
                 }}
             />
@@ -193,7 +245,7 @@
             <Button
                 variant="primary"
                 onclick={() => {
-                    updateRow(selectedCustomer);
+                    updateRow(selectedCustomer!);
                 }}>Save
             </Button>
             <Button
@@ -205,5 +257,33 @@
 
     </Dialog>
 
+
+    <Dialog title="Create" open={newCustomer ? true: false}>
+
+        <div class="mb-5">
+            <Form
+                bind:data={newCustomer}
+                components={createComponents}
+                onchange={(key) => {
+                }}
+            />
+        </div>
+        <div class="border-b mb-5 border-neutral-400"></div>
+
+        <div class="mb-3 text-right">
+            <Button
+                variant="primary"
+                onclick={() => {
+                    addRow(newCustomer!);
+                }}>Save
+            </Button>
+            <Button
+                onclick={() => {
+                    newCustomer = null;
+                }}>Close
+            </Button>
+        </div>
+
+    </Dialog>
 
 </div>

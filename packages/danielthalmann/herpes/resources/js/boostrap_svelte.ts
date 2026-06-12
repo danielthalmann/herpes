@@ -16,7 +16,7 @@ let app:any = null;
 if (document.getElementById('customer')) {
     app = mount(Customers, {
       target: document.getElementById('customer')!,
-      props: { api: document.getElementById('customer')!.dataset.url }
+      props: { api: document.getElementById('customer')!.dataset }
     })
 }
 export default app

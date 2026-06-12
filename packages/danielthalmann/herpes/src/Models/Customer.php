@@ -14,6 +14,19 @@ class Customer extends Model
 
     protected $fillable = ['name'];
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Customer $customer) {
+            /*
+            seulement si le softdelete est aussi présent sur adresse
+            $customer->addresses()->each(function (AddressCustomer $address) {
+                $address->delete();
+            });
+            */
+        });
+
+    }
+
     /**
      * Get all of the Address for the Customer
      */

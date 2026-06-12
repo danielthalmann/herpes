@@ -25,6 +25,7 @@
         onsearch?: (search: string) => void;
         onpage?: (page: number) => void;
         onselect?: (row: any) => void;
+        oncreate?: () => void;
         onopen?: (row: any) => void;
         onedit?: (row: any) => void;
         ondelete?: (row: any) => void;
@@ -40,6 +41,7 @@
         onpage = (page: number) => {},
         onsearch = (search: string) => {},
         onselect = (row) => {},
+        oncreate,
         onopen,
         onedit,
         ondelete,
@@ -81,11 +83,13 @@
     <h1 class="font-medium grow text-3xl content-center">
         <span>Customers</span>
     </h1>
-    <div class="content-center">
-        <Button href="http://localhost:8000/admin/customers/create">
-        Créer
-        </Button>
-    </div>
+    {#if oncreate}
+        <div class="content-center">
+            <Button onclick={() => {oncreate()}}>
+            Add
+            </Button>
+        </div>
+    {/if}
 </div>
 
 <div class="bg-gray-300 dark:bg-gray-800/90 rounded-lg">
@@ -94,9 +98,11 @@
         <div class="inline-block m-3 content-center">
             <Input variant="search" placeholder="search..." onkeyup={(event) => { onsearch((<HTMLInputElement>event.target!).value) }} />
         </div>
+        <!--
         <div class=" m-3 content-center">
-            <Button>test</Button>
+            <Button>Columns</Button>
         </div>
+        -->
     </div>
 
     <div class="mb-3">

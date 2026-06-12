@@ -13,7 +13,13 @@ class ApiCustomerController extends Controller
      */
     public function index(Request $request)
     {
-        return Customer::with('addresses')->paginate($request->input('paginate', 20));
+        $query = Customer::query();
+
+        if ($request->input('search')) {
+            $query = Customer::query()->where('name', 'like', '%' . $request->input('search') . '%');
+        }
+
+        return $query->with('addresses')->paginate($request->input('paginate', 20));
     }
 
     /**
@@ -21,7 +27,21 @@ class ApiCustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = new Customer();
+        $customer->name = $request->input('name');
+        $customer->save();
+
+        return $customer;
+    }
+
+    /**
+     * Create the specified resource.
+     */
+    public function create()
+    {
+        $customer = new Customer();
+
+        return $customer;
     }
 
     /**
@@ -29,7 +49,9 @@ class ApiCustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $customer = Customer::query()->with('addresses')->find($id);
+
+        return $customer;
     }
 
     /**
@@ -37,7 +59,10 @@ class ApiCustomerController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $customer = Customer::query()->find($id);
+
+        return $customer;
+
     }
 
     /**
@@ -45,7 +70,14 @@ class ApiCustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $customer = Customer::query()->find($id);
+
+        if($customer) {
+            $customer->name = $request->input('name');
+            $customer->save();
+        }
+
+        return $customer;
     }
 
     /**
@@ -53,6 +85,11 @@ class ApiCustomerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $customer = Customer::query()->find($id);
+        if($customer) {
+            $customer->delete();
+        }
+        return $customer;
+
     }
 }

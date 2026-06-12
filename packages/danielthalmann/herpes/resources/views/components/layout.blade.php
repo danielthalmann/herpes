@@ -119,7 +119,12 @@
 
   <main>
 
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8" @if(isset($appid)) id="{{ trim($appid) }}" @endif @if(isset($url)) data-url="{{ trim($url) }}" @endif >
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8" @if(isset($appid)) id="{{ trim($appid) }}" @endif
+        @if(isset($index)) data-index="{{ trim($index) }}" @endif
+        @if(isset($store)) data-store="{{ trim($store) }}" @endif
+        @if(isset($destroy)) data-destroy="{{ trim($destroy) }}" @endif
+        @if(isset($update)) data-update="{{ trim($update) }}" @endif
+         >
       {{  $slot ?? '' }}
     </div>
   </main>
