@@ -1,0 +1,22 @@
+# Secrets et config locale
+.env
+.env.*
+*.pem
+*.key
+config/secrets.php
+
+# Générés / vendeurs
+vendor/
+node_modules/
+*.lock
+
+# Logs et cache
+storage/logs/
+*.log
+bootstrap/cache/
+
+# DB et backups
+*.sql
+*.sqlite
+storage/app/
+
