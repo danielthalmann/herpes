@@ -61,7 +61,7 @@ import Input from "./Input.svelte";
                 <Checkbox bind:checked={<boolean>(data[component.key])} onchange={() => {change(component.key)}}>{component.label}</Checkbox>
             {/if}
             {#if component.type == 'table'}
-                <Table rows={data[component.key]} columns={component.columns} onshow={(row) => { JSON.parse(JSON.stringify(row)) }} ></Table>
+                <Table rows={<Array<any>>(data[component.key])} columns={component.columns} onshow={(row) => { JSON.parse(JSON.stringify(row)) }} ></Table>
             {/if}
         {/if}
         </div>

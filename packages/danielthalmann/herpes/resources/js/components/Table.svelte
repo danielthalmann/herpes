@@ -7,33 +7,42 @@
     import { twMerge } from "tailwind-merge";
 
     export type TableColumn = Array<{
-        key: string,
-        label: string,
-        className?: string
+        key: string;
+        label?: string;
+        className?: string;
+        type?: 'id' | 'text' | 'fn';
+        escaped?: boolean;
+        computed?: (row: any) => void;
     }>;
 
     type TableProps = {
         columns?: TableColumn;
         rows?: Array<any>;
         multiselect?: boolean;
-        perpage?: Number;
+        perpage?: number;
         timerdelete?: number;
-        onchangeperpage?: (Paginate: Number) => void;
+        onchangeperpage?: (paginate: number) => void;
+        onsearch?: (search: string) => void;
+        onpage?: (page: number) => void;
         onselect?: (row: any) => void;
-        onshow?: (row: any) => void;
+        onopen?: (row: any) => void;
+        onedit?: (row: any) => void;
         ondelete?: (row: any) => void;
     };
 
     let {
         rows,
-        columns,
+        columns = [],
         multiselect = false,
         timerdelete = 3,
         perpage = $bindable(20),
-        onchangeperpage = (Paginate: Number) => {},
+        onchangeperpage = (paginate: number) => {},
+        onpage = (page: number) => {},
+        onsearch = (search: string) => {},
         onselect = (row) => {},
-        onshow = (row) => {},
-        ondelete = (row) => {},
+        onopen,
+        onedit,
+        ondelete,
     }: TableProps = $props();
 
     let items = [{
@@ -50,8 +59,10 @@
         }
     ];
 
+    let search = $state('');
+
     const ontempodelete = (row: any) => {
-        row._timerhandler = setTimeout(() => { ondelete(row); }, timerdelete * 1000);
+        row._timerhandler = setTimeout(() => { ondelete!(row); }, timerdelete * 1000);
     }
     const canceldelete  = (row: any) => {
         if(row._timerhandler)
@@ -81,7 +92,7 @@
     <!-- search and filter -->
     <div class="flex justify-end">
         <div class="inline-block m-3 content-center">
-            <Input variant="search" placeholder="search..." name="search" />
+            <Input variant="search" placeholder="search..." onkeyup={(event) => { onsearch((<HTMLInputElement>event.target!).value) }} />
         </div>
         <div class=" m-3 content-center">
             <Button>test</Button>
@@ -96,9 +107,11 @@
                     <th class="text-left px-2 py-3 w-10"><Checkbox/></th>
                     {/if}
                 {#each columns as column}
-                    <th class={cn("text-left pl-5 py-3", column.className)}>{column.label}</th>
+                    {#if column.type != 'id'}
+                        <th class={cn("text-left pl-5 py-3", column.className)}>{column.label ?? column.key}</th>
+                    {/if}
                 {/each}
-                    <th class="text-left px-2 py-3 w-10"></th>
+                    <th class="text-left px-2 py-3 w-10">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -108,14 +121,33 @@
                     <td class="px-2 py-3"><Checkbox/></td>
                     {/if}
                     {#each columns as column}
-                        <td class={cn("pl-5 py-3", column.className)}>{row[column.key]}</td>
+                        {#if column.type != 'id'}
+                            {#if column.type == 'fn'}
+                                <td class={cn("pl-5 py-3", column.className)}>
+                                {#if column.escaped === true}
+                                    {@html column.computed ? column.computed(row) : 'computed' }
+                                {:else}
+                                    {column.computed ? column.computed(row) : 'computed' }
+                                {/if}
+                                </td>
+                            {:else}
+                                <td class={cn("pl-5 py-3", column.className)}>{row[column.key]}</td>
+                            {/if}
+                        {/if}
                     {/each}
                     <th class="px-2 py-3 text-nowrap">
-                        <Button variant="primary" onclick={() => {onshow(row)}}>show</Button>
-                        {#if row._timerhandler}
-                            <Button variant="warning" onclick={() => {canceldelete(row)}}>cancel delete</Button>
-                        {:else}
-                            <Button onclick={() => {ontempodelete(row)}}>delete</Button>
+                        {#if onedit}
+                            <Button variant="primary" onclick={() => {onedit(row)}}>edit</Button>
+                        {/if}
+                        {#if onopen}
+                            <Button variant="primary" onclick={() => {onopen(row)}}>open</Button>
+                        {/if}
+                        {#if ondelete}
+                            {#if row._timerhandler}
+                                <Button variant="warning" onclick={() => {canceldelete(row)}}>cancel delete</Button>
+                            {:else}
+                                <Button onclick={() => {ontempodelete(row)}}>delete</Button>
+                            {/if}
                         {/if}
                     </th>
                 </tr>
