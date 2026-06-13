@@ -14,6 +14,10 @@ class Customer extends Model
 
     protected $fillable = ['name'];
 
+    protected $attributes = [
+        'name' => '',
+    ];
+
     protected static function booted(): void
     {
         static::deleting(function (Customer $customer) {

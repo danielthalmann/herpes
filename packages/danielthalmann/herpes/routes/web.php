@@ -29,21 +29,44 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 });
 
 Route::group(['middleware' => ['web', 'auth']], function () {
-    Route::apiResource('/api/customer', ApiCustomerController::class);
-    Route::apiResource('/api/customers/{customer}/addresses', ApiAddressCustomerController::class)->names([
-        'index'   => 'customer.address.index',
-        'store'   => 'customer.address.store',
-        'show'    => 'customer.address.show',
-        'update'  => 'customer.address.update',
+    Route::resource('/api/customers', ApiCustomerController::class)->names([
+        'index' => 'customer.index',
+        'create' => 'customer.create',
+        'store' => 'customer.store',
+        'show' => 'customer.show',
+        'update' => 'customer.update',
+        'destroy' => 'customer.destroy',
+    ]);
+    Route::resource('/api/customers/{customer}/addresses', ApiAddressCustomerController::class)->names([
+        'index' => 'customer.address.index',
+        'create' => 'customer.address.create',
+        'store' => 'customer.address.store',
+        'show' => 'customer.address.show',
+        'update' => 'customer.address.update',
         'destroy' => 'customer.address.destroy',
     ]);
-    Route::apiResource('/api/invoice', ApiInvoiceController::class);
-    Route::apiResource('/api/invoices/{invoice}/items', ApiInvoiceItemController::class)->names([
-        'index'   => 'invoice.item.index',
-        'store'   => 'invoice.item.store',
-        'show'    => 'invoice.item.show',
-        'update'  => 'invoice.item.update',
+    Route::resource('/api/invoices', ApiInvoiceController::class)->names([
+        'index' => 'invoice.index',
+        'create' => 'invoice.create',
+        'store' => 'invoice.store',
+        'show' => 'invoice.show',
+        'update' => 'invoice.update',
+        'destroy' => 'invoice.destroy',
+    ]);
+    Route::resource('/api/invoices/{invoice}/items', ApiInvoiceItemController::class)->names([
+        'index' => 'invoice.item.index',
+        'create' => 'invoice.item.create',
+        'store' => 'invoice.item.store',
+        'show' => 'invoice.item.show',
+        'update' => 'invoice.item.update',
         'destroy' => 'invoice.item.destroy',
     ]);
-    Route::apiResource('/api/transaction', ApiTransactionController::class);
+    Route::resource('/api/transactions', ApiTransactionController::class)->names([
+        'index' => 'transaction.index',
+        'create' => 'transaction.create',
+        'store' => 'transaction.store',
+        'show' => 'transaction.show',
+        'update' => 'transaction.update',
+        'destroy' => 'transaction.destroy',
+    ]);
 });

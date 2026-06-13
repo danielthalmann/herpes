@@ -126,6 +126,7 @@
         @if(isset($name)) data-name="{{ trim($name) }}" @endif
         @if(isset($index)) data-index="{{ trim($index) }}" @endif
         @if(isset($store)) data-store="{{ trim($store) }}" @endif
+        @if(isset($create)) data-create="{{ trim($create) }}" @endif
         @if(isset($destroy)) data-destroy="{{ trim($destroy) }}" @endif
         @if(isset($update)) data-update="{{ trim($update) }}" @endif
         @if(isset($open)) data-open="{{ trim($open) }}" @endif

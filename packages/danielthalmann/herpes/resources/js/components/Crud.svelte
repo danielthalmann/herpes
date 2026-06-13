@@ -102,10 +102,13 @@
         selectedRow = null;
     };
     const createRow = () => {
-        newRow = {
-            name: ''
-        };
+        fetch(api.create).then((response) => {
+            response.json().then((json) => {
+                newRow = json;
+            });
+        });
     };
+
     const editRow = (customer: CustomerType) => {
         selectedRow = JSON.parse(JSON.stringify(customer));
     };

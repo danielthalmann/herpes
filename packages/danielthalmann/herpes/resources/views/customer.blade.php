@@ -16,6 +16,9 @@
         <x-slot name="store">
             {{ route ('customer.store') }}
         </x-slot>
+        <x-slot name="create">
+            {{ route ('customer.create') }}
+        </x-slot>
         <x-slot name="destroy">
             {{ route ('customer.destroy' , ['customer' => '|id|']) }}
         </x-slot>

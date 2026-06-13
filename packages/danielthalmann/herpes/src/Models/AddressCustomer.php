@@ -20,6 +20,16 @@ class AddressCustomer extends Model
         'city',
     ];
 
+    protected $attributes = [
+        'company'    => null,
+        'department' => null,
+        'name'       => null,
+        'firstname'  => null,
+        'street'     => null,
+        'zipcode'    => null,
+        'city'       => null,
+    ];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);

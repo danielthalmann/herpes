@@ -22,6 +22,16 @@ class Invoice extends Model
         'customer_city',
     ];
 
+    protected $attributes = [
+        'ref'                 => null,
+        'customer_company'    => null,
+        'customer_department' => null,
+        'customer_name'       => null,
+        'customer_street'     => null,
+        'customer_zipcode'    => null,
+        'customer_city'       => null,
+    ];
+
     //alias
     public function invoiceItems(): HasMany
     {

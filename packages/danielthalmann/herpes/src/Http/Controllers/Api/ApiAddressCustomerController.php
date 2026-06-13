@@ -38,6 +38,17 @@ class ApiAddressCustomerController extends Controller
         return $address;
     }
 
+    /**
+     * Create the specified resource.
+     */
+    public function create(string $customer)
+    {
+        $address = new AddressCustomer();
+        $address->customer_id = $customer;
+
+        return $address;
+    }
+
     public function show(string $customer, string $address_customer)
     {
         return AddressCustomer::query()

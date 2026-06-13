@@ -16,4 +16,11 @@ class BalanceSheetItem extends Model
         'amount',
         'currency',
     ];
+
+    protected $attributes = [
+        'balance_type' => null,
+        'description'  => null,
+        'amount'       => null,
+        'currency'     => null,
+    ];
 }

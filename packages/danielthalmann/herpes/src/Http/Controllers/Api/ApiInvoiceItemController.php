@@ -34,6 +34,17 @@ class ApiInvoiceItemController extends Controller
         return $item;
     }
 
+    /**
+     * Create the specified resource.
+     */
+    public function create(string $invoice)
+    {
+        $item = new InvoiceItem();
+        $item->invoice_id = $invoice;
+
+        return $item;
+    }
+
     public function show(string $invoice, string $item)
     {
         return InvoiceItem::query()

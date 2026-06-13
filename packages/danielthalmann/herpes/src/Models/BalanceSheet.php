@@ -12,4 +12,8 @@ class BalanceSheet extends Model
     protected $fillable = [
         'balance_sheet_date',
     ];
+
+    protected $attributes = [
+        'balance_sheet_date' => null,
+    ];
 }

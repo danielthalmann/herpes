@@ -20,6 +20,15 @@ class InvoiceItem extends Model
         'quantity_type',
     ];
 
+    protected $attributes = [
+        'no'            => null,
+        'description'   => null,
+        'quantity'      => null,
+        'unit_price'    => null,
+        'currency'      => null,
+        'quantity_type' => null,
+    ];
+
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);

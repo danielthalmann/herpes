@@ -43,6 +43,16 @@ class ApiTransactionController extends Controller
         return $transaction;
     }
 
+    /**
+     * Create the specified resource.
+     */
+    public function create()
+    {
+        $transaction = new Transaction();
+
+        return $transaction;
+    }
+
     public function show(string $id)
     {
         return Transaction::query()->find($id);

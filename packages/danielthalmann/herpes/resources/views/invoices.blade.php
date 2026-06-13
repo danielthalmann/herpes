@@ -16,6 +16,9 @@
         <x-slot name="store">
             {{ route('invoice.store') }}
         </x-slot>
+        <x-slot name="create">
+            {{ route('invoice.create') }}
+        </x-slot>
         <x-slot name="destroy">
             {{ route('invoice.destroy', ['invoice' => '|id|']) }}
         </x-slot>

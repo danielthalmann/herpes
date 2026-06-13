@@ -12,4 +12,8 @@ class Account extends Model
     protected $fillable = [
         'name',
     ];
+
+    protected $attributes = [
+        'name' => null,
+    ];
 }
