@@ -10,15 +10,23 @@
         { key: "date", label: "Date", type: "text" },
         { key: "accounting_text", label: "Texte comptable", type: "text" },
         { key: "account_text", label: "Compte", type: "text" },
-        { key: "debit", label: "Débit", type: "text" },
-        { key: "credit", label: "Crédit", type: "text" },
+        { key: "debit", label: "Débit", type: "fn",
+            computed : (row) => {
+                return row.debit / 100;
+            }
+        },
+        { key: "credit", label: "Crédit", type: "fn",
+            computed : (row) => {
+                return row.debit / 100;
+            }
+        },
     ]);
 
     let createComponents: FormComponent = $state.raw([
         { key: "date", label: "Date", type: "text", required: true },
         { key: "transaction_group", label: "Groupe", type: "text" },
-        { key: "account_id", label: "Compte ID", type: "text" },
-        { key: "account_text", label: "Compte", type: "text" },
+        { key: "account_from_id", label: "Compte from ID", type: "text" },
+        { key: "account_to_id", label: "Compte to ID", type: "text" },
         { key: "invoice_id", label: "Facture ID", type: "text" },
         { key: "accounting_text", label: "Texte comptable", type: "text" },
         { key: "tax_code", label: "Code TVA", type: "text" },
@@ -29,11 +37,11 @@
     ]);
 
     let editComponents: FormComponent = $state.raw([
-        { key: "id", label: "id", className: "w-12", type: "text", readonly: true },
+        { key: "id", label: "id", type: "text", readonly: true },
         { key: "date", label: "Date", type: "text", required: true },
         { key: "transaction_group", label: "Groupe", type: "text" },
-        { key: "account_id", label: "Compte ID", type: "text" },
-        { key: "account_text", label: "Compte", type: "text" },
+        { key: "account_from_id", label: "Compte from ID", type: "text" },
+        { key: "account_to_id", label: "Compte to ID", type: "text" },
         { key: "invoice_id", label: "Facture ID", type: "text" },
         { key: "accounting_text", label: "Texte comptable", type: "text" },
         { key: "tax_code", label: "Code TVA", type: "text" },
