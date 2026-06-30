@@ -1,180 +1,190 @@
 # CLAUDE.md
 
-## Project Overview
+## Aperçu du projet
 
-**H[ERP]ES** is a personal ERP system for managing accounting, creating quotes/offers, and tracking project hours.
+**H[ERP]ES** est un système ERP personnel pour gérer la comptabilité, créer des devis/offres et suivre les heures de projet.
 
-**Tech Stack:**
-- Backend: PHP 8.3+ with Laravel 13
-- Frontend: Svelte 5 with Tailwind CSS 4
-- Database: SQLite (dev), configurable for production (MySQL, PostgreSQL, etc.)
-- Build Tool: Vite with Laravel Vite Plugin
-- Authentication: Custom AuthUI package with password reset via email
+**Stack technique :**
 
-**Key Dependencies:**
-- `laravel/framework`: ^13.0 - Web framework
-- `@sveltejs/vite-plugin-svelte`: ^7.1.2 - Svelte compiler
-- `tailwindcss`: ^4.0.0 - Utility CSS framework
+- Backend : PHP 8.3+ avec Laravel 13
+- Frontend : Svelte 5 avec Tailwind CSS 4
+- Base de données : SQLite (dev), configurable pour la production (MySQL, PostgreSQL, etc.)
+- Outil de build : Vite avec Laravel Vite Plugin
+- Authentification : Package AuthUI personnalisé avec réinitialisation de mot de passe par e-mail
 
-### Monorepo Structure
+**Dépendances principales :**
 
-The project uses a monorepo pattern with two main Laravel packages in `packages/danielthalmann/`:
+- `laravel/framework` : ^13.0 - Framework web
+- `@sveltejs/vite-plugin-svelte` : ^7.1.2 - Compilateur Svelte
+- `tailwindcss` : ^4.0.0 - Framework CSS utilitaire
 
-**1. `herpes/` - Core ERP System**
-- Responsible for all business logic: invoices, customers, accounts, transactions, balance sheets
-- Defines models, API controllers, Svelte components, and database migrations
-- Namespace: `Danielthalmann\Herpes\`
-- Registered via `HerpesServiceProvider` which loads:
-  - Database migrations from `database/migrations/`
-  - Routes from `routes/web.php`
-  - Views namespace `herpes::`
-  - Blade components defined in `resources/components.php`
-  - Translation files from `resources/lang/`
+### Structure monorepo
 
-**2. `authui/` - Authentication UI Package**
-- Provides login, password reset, and user management UI
-- Handles rate limiting for login attempts
-- Namespace: `Danielthalmann\AuthUi\`
-- Registered via `AuthUiServiceProvider` which loads:
-  - Routes for `/login`, `/auth/email`, `/reset-password`
-  - Blade views and components
-  - Artisan command: `php artisan user:create` for creating users
-  - Translation files
+Le projet utilise un pattern monorepo avec deux packages Laravel principaux dans `packages/danielthalmann/` :
 
-**3. Root Application (`app/`)**
-- Main Laravel application that registers both packages
-- Contains Filament admin panel resources for data management
-- Filament Resources: Customers, Invoices, Accounts, Transactions
-- Routes are minimal (delegated to packages)
+**1. `herpes/` - Système ERP principal**
 
-### Data Models & Relationships
+- Responsable de toute la logique métier : factures, clients, comptes, transactions, bilans
+- Définit les modèles, contrôleurs API, composants Svelte et migrations de base de données
+- Namespace : `Danielthalmann\Herpes\`
+- Enregistré via `HerpesServiceProvider` qui charge :
+  - Les migrations depuis `database/migrations/`
+  - Les routes depuis `routes/web.php`
+  - Le namespace de vues `herpes::`
+  - Les composants Blade définis dans `resources/components.php`
+  - Les fichiers de traduction depuis `resources/lang/`
 
-Core entities (all use ULID primary keys with soft deletes where applicable):
+**2. `authui/` - Package d'interface d'authentification**
 
-- **Customer** → HasMany AddressCustomer (billing/shipping addresses)
-- **Invoice** → HasMany InvoiceItem (line items for invoices)
-- **Account** (chart of accounts for accounting)
-- **Transaction** (journal entries: debit/credit bookkeeping)
-- **BalanceSheet** → HasMany BalanceSheetItem (financial statements)
+- Fournit l'interface de connexion, réinitialisation de mot de passe et gestion des utilisateurs
+- Gère la limitation de débit pour les tentatives de connexion
+- Namespace : `Danielthalmann\AuthUi\`
+- Enregistré via `AuthUiServiceProvider` qui charge :
+  - Les routes pour `/login`, `/auth/email`, `/reset-password`
+  - Les vues et composants Blade
+  - La commande Artisan : `php artisan user:create` pour créer des utilisateurs
+  - Les fichiers de traduction
 
-Database migrations are located in:
-- Root: `database/migrations/` (users, cache, jobs tables)
-- Package: `packages/danielthalmann/herpes/database/migrations/` (business domain tables)
+**3. Application racine (`app/`)**
 
-### Frontend Architecture
+- Application Laravel principale qui enregistre les deux packages
+- Les routes sont minimales (déléguées aux packages)
 
-**Views & Controllers:**
-- HTTP Controllers return Blade views (e.g., `DashboardController`, `CustomerController`)
-- Views are template files that load Svelte components dynamically
+### Modèles de données et relations
 
-**Svelte Components:**
-Located in `packages/danielthalmann/herpes/resources/js/components/`:
-- `Table.svelte` - Data table with search, pagination, CRUD actions
-- `Form.svelte` - Dynamic form builder
-- `Dialog.svelte` - Modal dialogs
-- `Input.svelte`, `Select.svelte`, `Button.svelte`, `Checkbox.svelte` - Form fields
-- `Toast.svelte` / `Toasts.svelte` - Notification system
-- Page component: `Customers.svelte` - Full CRUD interface for customers
+Entités principales (toutes utilisent des clés primaires ULID avec soft deletes si applicable) :
 
-**Type Definitions:**
-- `resources/js/types/App.ts` - Business types (CustomerType, AddressType)
-- `resources/js/types/Laravel.ts` - Framework types (Paginate, pagination responses)
+- **Customer** → HasMany AddressCustomer (adresses de facturation/livraison)
+- **Invoice** → HasMany InvoiceItem (lignes de facture)
+- **Account** (plan comptable)
+- **Transaction** (écritures comptables : débit/crédit)
+- **BalanceSheet** → HasMany BalanceSheetItem (états financiers)
 
-**Build Configuration:**
-- Vite config points to `packages/danielthalmann/herpes/resources/` as main entry
-- Entry point: `resources/css/app.css` and `resources/js/app.js`
-- Svelte initialization in `bootstrap_svelte.ts`, Alpine in `bootstrap_alpine.js`
+Les migrations de base de données se trouvent dans :
 
-### API Endpoints
+- Racine : `database/migrations/` (tables users, cache, jobs)
+- Package : `packages/danielthalmann/herpes/database/migrations/` (tables du domaine métier)
 
-RESTful API for customers (protected by `auth` middleware):
-- `GET /api/customer` - List customers with pagination and search
-- `POST /api/customer` - Create customer
-- `PUT /api/customer/{id}` - Update customer
-- `DELETE /api/customer/{id}` - Delete customer
+### Architecture frontend
 
-## Commands
+**Vues et contrôleurs :**
 
-### Development
+- Les contrôleurs HTTP retournent des vues Blade (ex. `DashboardController`, `CustomerController`)
+- Les vues sont des templates qui chargent dynamiquement les composants Svelte
+
+**Composants Svelte :**
+
+Situés dans `packages/danielthalmann/herpes/resources/js/components/` :
+
+- `Table.svelte` - Tableau de données avec recherche, pagination, actions CRUD
+- `Form.svelte` - Constructeur de formulaires dynamiques
+- `Dialog.svelte` - Boîtes de dialogue modales
+- `Input.svelte`, `Select.svelte`, `Button.svelte`, `Checkbox.svelte` - Champs de formulaire
+- `Toast.svelte` / `Toasts.svelte` - Système de notifications
+- Composant de page : `Customers.svelte` - Interface CRUD complète pour les clients
+
+**Définitions de types :**
+
+- `resources/js/types/App.ts` - Types métier (CustomerType, AddressType)
+- `resources/js/types/Laravel.ts` - Types framework (Paginate, réponses de pagination)
+
+**Configuration du build :**
+
+- La config Vite pointe vers `packages/danielthalmann/herpes/resources/` comme entrée principale
+- Point d'entrée : `resources/css/app.css` et `resources/js/app.js`
+- Initialisation Svelte dans `bootstrap_svelte.ts`, Alpine dans `bootstrap_alpine.js`
+
+### Points d'entrée API
+
+API RESTful pour les clients (protégée par le middleware `auth`) :
+
+- `GET /api/customer` - Lister les clients avec pagination et recherche
+- `POST /api/customer` - Créer un client
+- `PUT /api/customer/{id}` - Mettre à jour un client
+- `DELETE /api/customer/{id}` - Supprimer un client
+
+## Commandes
+
+### Développement
 
 ```bash
-# Full setup (install, env, key, migrate, build)
+# Configuration complète (install, env, key, migrate, build)
 composer setup
 
-# Run dev server with hot reload
-# Starts: Laravel server, queue listener, logs, Vite dev server
+# Lancer le serveur de développement avec rechargement à chaud
+# Démarre : serveur Laravel, queue listener, logs, serveur Vite
 composer dev
 
-# Build for production
+# Build pour la production
 npm run build
 
-# Run tests
+# Lancer les tests
 composer test
 ```
 
-### Database
+### Base de données
 
 ```bash
-# Run migrations
+# Exécuter les migrations
 php artisan migrate
 
-# Create a new user (from authui package)
+# Créer un nouvel utilisateur (depuis le package authui)
 php artisan user:create
 
-# Tinker shell
+# Shell Tinker
 php artisan tinker
 ```
 
-### Code Quality
+### Qualité du code
 
 ```bash
-# Laravel Pint (code formatting)
+# Laravel Pint (formatage du code)
 ./vendor/bin/pint
 
-# PHP CS Fixer (alternative formatter, config in .php-cs-fixer.php)
+# PHP CS Fixer (formateur alternatif, config dans .php-cs-fixer.php)
 ./vendor/bin/php-cs-fixer fix
 ```
 
-## Convention & Style Guidelines
+## Conventions et directives de style
 
 ### Backend (PHP)
 
-- Follow Laravel conventions: models in `app/Models/`, controllers in `app/Http/Controllers/`
-- Use PSR-4 namespacing matching directory structure
-- Service providers should register routes, views, components in `boot()` method
-- Database: Use Eloquent ORM with relationships; avoid raw SQL
-- Type hints: Use strict PHP types (`?string`, `int`, etc.)
+- Suivre les conventions Laravel : modèles dans `app/Models/`, contrôleurs dans `app/Http/Controllers/`
+- Utiliser le namespace PSR-4 correspondant à la structure de répertoires
+- Les fournisseurs de services doivent enregistrer les routes, vues, composants dans la méthode `boot()`
+- Base de données : utiliser Eloquent ORM avec les relations ; éviter le SQL brut
+- Types : utiliser les types PHP stricts (`?string`, `int`, etc.)
 
 ### Frontend (Svelte)
 
-- Component props use Svelte 5 runes: `$props()`, `$state()`, `$state.raw()` for complex objects
-- Callback handlers: `onchange`, `ondelete`, `onsearch`, `oncreate`, `onedit`, `onopen`
-- CSS: Use Tailwind utility classes; avoid inline styles
-- Keep business logic in controllers, UI state in Svelte components
-- Type definitions: Use TypeScript interfaces for API responses
+- Les props de composants utilisent les runes Svelte 5 : `$props()`, `$state()`, `$state.raw()` pour les objets complexes
+- Gestionnaires de callbacks : `onchange`, `ondelete`, `onsearch`, `oncreate`, `onedit`, `onopen`
+- CSS : utiliser les classes utilitaires Tailwind ; éviter les styles inline
+- Garder la logique métier dans les contrôleurs, l'état UI dans les composants Svelte
+- Définitions de types : utiliser les interfaces TypeScript pour les réponses API
 
-### Database Migrations
+### Migrations de base de données
 
-- Use `Schema::create()` / `Schema::table()` in `up()`, `Schema::dropIfExists()` in `down()`
-- Nullable fields should use `->nullable()`
-- UUIDs as primary key: `$table->uuid('id')->primary()`
-- Use `$table->softDeletes()` for soft-delete models
-- Always include `$table->timestamps()` for created_at/updated_at
+- Utiliser `Schema::create()` / `Schema::table()` dans `up()`, `Schema::dropIfExists()` dans `down()`
+- Les champs nullables doivent utiliser `->nullable()`
+- UUID comme clé primaire : `$table->uuid('id')->primary()`
+- Utiliser `$table->softDeletes()` pour les modèles avec soft delete
+- Toujours inclure `$table->timestamps()` pour created_at/updated_at
 
-## Important Notes
+## Notes importantes
 
-- **Do not modify existing migrations** or database schema without explicit approval
-- **Keep Svelte components in sync** with backend API changes
-- **Language support**: The project includes French translations (`resources/lang/fr/`); consider i18n when adding UI text
-- **Filament resources** in `app/Filament/` are for admin panel management; separate from Svelte customer-facing UI
-- **Authentication**: Uses custom AuthUI with email-based login and password reset (not Laravel Sanctum)
-- **Configuration**: Both packages check `config/herpes.php` and `config/authui.php` for `enabled` flag before initializing
+- **Ne pas modifier les migrations existantes** ni le schéma de base de données sans approbation explicite
+- **Garder les composants Svelte synchronisés** avec les changements de l'API backend
+- **Support multilingue** : le projet inclut des traductions françaises (`resources/lang/fr/`) ; prendre en compte l'i18n lors de l'ajout de textes UI
+- **Authentification** : utilise AuthUI personnalisé avec connexion par e-mail et réinitialisation de mot de passe (pas Laravel Sanctum)
+- **Configuration** : les deux packages vérifient `config/herpes.php` et `config/authui.php` pour le flag `enabled` avant l'initialisation
 
+## Tâches en cours
 
-## working tasks
 - [x] Sur la base du fichier packages/danielthalmann/herpes/src/Http/Controllers/Api/ApiCustomerController.php refaire un contrôleur pour le modèle AddressCustomer
 - [x] Sur la base du fichier packages/danielthalmann/herpes/src/Http/Controllers/CustomerController.php, crée un nouveau point d'entrée pour AddressCustomer. Ajout également la vue dans packages/danielthalmann/herpes/resources/views, ajoute les routes et prépare  le fichier packages/danielthalmann/herpes/resources/js/boostrap_svelte.ts pour inclure l'initialisation de svelte.
 - [x] Modifier les routes address-customer de la page de base et celle de l'api afin d'avoir une descendance dans l'url avec customers. Les routes doivent comporter l'id du customer et les requêtes doivent en tenir compte. La table AddressCustomer a une colonne customer_id pour filtrer sur ceux-ci.
-- [ ] Sur la base des fichiers herpes/Http/Controllers/CustomerController.php, herpes/resources/views/customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/Customers.svelte crée un nouveau point d'entrée pour le modèle invoice.
-- [ ] Sur la base des fichiers herpes/Http/Controllers/AddressCustomerController.php, herpes/resources/views/address_customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/AddressCustomers.svelte crée un nouveau point d'entrée pour le modèle invoiceitem.
-- [ ] Sur la base des fichiers herpes/Http/Controllers/CustomerController.php, herpes/resources/views/customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/Customers.svelte crée un nouveau point d'entrée pour le modèle transaction.
+- [x] Sur la base des fichiers herpes/Http/Controllers/CustomerController.php, herpes/resources/views/customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/Customers.svelte crée un nouveau point d'entrée pour le modèle invoice.
+- [x] Sur la base des fichiers herpes/Http/Controllers/AddressCustomerController.php, herpes/resources/views/address_customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/AddressCustomers.svelte crée un nouveau point d'entrée pour le modèle invoiceitem.
+- [x] Sur la base des fichiers herpes/Http/Controllers/CustomerController.php, herpes/resources/views/customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/Customers.svelte crée un nouveau point d'entrée pour le modèle transaction.
+- [ ] Créer une nouvelle vue pour saisir les tickets
