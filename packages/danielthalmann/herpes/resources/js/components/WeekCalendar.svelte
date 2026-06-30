@@ -4,15 +4,18 @@
     export type CalendarEvent = {
         id: string;
         ticket_id: string;
-        start: string;   // ISO datetime "2024-01-15T09:00:00"
-        end: string;     // ISO datetime "2024-01-15T10:30:00"
+        start: string;    // ISO datetime "2024-01-15T09:00:00"
+        end: string;      // ISO datetime "2024-01-15T10:30:00"
         comment?: string;
-        color?: string;  // blue | green | purple | orange | pink | teal | red
+        color?: string;   // blue | green | purple | orange | pink | teal | red
+        allDay?: boolean;
     };
 
-    let { events = [], onEventClick }: {
+    let { events = [], onEventClick, onSlotClick, onWeekChange }: {
         events?: CalendarEvent[];
         onEventClick?: (event: CalendarEvent) => void;
+        onSlotClick?: (date: Date) => void;
+        onWeekChange?: (start: Date, end: Date) => void;
     } = $props();
 
     const HOUR_HEIGHT = 64; // px per hour
@@ -67,6 +70,12 @@
         weekDays.some(d => d.toDateString() === new Date().toDateString())
     );
 
+    $effect(() => {
+        const start = weekDays[0];
+        const end = weekDays[6];
+        onWeekChange?.(start, end);
+    });
+
     function prevWeek() {
         const d = new Date(currentWeekStart);
         d.setDate(d.getDate() - 7);
@@ -92,8 +101,19 @@
         return a.toDateString() === b.toDateString();
     }
 
-    function getEventsForDay(day: Date): CalendarEvent[] {
-        return events.filter(e => sameDay(new Date(e.start), day));
+    function handleSlotClick(e: MouseEvent, day: Date) {
+        const minutes = Math.round((e.offsetY / HOUR_HEIGHT) * 60 / 15) * 15;
+        const date = new Date(day);
+        date.setHours(Math.floor(minutes / 60), minutes % 60, 0, 0);
+        onSlotClick?.(date);
+    }
+
+    function getTimedEventsForDay(day: Date): CalendarEvent[] {
+        return events.filter(e => !e.allDay && sameDay(new Date(e.start), day));
+    }
+
+    function getAllDayEventsForDay(day: Date): CalendarEvent[] {
+        return events.filter(e => e.allDay && sameDay(new Date(e.start), day));
     }
 
     function eventTop(event: CalendarEvent): number {
@@ -197,6 +217,26 @@
         {/each}
     </div>
 
+    <!-- ── All-day row ── -->
+    <div class="flex border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/40 shrink-0 min-h-7">
+        <div class="w-14 shrink-0 flex items-start justify-end pr-2 pt-1">
+            <span class="text-[10px] text-gray-400 dark:text-gray-600 uppercase tracking-wider">full</span>
+        </div>
+        {#each weekDays as day, i}
+            <div class="flex-1 px-0.5 py-0.5 {i < 6 ? 'border-r border-gray-100 dark:border-gray-700' : ''}">
+                {#each getAllDayEventsForDay(day) as event}
+                    <button
+                        onclick={() => onEventClick?.(event)}
+                        class="w-full text-left text-[11px] px-1.5 py-0.5 rounded mb-0.5 truncate font-medium border-l-2
+                               {eventColorClass(event)} hover:opacity-90 transition-opacity"
+                    >
+                        {event.comment ?? ''}
+                    </button>
+                {/each}
+            </div>
+        {/each}
+    </div>
+
     <!-- ── Scrollable time grid ── -->
     <div bind:this={gridEl} class="flex-1 overflow-y-auto overflow-x-hidden max-h-96">
         <div class="flex" style="height: {24 * HOUR_HEIGHT}px; min-height: {24 * HOUR_HEIGHT}px;">
@@ -240,9 +280,12 @@
                 <!-- Day columns -->
                 {#each weekDays as day, i}
                     {@const today = isToday(day)}
-                    <div class="flex-1 relative
+                    <div class="flex-1 relative cursor-cell
                                 {i < 6 ? 'border-r border-gray-100 dark:border-gray-700' : ''}
-                                {today ? 'bg-blue-50/40 dark:bg-blue-900/5' : ''}">
+                                {today ? 'bg-blue-50/40 dark:bg-blue-900/5' : ''}"
+                         role="button" tabindex="0"
+                         onclick={(e) => handleSlotClick(e, day)}
+                         onkeydown={(e) => e.key === 'Enter' && handleSlotClick(e as unknown as MouseEvent, day)}>
 
                         <!-- Half-hour dashed lines -->
                         {#each HOURS as h}
@@ -253,10 +296,10 @@
                         {/each}
 
                         <!-- Events -->
-                        {#each getEventsForDay(day) as event}
+                        {#each getTimedEventsForDay(day) as event}
                             {@const height = eventHeight(event)}
                             <button
-                                onclick={() => onEventClick?.(event)}
+                                onclick={(e) => { e.stopPropagation(); onEventClick?.(event); }}
                                 class="absolute left-0.5 right-0.5 rounded-md px-1.5 py-0.5 overflow-hidden
                                        text-left text-xs border-l-[3px] shadow-sm z-10
                                        {eventColorClass(event)}

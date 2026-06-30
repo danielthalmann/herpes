@@ -38,9 +38,9 @@
     ]);
 
     let events: CalendarEvent[] = [
-        { id: '1', ticket_id: 'a', start: '2026-06-30T09:00:00', end: '2026-06-30T10:30:00', comment: 'Réunion client', color: 'blue' },
-        { id: '2', ticket_id: 'b', start: '2026-06-30T14:00:00', end: '2026-06-30T15:00:00', comment: 'Dev sprint', color: 'purple' },
-        { id: '3', ticket_id: 'a', start: '2026-07-01T10:00:00', end: '2026-07-01T11:30:00', comment: 'Correction bug', color: 'red' },
+        { id: '1asd', ticket_id: 'a', start: '2026-06-30T09:00:00', end: '2026-06-30T10:30:00', comment: 'Réunion client', color: 'blue' },
+        { id: '2asd', ticket_id: 'b', start: '2026-06-30T14:00:00', end: '2026-06-30T15:00:00', comment: 'Dev sprint', color: 'purple' },
+        { id: '3asd', ticket_id: 'a', start: '2026-07-01T10:00:00', end: '2026-07-01T11:30:00', comment: 'Correction bug', color: 'red' },
     ];
 
 
