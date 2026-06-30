@@ -2,6 +2,7 @@
     import { type TableColumn } from "../components/Table.svelte";
     import { type FormComponent } from "../components/Form.svelte";
     import Crud from "../components/Crud.svelte";
+    import WeekCalendar, { type CalendarEvent } from "../components/WeekCalendar.svelte";
 
     let { api } = $props();
 
@@ -35,6 +36,14 @@
         { key: "invoice", label: "Facturé", type: "text" },
         { key: "invoiced_at", label: "Date de facturation", type: "text" },
     ]);
+
+    let events: CalendarEvent[] = [
+        { id: '1', ticket_id: 'a', start: '2026-06-30T09:00:00', end: '2026-06-30T10:30:00', comment: 'Réunion client', color: 'blue' },
+        { id: '2', ticket_id: 'b', start: '2026-06-30T14:00:00', end: '2026-06-30T15:00:00', comment: 'Dev sprint', color: 'purple' },
+        { id: '3', ticket_id: 'a', start: '2026-07-01T10:00:00', end: '2026-07-01T11:30:00', comment: 'Correction bug', color: 'red' },
+    ];
+
+
 </script>
 
 <Crud api={api}
@@ -42,3 +51,5 @@
     createComponents={createComponents}
     editComponents={editComponents}
 />
+
+<WeekCalendar events={events} ></WeekCalendar>

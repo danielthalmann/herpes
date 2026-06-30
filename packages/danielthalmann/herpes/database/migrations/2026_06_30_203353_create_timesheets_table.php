@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('timesheets', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->date('at');
             $table->uuid('ticket_id');
-            $table->dateTime('from');
-            $table->dateTime('to');
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->string('comment')->nullable();
             $table->timestamps();
         });

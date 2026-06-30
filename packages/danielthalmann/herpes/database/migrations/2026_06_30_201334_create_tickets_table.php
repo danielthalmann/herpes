@@ -21,6 +21,7 @@ return new class extends Migration
             $table->uuid('parent_id')->nullable();
             $table->integer('reporter_id')->nullable();
             $table->integer('assignee_id')->nullable();
+            $table->integer('times')->nullable();
             $table->boolean('invoice')->default(0)->nullable();
             $table->dateTime('invoiced_at')->nullable();
             $table->timestamps();

@@ -1,3 +1,29 @@
+export type TimesheetType = {
+    id?: string;
+    ticket_id?: string;
+    start?: string;
+    end?: string;
+    comment?: string;
+    created_at?: string;
+    updated_at?: string;
+};
+
+export type TicketType = {
+    id?: string;
+    type?: string;
+    status?: string;
+    summary?: string;
+    description?: string;
+    customer_id?: string;
+    parent_id?: string;
+    reporter_id?: number;
+    assignee_id?: number;
+    invoice?: boolean;
+    invoiced_at?: string;
+    created_at?: string;
+    updated_at?: string;
+};
+
 export type AddressType = {
     city?: string;
     company?: string;
