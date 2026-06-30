@@ -7,12 +7,14 @@
         title?: string;
         open?: boolean;
         children?: Snippet<[]>;
+        footer?: Snippet<[]>;
     };
 
     let {
         title = $bindable(),
         open = $bindable(false),
-        children
+        children,
+        footer
     } : DialogProps = $props();
 
 
@@ -41,6 +43,11 @@
                 <div class="text-foreground-alt overflow-y-auto flex-1 px-5 py-5">
                     {@render children?.()}
                 </div>
+                {#if footer}
+                    <div class="shrink-0 border-t border-gray-400 dark:border-gray-600 px-5 py-3">
+                        {@render footer()}
+                    </div>
+                {/if}
             </div>
         </div>
     </div>

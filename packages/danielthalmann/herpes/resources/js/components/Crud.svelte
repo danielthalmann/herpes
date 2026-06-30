@@ -173,6 +173,7 @@
         </div>
         <div class="border-b mb-5 border-neutral-400"></div>
 
+        {#snippet footer()}
         <div class="mb-3 text-right">
             <Button
                 variant="primary"
@@ -186,6 +187,7 @@
                 }}>Close
             </Button>
         </div>
+        {/snippet}
 
     </Dialog>
 
@@ -201,6 +203,7 @@
         </div>
         <div class="border-b mb-5 border-neutral-400"></div>
 
+        {#snippet footer()}
         <div class="mb-3 text-right">
             <Button
                 variant="primary"
@@ -214,6 +217,7 @@
                 }}>Close
             </Button>
         </div>
+        {/snippet}
 
     </Dialog>
 
