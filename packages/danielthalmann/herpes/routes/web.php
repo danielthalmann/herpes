@@ -5,6 +5,7 @@ use Danielthalmann\Herpes\Http\Controllers\Api\ApiAddressCustomerController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiCustomerController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiInvoiceController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiInvoiceItemController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiTicketController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTransactionController;
 use Danielthalmann\Herpes\Http\Controllers\CustomerController;
 use Danielthalmann\Herpes\Http\Controllers\DashboardController;
@@ -12,6 +13,7 @@ use Danielthalmann\Herpes\Http\Controllers\GridController;
 use Danielthalmann\Herpes\Http\Controllers\InvoiceItemController;
 use Danielthalmann\Herpes\Http\Controllers\InvoicePrintController;
 use Danielthalmann\Herpes\Http\Controllers\InvoicesController;
+use Danielthalmann\Herpes\Http\Controllers\TicketController;
 use Danielthalmann\Herpes\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +26,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/invoices/{invoice}/items/', InvoiceItemController::class)->name('invoice.item');
     Route::get('/invoices/{id}/print', InvoicePrintController::class)->name('invoice.print');
     Route::get('/transactions/', TransactionController::class)->name('transaction');
+    Route::get('/tickets/', TicketController::class)->name('ticket');
     Route::get('/balancesheets/{id?}', GridController::class)->name('balancesheet');
 
 });
@@ -68,5 +71,13 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'show' => 'transaction.show',
         'update' => 'transaction.update',
         'destroy' => 'transaction.destroy',
+    ]);
+    Route::resource('/api/tickets', ApiTicketController::class)->names([
+        'index' => 'ticket.index',
+        'create' => 'ticket.create',
+        'store' => 'ticket.store',
+        'show' => 'ticket.show',
+        'update' => 'ticket.update',
+        'destroy' => 'ticket.destroy',
     ]);
 });

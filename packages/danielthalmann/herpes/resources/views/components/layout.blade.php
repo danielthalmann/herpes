@@ -27,6 +27,7 @@
               <a href="{{ route('customer') }}" @if(Route::is('customer')) {!! $actif !!} @else {!! $inactif !!} @endif >Customers</a>
               <a href="{{ route('invoice') }}" @if(Route::is('invoice')) {!! $actif !!} @else {!! $inactif !!} @endif>Invoice</a>
               <a href="{{ route('transaction') }}" @if(Route::is('transaction')) {!! $actif !!} @else {!! $inactif !!} @endif>Transaction</a>
+              <a href="{{ route('ticket') }}" @if(Route::is('ticket')) {!! $actif !!} @else {!! $inactif !!} @endif>Tickets</a>
               {{--
               <a href="#" @if(Route::is('calendar')) {!! $actif !!} @else {!! $inactif !!} @endif>Calendar</a>
               <a href="#" @if(Route::is('reports')) {!! $actif !!} @else {!! $inactif !!} @endif>Reports</a>
