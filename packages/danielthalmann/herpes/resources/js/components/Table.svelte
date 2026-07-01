@@ -2,7 +2,7 @@
     import Button from "./Button.svelte";
     import Input from "./Input.svelte";
     import Checkbox from "./Checkbox.svelte";
-    import Select from "./Select.svelte";
+    import Select, { type SelectOption } from "./Select.svelte";
     import { type ClassValue, clsx } from 'clsx';
     import { twMerge } from "tailwind-merge";
 
@@ -10,8 +10,9 @@
         key: string;
         label?: string;
         className?: string;
-        type?: 'id' | 'text' | 'fn';
+        type?: 'id' | 'text' | 'fn' | 'select';
         escaped?: boolean;
+        options?: SelectOption[];
         computed?: (row: any) => void;
     }>;
 
@@ -151,7 +152,11 @@
                                 {/if}
                                 </td>
                             {:else}
-                                <td class={cn("pl-5 py-3", column.className)}>{row[column.key]}</td>
+                                {#if column.type == 'select'}
+                                    <td class={cn("pl-5 py-3", column.className)}>{column.options?.find((item) => item.value === row[column.key])?.label }</td>
+                                {:else}
+                                    <td class={cn("pl-5 py-3", column.className)}>{row[column.key]}</td>
+                                {/if}
                             {/if}
                         {/if}
                     {/each}

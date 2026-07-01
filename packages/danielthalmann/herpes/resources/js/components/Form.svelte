@@ -3,9 +3,10 @@
     import Input from "./Input.svelte";
     import Select, { type SelectOption } from "./Select.svelte";
     import Table, { type TableColumn } from "./Table.svelte";
+    import Textarea from "./Textarea.svelte";
 
     export type FormComponent = Array<{
-        type: 'text' | 'date' | 'datetime' | 'number' | 'checkbox' | 'table' | 'select',
+        type: 'text' | 'textarea' | 'date' | 'datetime' | 'number' | 'checkbox' | 'table' | 'select',
         key: string,
         label?: string,
         required?: boolean,
@@ -56,6 +57,9 @@
             {#if component.type == 'text'}
                 <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} bind:value={data[component.key]} />
             {/if}
+            {#if component.type == 'textarea'}
+                <Textarea variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} bind:value={data[component.key]} />
+            {/if}
             {#if component.type == 'number'}
                 <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} type="number" bind:value={data[component.key]} />
             {/if}
@@ -72,7 +76,7 @@
                 <Table rows={<Array<any>>(data[component.key])} columns={component.columns} onopen={(row) => { JSON.parse(JSON.stringify(row)) }} ></Table>
             {/if}
             {#if component.type == 'select'}
-                <Select label={component.label} bind:value={data[component.key]} items={component.options}  ></Select>
+                <Select label={component.label} bind:value={data[component.key] as string} items={component.options}  ></Select>
             {/if}
 
         {/if}

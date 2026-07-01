@@ -18,20 +18,24 @@ class Ticket extends Model
         'parent_id',
         'reporter_id',
         'assignee_id',
+        'times',
+        'eval_times',
         'invoice',
         'invoiced_at',
     ];
 
     protected $attributes = [
-        'type'        => null,
-        'status'      => null,
-        'summary'     => null,
+        'type' => null,
+        'status' => null,
+        'summary' => null,
         'description' => null,
         'customer_id' => null,
-        'parent_id'   => null,
+        'parent_id' => null,
         'reporter_id' => null,
         'assignee_id' => null,
-        'invoice'     => false,
+        'times' => null,
+        'eval_times' => null,
+        'invoice' => false,
         'invoiced_at' => null,
     ];
 }

@@ -28,15 +28,16 @@ class ApiTicketController extends Controller
     public function store(Request $request)
     {
         $ticket = new Ticket();
-        $ticket->type        = $request->input('type');
-        $ticket->status      = $request->input('status');
-        $ticket->summary     = $request->input('summary');
+        $ticket->type = $request->input('type') ?? 'TICKET';
+        $ticket->status = $request->input('status') ?? 'TODO';
+        $ticket->summary = $request->input('summary');
         $ticket->description = $request->input('description');
+        $ticket->eval_times = $request->input('eval_times');
         $ticket->customer_id = $request->input('customer_id');
-        $ticket->parent_id   = $request->input('parent_id');
+        $ticket->parent_id = $request->input('parent_id');
         $ticket->reporter_id = $request->input('reporter_id');
         $ticket->assignee_id = $request->input('assignee_id');
-        $ticket->invoice     = $request->input('invoice', false);
+        $ticket->invoice = $request->input('invoice', false);
         $ticket->invoiced_at = $request->input('invoiced_at');
         $ticket->save();
 
@@ -75,15 +76,16 @@ class ApiTicketController extends Controller
         $ticket = Ticket::query()->find($id);
 
         if ($ticket) {
-            $ticket->type        = $request->input('type');
-            $ticket->status      = $request->input('status');
-            $ticket->summary     = $request->input('summary');
+            $ticket->type = $request->input('type') ?? 'TICKET';
+            $ticket->status = $request->input('status') ?? 'TODO';
+            $ticket->summary = $request->input('summary');
             $ticket->description = $request->input('description');
             $ticket->customer_id = $request->input('customer_id');
-            $ticket->parent_id   = $request->input('parent_id');
+            $ticket->parent_id = $request->input('parent_id');
             $ticket->reporter_id = $request->input('reporter_id');
             $ticket->assignee_id = $request->input('assignee_id');
-            $ticket->invoice     = $request->input('invoice', false);
+            $ticket->eval_times = $request->input('eval_times');
+            $ticket->invoice = $request->input('invoice', false);
             $ticket->invoiced_at = $request->input('invoiced_at');
             $ticket->save();
         }
