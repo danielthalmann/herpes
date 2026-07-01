@@ -179,12 +179,3 @@ php artisan tinker
 - **Authentification** : utilise AuthUI personnalisé avec connexion par e-mail et réinitialisation de mot de passe (pas Laravel Sanctum)
 - **Configuration** : les deux packages vérifient `config/herpes.php` et `config/authui.php` pour le flag `enabled` avant l'initialisation
 
-## Tâches en cours
-
-- [x] Sur la base du fichier packages/danielthalmann/herpes/src/Http/Controllers/Api/ApiCustomerController.php refaire un contrôleur pour le modèle AddressCustomer
-- [x] Sur la base du fichier packages/danielthalmann/herpes/src/Http/Controllers/CustomerController.php, crée un nouveau point d'entrée pour AddressCustomer. Ajout également la vue dans packages/danielthalmann/herpes/resources/views, ajoute les routes et prépare  le fichier packages/danielthalmann/herpes/resources/js/boostrap_svelte.ts pour inclure l'initialisation de svelte.
-- [x] Modifier les routes address-customer de la page de base et celle de l'api afin d'avoir une descendance dans l'url avec customers. Les routes doivent comporter l'id du customer et les requêtes doivent en tenir compte. La table AddressCustomer a une colonne customer_id pour filtrer sur ceux-ci.
-- [x] Sur la base des fichiers herpes/Http/Controllers/CustomerController.php, herpes/resources/views/customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/Customers.svelte crée un nouveau point d'entrée pour le modèle invoice.
-- [x] Sur la base des fichiers herpes/Http/Controllers/AddressCustomerController.php, herpes/resources/views/address_customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/AddressCustomers.svelte crée un nouveau point d'entrée pour le modèle invoiceitem.
-- [x] Sur la base des fichiers herpes/Http/Controllers/CustomerController.php, herpes/resources/views/customer.blade.php, herpes/routes/web.php et herpes/resources/js/pages/Customers.svelte crée un nouveau point d'entrée pour le modèle transaction.
-- [ ] Créer une nouvelle vue pour saisir les tickets

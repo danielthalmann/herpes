@@ -2,13 +2,13 @@
     import { type ClassValue, clsx } from 'clsx';
     import { twMerge } from 'tailwind-merge';
 
-    type SelectOption = {
+    export type SelectOption = {
         value: string;
         label: string ;
         selected?: boolean
     };
 
-    type Props = {
+    export type SelectProps = {
         value: string;
         placeholder?: string;
         label?: string;
@@ -29,7 +29,7 @@
         placeholder,
         onchange = (value: any) => {},
         ...restProps
-    }: Props = $props();
+    }: SelectProps = $props();
 
     let select: HTMLElement;
 

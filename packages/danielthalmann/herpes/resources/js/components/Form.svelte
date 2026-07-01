@@ -1,15 +1,17 @@
 <script lang="ts">
     import Checkbox from "./Checkbox.svelte";
-import Input from "./Input.svelte";
+    import Input from "./Input.svelte";
+    import Select, { type SelectOption } from "./Select.svelte";
     import Table, { type TableColumn } from "./Table.svelte";
 
     export type FormComponent = Array<{
-        type: 'text' | 'number' | 'checkbox' | 'table',
+        type: 'text' | 'date' | 'datetime' | 'number' | 'checkbox' | 'table' | 'select',
         key: string,
         label?: string,
         required?: boolean,
         columnName?: string,
         readonly?: boolean,
+        options?: SelectOption[],
         columns?: TableColumn
     }>;
 
@@ -57,12 +59,22 @@ import Input from "./Input.svelte";
             {#if component.type == 'number'}
                 <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} type="number" bind:value={data[component.key]} />
             {/if}
+            {#if component.type == 'date'}
+                <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} type="date" bind:value={data[component.key]} />
+            {/if}
+            {#if component.type == 'datetime'}
+                <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} type="datetime" bind:value={data[component.key]} />
+            {/if}
             {#if component.type == 'checkbox'}
                 <Checkbox bind:checked={<boolean>(data[component.key])} onchange={() => {change(component.key)}}>{component.label}</Checkbox>
             {/if}
             {#if component.type == 'table'}
                 <Table rows={<Array<any>>(data[component.key])} columns={component.columns} onopen={(row) => { JSON.parse(JSON.stringify(row)) }} ></Table>
             {/if}
+            {#if component.type == 'select'}
+                <Select label={component.label} bind:value={data[component.key]} items={component.options}  ></Select>
+            {/if}
+
         {/if}
         </div>
     {/each}

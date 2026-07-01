@@ -4,8 +4,8 @@ namespace Danielthalmann\AuthUi\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Illuminate\Support\Facades\Hash;
 
 class CreateUser extends Command implements PromptsForMissingInput
 {
@@ -28,10 +28,18 @@ class CreateUser extends Command implements PromptsForMissingInput
      */
     public function handle()
     {
-        $user = new User();
-        $user->name = $this->argument('username');
-        $user->email = $this->argument('email');
-        $user->password = Hash::make($this->argument('password'));
-        $user->save();
+        $user = User::where('email', $this->argument('email'))->first();
+
+        if (! $user) {
+            $user = new User();
+            $user->name = $this->argument('username');
+            $user->email = $this->argument('email');
+            $user->password = Hash::make($this->argument('password'));
+            $user->save();
+        } else {
+            $user->password = Hash::make($this->argument('password'));
+            $user->save();
+        }
+
     }
 }

@@ -40,7 +40,7 @@
         { key: "id", label: "id", type: "text", readonly: true },
         { key: "date", label: "Date", type: "text", required: true },
         { key: "transaction_group", label: "Groupe", type: "text" },
-        { key: "account_from_id", label: "Compte from ID", type: "text" },
+        { key: "account_from_id", label: "Compte from ID", type: "select" },
         { key: "account_to_id", label: "Compte to ID", type: "text" },
         { key: "invoice_id", label: "Facture ID", type: "text" },
         { key: "accounting_text", label: "Texte comptable", type: "text" },
