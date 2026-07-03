@@ -46,17 +46,17 @@ services:
     profiles:
       - dev
 
-  pharmapro-cron-dev:
+  herpes-cron:
     build:
       context: .
       dockerfile: Dockerfile
       target: base
-    container_name: pharmapro-cron
+    container_name: herpes-cron
     image: Herpes
     command: cron -f
     environment:
       WORKER: "true"
-      APP_NAME: Pharmapro
+      APP_NAME: Herpes
       APP_ENV: local
       APP_DEBUG: 'true'
       APP_URL: http://localhost:${APP_PORT:-8000}
