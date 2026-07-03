@@ -1,0 +1,69 @@
+services:
+  # ===============================
+  # DEVELOPMENT ENVIRONMENT
+  # ===============================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: herpes
+    image: herpes
+    environment:
+      APP_NAME: Herpes
+      APP_ENV: local
+      APP_DEBUG: 'false'
+      APP_URL: http://localhost:${APP_PORT:-8000}
+      DB_CONNECTION: sqlite
+    ports:
+      - '${APP_PORT_SSL:-8443}:443'
+      - '${APP_PORT:-8000}:80'
+      - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+    volumes:
+      - '.:/app'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    profiles:
+      - dev
+
+  herpes-queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: herpes-queue
+    image: herpes
+    command: php artisan queue:work
+    environment:
+      WORKER: "true"
+      APP_NAME: Herpes
+      APP_ENV: local
+      APP_DEBUG: 'false'
+      APP_URL: http://localhost:${APP_PORT:-8000}
+      DB_CONNECTION: sqlite
+    volumes:
+      - '.:/app'
+    profiles:
+      - dev
+
+  pharmapro-cron-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    container_name: pharmapro-cron
+    image: Herpes
+    command: cron -f
+    environment:
+      WORKER: "true"
+      APP_NAME: Pharmapro
+      APP_ENV: local
+      APP_DEBUG: 'true'
+      APP_URL: http://localhost:${APP_PORT:-8000}
+      DB_CONNECTION: sqlite
+    volumes:
+      - '.:/app'
+    profiles:
+      - dev
+
+
