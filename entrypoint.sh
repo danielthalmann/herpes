@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-LOG_FILE=/app/storage/logs/entrypoint.log
+LOG_FILE=${LOG_FILE:="/app/storage/logs/entrypoint.log"}
 
 main () {
     echo "Start main"
