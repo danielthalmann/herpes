@@ -25,7 +25,7 @@ services:
     networks:
       - mynetwork
 
-  herpes-queue:
+  queue:
     build:
       context: .
       dockerfile: Dockerfile
@@ -46,7 +46,7 @@ services:
     networks:
       - mynetwork
 
-  herpes-cron:
+  cron:
     build:
       context: .
       dockerfile: Dockerfile
