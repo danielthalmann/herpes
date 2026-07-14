@@ -16,8 +16,8 @@
 
     let createComponents: FormComponent = $state.raw([
         { key: "ref", label: "Référence", type: "text" },
-        { key: "invoice_date", label: "Date", type: "text", required: true },
-        { key: "customer_id", label: "Customer ID", type: "text" },
+        { key: "invoice_date", label: "Date", type: "date", required: true },
+        { key: "customer_id", label: "Client ID", type: "select" , options: [ {label: 'None', value: ''}, {label: 'Comité Fribourgeois des JDS', value: '01kmvcngdjr4k3y54fxzy4kxwm'} ] },
         { key: "customer_company", label: "Société", type: "text" },
         { key: "customer_department", label: "Département", type: "text" },
         { key: "customer_name", label: "Nom", type: "text" },
@@ -29,8 +29,8 @@
     let editComponents: FormComponent = $state.raw([
         { key: "id", label: "id", className: "w-12", type: "text", readonly: true },
         { key: "ref", label: "Référence", type: "text" },
-        { key: "invoice_date", label: "Date", type: "text", required: true },
-        { key: "customer_id", label: "Customer ID", type: "text" },
+        { key: "invoice_date", label: "Date", type: "date", required: true },
+        { key: "customer_id", label: "Client ID", type: "select" , options: [ {label: 'None', value: ''}, {label: 'Comité Fribourgeois des JDS', value: '01kmvcngdjr4k3y54fxzy4kxwm'} ] },
         { key: "customer_company", label: "Société", type: "text" },
         { key: "customer_department", label: "Département", type: "text" },
         { key: "customer_name", label: "Nom", type: "text" },

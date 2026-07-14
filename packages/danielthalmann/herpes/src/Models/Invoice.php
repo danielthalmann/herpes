@@ -23,13 +23,15 @@ class Invoice extends Model
     ];
 
     protected $attributes = [
-        'ref'                 => null,
-        'customer_company'    => null,
+        'ref' => null,
+        'invoice_date' => null,
+        'customer_company' => null,
         'customer_department' => null,
-        'customer_name'       => null,
-        'customer_street'     => null,
-        'customer_zipcode'    => null,
-        'customer_city'       => null,
+        'customer_id' => null,
+        'customer_name' => null,
+        'customer_street' => null,
+        'customer_zipcode' => null,
+        'customer_city' => null,
     ];
 
     //alias
