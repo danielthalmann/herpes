@@ -1,6 +1,5 @@
 #!/bin/bash
 
-prepare_storage
 
 LOG_FILE=/app/storage/logs/entrypoint.log
 
@@ -75,6 +74,8 @@ wait_for_db() {
 run_server() {
     /usr/local/bin/docker-php-entrypoint $@
 }
+
+prepare_storage
 
 {
     main "$@"
