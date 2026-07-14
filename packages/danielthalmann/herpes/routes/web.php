@@ -11,6 +11,7 @@ use Danielthalmann\Herpes\Http\Controllers\CustomerController;
 use Danielthalmann\Herpes\Http\Controllers\DashboardController;
 use Danielthalmann\Herpes\Http\Controllers\GridController;
 use Danielthalmann\Herpes\Http\Controllers\InvoiceItemController;
+use Danielthalmann\Herpes\Http\Controllers\InvoicePdfController;
 use Danielthalmann\Herpes\Http\Controllers\InvoicePrintController;
 use Danielthalmann\Herpes\Http\Controllers\InvoicesController;
 use Danielthalmann\Herpes\Http\Controllers\TicketController;
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/customers/{customer}/addresses/', AddressCustomerController::class)->name('customer.address');
     Route::get('/invoices/', InvoicesController::class)->name('invoice');
     Route::get('/invoices/{invoice}/items/', InvoiceItemController::class)->name('invoice.item');
+    Route::get('/invoices/{id}/pdf/', InvoicePdfController::class)->name('invoice.pdf');
     Route::get('/invoices/{id}/print', InvoicePrintController::class)->name('invoice.print');
     Route::get('/transactions/', TransactionController::class)->name('transaction');
     Route::get('/tickets/', TicketController::class)->name('ticket');
