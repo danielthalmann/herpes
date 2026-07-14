@@ -33,6 +33,9 @@ services:
     container_name: herpes-queue
     image: danielthalmann/herpes
     command: php artisan queue:work
+    depends_on:
+      app:
+        condition: service_healthy # Attend que tout soit totalement prête
     environment:
       WORKER: "true"
       APP_NAME: Herpes
@@ -63,6 +66,9 @@ services:
       APP_URL: http://localhost:${APP_PORT:-8000}
       DB_CONNECTION: sqlite
       LOG_FILE: /app/storage/logs/entrypoint-cron.log
+    depends_on:
+      app:
+        condition: service_healthy # Attend que tout soit totalement prête
     volumes:
       - '.:/app'
     profiles:
