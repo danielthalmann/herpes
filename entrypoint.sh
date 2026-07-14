@@ -4,6 +4,7 @@
 LOG_FILE=/app/storage/logs/entrypoint.log
 
 main () {
+    echo "Start main"
 
     composer_install
     init_environment
@@ -19,6 +20,7 @@ main () {
 
 }
 init_environment() {
+    echo "Init environment"
 
     if [ ! -f /app/.env ]; then
         cp /app/.env.exemple /app/.env
@@ -36,7 +38,7 @@ init_environment() {
 }
 
 prepare_storage() {
-    # Create required directories for Laravel
+    echo "Create required directories for Laravel"
     mkdir -p /app/storage/framework/cache/data
     mkdir -p /app/storage/framework/sessions
     mkdir -p /app/storage/framework/views
@@ -58,6 +60,7 @@ db_migration() {
 }
 
 optimize_app() {
+    echo "Optimize app"
     echo "php artisan optimize:clear"
     php artisan optimize:clear
     echo "php artisan optimize"
@@ -72,6 +75,7 @@ wait_for_db() {
 }
 
 run_server() {
+    echo "Run server"
     /usr/local/bin/docker-php-entrypoint $@
 }
 
