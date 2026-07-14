@@ -11,7 +11,7 @@
     <!-- Fonts -->
 
     <!-- Styles / Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['packages/danielthalmann/herpes/resources/css/app.css', 'packages/danielthalmann/herpes/resources/js/app.js'])
     @yield('style')
     @yield('javascript_head')
 </head>
