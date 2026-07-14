@@ -6,7 +6,7 @@ help:
 	@echo "  make up               - Start environment"
 	@echo "  make down             - Stop environment"
 	@echo "  make migrate          - Run migration"
-    @echo "  make migrate          - Run optimize"
+	@echo "  make migrate          - Run optimize"
 	@echo "  make build            - Build image"
 	@echo "  make build-no-cache   - Build image without cache"
 	@echo "  make shell            - Access shell"
