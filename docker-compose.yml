@@ -22,6 +22,8 @@ services:
       - '.:/app'
     profiles:
       - dev
+    networks:
+      - mynetwork
 
   herpes-queue:
     build:
@@ -41,6 +43,8 @@ services:
       - '.:/app'
     profiles:
       - dev
+    networks:
+      - mynetwork
 
   herpes-cron:
     build:
@@ -60,5 +64,12 @@ services:
       - '.:/app'
     profiles:
       - dev
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    external: true
+    name: mynetwork
 
 
