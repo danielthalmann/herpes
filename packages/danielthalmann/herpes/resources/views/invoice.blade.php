@@ -2,14 +2,22 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
+    {{--
+    <style type='text/css'>
+        {!!  file_get_contents(public_path('build/' . json_decode(file_get_contents(public_path('build/manifest.json')), true)['packages/danielthalmann/herpes/resources/css/app.css']['file'])) !!}
+    </style>
+    <script>
+        {!!  file_get_contents(public_path('build/' . json_decode(file_get_contents(public_path('build/manifest.json')), true)['packages/danielthalmann/herpes/resources/js/app.js']['file'])) !!}
+    </script>
+     --}}
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Daniel Thalmann (white-ermine.ch)">
     <title>Invoice</title>
 </head>
 <body class="text-[10pt]">
-    <style>
-        {!!  file_get_contents(public_path('build/' . json_decode(file_get_contents(public_path('build/manifest.json')), true)['packages/danielthalmann/herpes/resources/css/app.css']['file'])) !!}
-    </style>
 
 
     <section class="mb-25">
