@@ -1,6 +1,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta name="author" content="Daniel Thalmann (white-ermine.ch)">
     <link rel="icon" href="{{ url('/images/logo-white-sans-32x32.svg') }}" sizes="32x32" />
