@@ -2,6 +2,7 @@
 set -euo pipefail
 
 LOG_FILE=${LOG_FILE:="/app/storage/logs/entrypoint.log"}
+WORKER=${WORKER:="false"}
 
 main () {
     echo "Start main"
