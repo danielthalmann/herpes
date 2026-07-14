@@ -26,6 +26,10 @@ init_environment() {
 
     if [ ! -f /app/.env ]; then
         cp /app/.env.exemple /app/.env
+    fi
+
+    if ! grep -qE '^APP_KEY=.+' /app/.env; then
+        echo "APP_KEY empty"
         php artisan key:generate --force
     fi
 
@@ -37,7 +41,7 @@ init_environment() {
     echo "php artisan storage:link"
     php artisan storage:link
 
-}
+}58400
 
 prepare_storage() {
     echo "Create required directories for Laravel"
