@@ -41,7 +41,7 @@ init_environment() {
     echo "php artisan storage:link"
     php artisan storage:link
 
-}58400
+}
 
 prepare_storage() {
     echo "Create required directories for Laravel"
