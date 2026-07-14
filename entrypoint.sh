@@ -7,11 +7,12 @@ main () {
     echo "Start main"
 
     composer_install
+    npm_install
     init_environment
     db_migration
+    optimize_app
 
     if [ "$WORKER" = "true" ]; then
-        optimize_app
         exec "$@"
     else
         wait_for_db
@@ -52,6 +53,13 @@ prepare_storage() {
 composer_install() {
     echo "composer install"
     composer install
+}
+
+npm_install() {
+    echo "npm install"
+    npm install
+    echo "npm run build"
+    npm run build
 }
 
 db_migration() {
