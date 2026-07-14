@@ -1,17 +1,19 @@
 #!/bin/bash
 
+prepare_storage
+
 LOG_FILE=/app/storage/logs/entrypoint.log
 
 main () {
 
+    composer_install
     init_environment
-    #composer_install
+    db_migration
+
     if [ "$WORKER" = "true" ]; then
         optimize_app
         exec "$@"
     else
-        app_deploy
-        prepare_storage
         wait_for_db
         run_server "$@"
     fi
@@ -20,12 +22,17 @@ main () {
 init_environment() {
 
     if [ ! -f /app/.env ]; then
-        mv /app/.env.production /app/.env
+        cp /app/.env.exemple /app/.env
         php artisan key:generate --force
     fi
+
     if [ ! -f /app/database/sqlite/database.sqlite ]; then
         touch /app/database/sqlite/database.sqlite
     fi
+
+    # Ensure the symlink exists
+    echo "php artisan storage:link"
+    php artisan storage:link
 
 }
 
@@ -38,12 +45,7 @@ prepare_storage() {
     mkdir -p /app/storage/logs
     mkdir -p /app/storage/pharmapro
     mkdir -p /app/database/sqlite
-    touch /app/database/sqlite/database.sqlite
-    mkdir -p /public/images
-
-    # Ensure the symlink exists
-    echo "php artisan storage:link"
-    php artisan storage:link
+    mkdir -p /app/public/images
 }
 
 composer_install() {
@@ -51,11 +53,9 @@ composer_install() {
     composer install
 }
 
-app_deploy() {
+db_migration() {
     echo "php artisan migrate --force"
     php artisan migrate --force
-    echo "php artisan deploy"
-    php artisan deploy
 }
 
 optimize_app() {

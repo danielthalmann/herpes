@@ -34,6 +34,12 @@
         }
     },
     "scripts": {
+        "up": [
+            "docker compose --profile dev up -d"
+        ],
+        "down": [
+            "docker compose --profile dev down"
+        ],
         "setup": [
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",

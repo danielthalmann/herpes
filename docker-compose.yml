@@ -6,9 +6,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: base
     container_name: herpes
-    image: herpes
+    image: danielthalmann/herpes
     environment:
       APP_NAME: Herpes
       APP_ENV: local
@@ -21,8 +20,6 @@ services:
       - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
     volumes:
       - '.:/app'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     profiles:
       - dev
 
@@ -30,9 +27,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: base
     container_name: herpes-queue
-    image: herpes
+    image: danielthalmann/herpes
     command: php artisan queue:work
     environment:
       WORKER: "true"
@@ -50,9 +46,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: base
     container_name: herpes-cron
-    image: Herpes
+    image: danielthalmann/herpes
     command: cron -f
     environment:
       WORKER: "true"

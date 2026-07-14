@@ -22,6 +22,8 @@ EXPOSE 443
 
 ENV SERVER_NAME=:80
 
+ENTRYPOINT [ "/app/entrypoint.sh" ]
+
 
 # FROM base AS production
 
