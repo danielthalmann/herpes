@@ -1,4 +1,4 @@
-.PHONY: help up down migrate build build-no-cache shell
+.PHONY: help up down migrate build build-no-cache shell optimize npm-build
 
 help:
 	@echo "Docker Commands"
@@ -6,7 +6,8 @@ help:
 	@echo "  make up               - Start environment"
 	@echo "  make down             - Stop environment"
 	@echo "  make migrate          - Run migration"
-	@echo "  make migrate          - Run optimize"
+	@echo "  make optimize         - Run optimize"
+	@echo "  make npm-build        - npm run build"
 	@echo "  make build            - Build image"
 	@echo "  make build-no-cache   - Build image without cache"
 	@echo "  make shell            - Access shell"
@@ -18,10 +19,13 @@ down:
 	docker compose --profile dev down
 
 migrate:
-	docker compose --profile dev exec -T herpes php artisan migrate
+	docker exec herpes php artisan migrate
 
 optimize:
-	docker compose --profile dev exec -T herpes php artisan optimize:clear && php artisan optimize
+	docker exec herpes php artisan optimize:clear && php artisan optimize
+
+npm-build:
+	docker exec herpes npm run build
 
 build:
 	docker compose --profile dev build
