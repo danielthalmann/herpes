@@ -13,6 +13,16 @@
         { key: "unit_price", label: "Prix unitaire", type: "text" },
         { key: "currency", label: "Devise", type: "text" },
         { key: "quantity_type", label: "Unité", type: "select" , options: [{label: 'Aucune', value: ''}, {label: 'Pièce', value: 'P'}, {label: 'Heure', value: 'H'} ] },
+        { key: "sum", label: "Montant", type: "fn",
+          computed : (row) => {
+
+            let sum: number = 0;
+            if(row.quantity != undefined){
+                sum += row.unit_price * row.quantity;
+            }
+            return sum;
+          }
+        },
     ]);
 
     let createComponents: FormComponent = $state.raw([

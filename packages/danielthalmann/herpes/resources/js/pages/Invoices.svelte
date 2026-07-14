@@ -12,6 +12,20 @@
         { key: "customer_company", label: "Société", type: "text" },
         { key: "customer_name", label: "Client", type: "text" },
         { key: "customer_city", label: "Ville", type: "text" },
+        { key: "sum", label: "Montant", type: "fn",
+          computed : (row) => {
+
+            let sum: number = 0;
+
+            row.invoice_items.forEach((val) => {
+                if(val.quantity != undefined){
+                    sum += val.unit_price * val.quantity;
+                }
+            });
+            return sum;
+          }
+        },
+
     ]);
 
     let createComponents: FormComponent = $state.raw([

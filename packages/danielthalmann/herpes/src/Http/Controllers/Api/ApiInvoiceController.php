@@ -11,6 +11,7 @@ class ApiInvoiceController extends Controller
     public function index(Request $request)
     {
         $query = Invoice::query();
+        $query->with('invoiceItems');
 
         if ($request->input('search')) {
             $query->where(function ($q) use ($request) {
