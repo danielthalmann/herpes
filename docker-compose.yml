@@ -15,6 +15,11 @@ services:
       APP_URL: http://localhost:${APP_PORT:-8000}
       DB_CONNECTION: sqlite
       LOG_FILE: /app/storage/logs/entrypoint.log
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT:-8000}/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     ports:
       - '${APP_PORT_SSL:-8443}:443'
       - '${APP_PORT:-8000}:80'
