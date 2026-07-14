@@ -23,3 +23,5 @@ EXPOSE 443
 ENV SERVER_NAME=:80
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
+
+CMD [ "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile" ]
