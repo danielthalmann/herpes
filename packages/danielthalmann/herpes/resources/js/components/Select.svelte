@@ -67,7 +67,7 @@
     }
 
     onMount(() => {
-        selectedItem = items.find((item) => item.value === value);
+        selectedItem = items.find((item) => (item.value === value || (value == null && item.value == '')) );
         selectStyle = 'min-width: ' + select.clientWidth.toString() + 'px;';
     });
 

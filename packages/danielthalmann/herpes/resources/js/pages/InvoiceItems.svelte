@@ -12,7 +12,7 @@
         { key: "quantity", label: "Quantité", type: "text" },
         { key: "unit_price", label: "Prix unitaire", type: "text" },
         { key: "currency", label: "Devise", type: "text" },
-        { key: "quantity_type", label: "Unité", type: "text" },
+        { key: "quantity_type", label: "Unité", type: "select" , options: [{label: 'Aucune', value: ''}, {label: 'Pièce', value: 'P'}, {label: 'Heure', value: 'H'} ] },
     ]);
 
     let createComponents: FormComponent = $state.raw([
@@ -20,8 +20,8 @@
         { key: "description", label: "Description", type: "text" },
         { key: "quantity", label: "Quantité", type: "text" },
         { key: "unit_price", label: "Prix unitaire", type: "text" },
-        { key: "currency", label: "Devise", type: "text" },
-        { key: "quantity_type", label: "Unité", type: "text" },
+        { key: "currency", label: "Devise", type: "select" , options: [{label: 'CHF', value: 'CHF'} ] },
+        { key: "quantity_type", label: "Unité", type: "select" , options: [{label: 'Aucune', value: ''}, {label: 'Pièce', value: 'P'}, {label: 'Heure', value: 'H'} ] },
     ]);
 
     let editComponents: FormComponent = $state.raw([
@@ -30,8 +30,8 @@
         { key: "description", label: "Description", type: "text" },
         { key: "quantity", label: "Quantité", type: "text" },
         { key: "unit_price", label: "Prix unitaire", type: "text" },
-        { key: "currency", label: "Devise", type: "text" },
-        { key: "quantity_type", label: "Unité", type: "text" },
+        { key: "currency", label: "Devise", type: "select" , options: [{label: 'CHF', value: 'CHF'} ] },
+        { key: "quantity_type", label: "Unité", type: "select" , options: [{label: 'Aucune', value: ''}, {label: 'Pièce', value: 'P'}, {label: 'Heure', value: 'H'} ] },
     ]);
 </script>
 

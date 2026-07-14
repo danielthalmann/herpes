@@ -25,7 +25,7 @@ class InvoiceItem extends Model
         'description'   => null,
         'quantity'      => null,
         'unit_price'    => null,
-        'currency'      => null,
+        'currency'      => 'CHF',
         'quantity_type' => null,
     ];
 
