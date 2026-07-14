@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -euo pipefail
 
 LOG_FILE=${LOG_FILE:="/app/storage/logs/entrypoint.log"}
 
@@ -84,11 +84,11 @@ wait_for_db() {
 
 run_server() {
     echo "Run server"
-    /usr/local/bin/docker-php-entrypoint $@
+    exec /usr/local/bin/docker-php-entrypoint $@
 }
 
 prepare_storage
 
 {
     main "$@"
-} > "$LOG_FILE" 2>&1
+} > "$LOG_FILE" 2>&1 | tee -a "$LOG_FILE"

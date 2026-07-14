@@ -23,18 +23,3 @@ EXPOSE 443
 ENV SERVER_NAME=:80
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
-
-
-# FROM base AS production
-
-# Set working directory
-# WORKDIR /app
-
-# Copy all application files
-# COPY --chown=www-data:www-data . .
-
-# RUN composer install
-
-# ENTRYPOINT [ "/app/entrypoint.sh" ]
-
-# CMD [ "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile" ]

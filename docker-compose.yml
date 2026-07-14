@@ -16,7 +16,7 @@ services:
       DB_CONNECTION: sqlite
       LOG_FILE: /app/storage/logs/entrypoint.log
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT:-8000}/"]
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
       interval: 10s
       timeout: 5s
       retries: 3
