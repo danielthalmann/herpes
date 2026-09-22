@@ -4,6 +4,8 @@ set -euo pipefail
 LOG_FILE=${LOG_FILE:="/app/storage/logs/entrypoint.log"}
 WORKER=${WORKER:="false"}
 
+git config --global --add safe.directory /app
+
 main () {
     echo "Start main"
 
@@ -53,6 +55,7 @@ prepare_storage() {
     mkdir -p /app/storage/pharmapro
     mkdir -p /app/database/sqlite
     mkdir -p /app/public/images
+    echo "All directories created"
 }
 
 composer_install() {

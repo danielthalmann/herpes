@@ -20,6 +20,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    restart: unless-stopped
     ports:
       - '${APP_PORT_SSL:-8443}:443'
       - '${APP_PORT:-8000}:80'
@@ -49,6 +50,7 @@ services:
       APP_URL: http://localhost:${APP_PORT:-8000}
       DB_CONNECTION: sqlite
       LOG_FILE: /app/storage/logs/entrypoint-queue.log
+    restart: unless-stopped
     volumes:
       - '.:/app'
     profiles:
@@ -74,6 +76,7 @@ services:
     depends_on:
       app:
         condition: service_healthy # Attend que tout soit totalement prête
+    restart: unless-stopped
     volumes:
       - '.:/app'
     profiles:
