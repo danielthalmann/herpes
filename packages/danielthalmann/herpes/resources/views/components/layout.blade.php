@@ -132,7 +132,17 @@
         @if(isset($update)) data-update="{{ trim($update) }}" @endif
         @if(isset($open)) data-open="{{ trim($open) }}" @endif
         @if(isset($breadcrumb)) data-breadcrumb="{{ trim($breadcrumb) }}" @endif
-         >
+
+        @php
+            $additionalSlots = collect($__laravel_slots ?? [])
+              ->filter(fn ($slot, $key) => str_starts_with($key, 'api.'))
+              ->transform(fn ($slot, $key) => [str_replace('api.', '', $key), trim($slot)]);
+        @endphp
+        @foreach($additionalSlots as $s)
+            data-{{ $s[0] }}="{{ $s[1] }}"
+        @endforeach
+        >
+            
       {{  $slot ?? '' }}
     </div>
   </main>

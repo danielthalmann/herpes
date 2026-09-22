@@ -6,6 +6,7 @@ use Danielthalmann\Herpes\Http\Controllers\Api\ApiCustomerController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiInvoiceController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiInvoiceItemController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTicketController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiTimesheetController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTransactionController;
 use Danielthalmann\Herpes\Http\Controllers\CustomerController;
 use Danielthalmann\Herpes\Http\Controllers\DashboardController;
@@ -81,5 +82,13 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'show' => 'ticket.show',
         'update' => 'ticket.update',
         'destroy' => 'ticket.destroy',
+    ]);
+    Route::resource('/api/timesheets', ApiTimesheetController::class)->names([
+        'index' => 'timesheet.index',
+        'create' => 'timesheet.create',
+        'store' => 'timesheet.store',
+        'show' => 'timesheet.show',
+        'update' => 'timesheet.update',
+        'destroy' => 'timesheet.destroy',
     ]);
 });

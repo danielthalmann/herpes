@@ -47,10 +47,10 @@
             {#if component.label}
                 <label class="mt-2" for="{component.key + 'id'}">
                     <span class="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-1">{component.label}</span>
-                    <div class="px-4 py-2 border text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-500 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">{<string>(data[component.key])}</div>
+                    <div class="px-4 py-2 border text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-500 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">{<string>(data[component.key])}&nbsp;</div>
                 </label>
             {:else}
-                <div class="px-4 py-2 border text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-500 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">{<string>(data[component.key])}</div>
+                <div class="px-4 py-2 border text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-500 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all">{<string>(data[component.key])}&nbsp;</div>
             {/if}
             </div>
         {:else}
@@ -67,7 +67,7 @@
                 <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} type="date" bind:value={data[component.key]} />
             {/if}
             {#if component.type == 'datetime'}
-                <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} type="datetime" bind:value={data[component.key]} />
+                <Input variant="full" label={component.label} onchange={() => {change(component.key)}} required={component.required} step="900" type="datetime-local" bind:value={data[component.key]} />
             {/if}
             {#if component.type == 'checkbox'}
                 <Checkbox bind:checked={<boolean>(data[component.key])} onchange={() => {change(component.key)}}>{component.label}</Checkbox>

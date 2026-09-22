@@ -3,7 +3,6 @@
 @section('content')
 
     <x-herpes.layout>
-
         <x-slot name="appid">
             tickets
         </x-slot>
@@ -25,6 +24,15 @@
         <x-slot name="update">
             {{ route('ticket.update', ['ticket' => '|id|']) }}
         </x-slot>
+        <x-slot name="api.timesheet-store">
+            {{ route('timesheet.store') }}
+        </x-slot>
+        <x-slot name="api.timesheet-index">
+            {{ route('timesheet.index') }}
+        </x-slot>
+        <x-slot name="api.timesheet-update">
+            {{ route('timesheet.update', ['timesheet' => '|id|']) }}
+        </x-slot>
         <x-slot name="breadcrumb">
             {{ json_encode([
                 [
@@ -36,7 +44,9 @@
                 ],
             ])  }}
         </x-slot>
-
+        <x-slot>
+            
+        </x-slot>
     </x-herpes.layout>
 
 @endsection
