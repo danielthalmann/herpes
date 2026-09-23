@@ -101,11 +101,41 @@
         return a.toDateString() === b.toDateString();
     }
 
+    const SLOT_MINUTES = 15;
+
+    let hoverSlot: { day: number; minutes: number } | null = $state(null);
+
+    function relativeY(e: MouseEvent): number {
+        const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+        return e.clientY - rect.top;
+    }
+
+    function snappedMinutes(e: MouseEvent): number {
+        const raw = Math.round((relativeY(e) / HOUR_HEIGHT) * 60 / SLOT_MINUTES) * SLOT_MINUTES;
+        return Math.min(Math.max(raw, 0), 24 * 60 - SLOT_MINUTES);
+    }
+
     function handleSlotClick(e: MouseEvent, day: Date) {
-        const minutes = Math.round((e.offsetY / HOUR_HEIGHT) * 60 / 15) * 15;
+        const minutes = snappedMinutes(e);
         const date = new Date(day);
         date.setHours(Math.floor(minutes / 60), minutes % 60, 0, 0);
         onSlotClick?.(date);
+    }
+
+    function handleSlotHover(e: MouseEvent, dayIndex: number) {
+        hoverSlot = { day: dayIndex, minutes: snappedMinutes(e) };
+    }
+
+    function clearHover(dayIndex: number) {
+        if (hoverSlot?.day === dayIndex) {
+            hoverSlot = null;
+        }
+    }
+
+    function formatMinutes(minutes: number): string {
+        const h = Math.floor(minutes / 60);
+        const m = minutes % 60;
+        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
     }
 
     function getTimedEventsForDay(day: Date): CalendarEvent[] {
@@ -285,7 +315,9 @@
                                 {today ? 'bg-blue-50/40 dark:bg-blue-900/5' : ''}"
                          role="button" tabindex="0"
                          onclick={(e) => handleSlotClick(e, day)}
-                         onkeydown={(e) => e.key === 'Enter' && handleSlotClick(e as unknown as MouseEvent, day)}>
+                         onkeydown={(e) => e.key === 'Enter' && handleSlotClick(e as unknown as MouseEvent, day)}
+                         onmousemove={(e) => handleSlotHover(e, i)}
+                         onmouseleave={() => clearHover(i)}>
 
                         <!-- Half-hour dashed lines -->
                         {#each HOURS as h}
@@ -295,12 +327,28 @@
                             ></div>
                         {/each}
 
+                        <!-- Hover slot preview -->
+                        {#if hoverSlot?.day === i}
+                            {@const top = (hoverSlot.minutes / 60) * HOUR_HEIGHT}
+                            <div
+                                class="absolute left-0 right-0 bg-blue-400/25 dark:bg-blue-300/20 border-y border-blue-400 dark:border-blue-300 pointer-events-none z-[5]"
+                                style="top: {top}px; height: {(HOUR_HEIGHT * SLOT_MINUTES) / 60}px;"
+                            ></div>
+                            <div
+                                class="absolute left-1 z-[6] pointer-events-none text-[10px] font-semibold whitespace-nowrap
+                                       text-blue-600 dark:text-blue-300 bg-white/90 dark:bg-gray-900/90 px-1 rounded shadow-sm"
+                                style="top: {Math.max(0, top - 14)}px;"
+                            >
+                                {formatMinutes(hoverSlot.minutes)} – {formatMinutes(hoverSlot.minutes + SLOT_MINUTES)}
+                            </div>
+                        {/if}
+
                         <!-- Events -->
                         {#each getTimedEventsForDay(day) as event}
                             {@const height = eventHeight(event)}
                             <button
                                 onclick={(e) => { e.stopPropagation(); onEventClick?.(event); }}
-                                class="absolute left-0.5 right-0.5 rounded-md px-1.5 py-0.5 overflow-hidden
+                                class="absolute cursor-pointer left-0.5 right-0.5 rounded-md px-1.5 py-0.5 overflow-hidden
                                        text-left text-xs border-l-[3px] shadow-sm z-10
                                        {eventColorClass(event)}
                                        hover:brightness-110 hover:shadow-md transition-all"
