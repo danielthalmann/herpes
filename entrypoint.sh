@@ -8,15 +8,14 @@ git config --global --add safe.directory /app
 
 main () {
     echo "Start main"
-
-    composer_install
-    npm_install
-    init_environment
-    db_migration
-
+    
     if [ "$WORKER" = "true" ]; then
         exec "$@"
     else
+        composer_install
+        npm_install
+        init_environment
+        db_migration
         optimize_app
         wait_for_db
         run_server "$@"
