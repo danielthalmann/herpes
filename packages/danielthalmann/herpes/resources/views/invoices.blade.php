@@ -28,6 +28,9 @@
         <x-slot name="open">
             {{ route('invoice.item', ['invoice' => '|id|']) }}
         </x-slot>
+        <x-slot name="api.print">
+            {{ route('invoice.print', ['id' => '|id|']) }}
+        </x-slot>
         <x-slot name="breadcrumb">
             {{ json_encode([
                 [

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import Table, { type TableColumn } from "../components/Table.svelte";
+    import Table, { type TableColumn, type TableAction } from "../components/Table.svelte";
     import Breadcrumb from "../components/Breadcrumb.svelte";
     import Form, { type FormComponent } from "../components/Form.svelte";
     import Button from "../components/Button.svelte";
@@ -20,13 +20,15 @@
         tablecolumns: TableColumn;
         createComponents: FormComponent;
         editComponents: FormComponent;
+        actions?: TableAction[];
     };
 
     let {
         api,
         tablecolumns,
         createComponents,
-        editComponents
+        editComponents,
+        actions = []
     } : CrudProps = $props();
 
     let rows: Paginate | undefined = $state();
@@ -171,6 +173,7 @@
             oncreate={createRow}
             onsearch={searchRows}
             onedit={editRow}
+            actions={actions}
         />
     {/if}
 

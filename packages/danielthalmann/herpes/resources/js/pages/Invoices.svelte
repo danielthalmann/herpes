@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { type TableColumn } from "../components/Table.svelte";
+    import { type TableColumn, type TableAction } from "../components/Table.svelte";
     import { type FormComponent } from "../components/Form.svelte";
     import Crud from "../components/Crud.svelte";
 
@@ -27,6 +27,12 @@
         },
 
     ]);
+
+    let actions: TableAction[] = [
+        { label: "print", variant: "primary", onclick: (row) => {
+            window.open((<string>api.print).replace('|id|', row.id), '_blank');
+        } },
+    ];
 
     let createComponents: FormComponent = $state.raw([
         { key: "ref", label: "Référence", type: "text" },
@@ -58,4 +64,5 @@
     tablecolumns={tablecolumns}
     createComponents={createComponents}
     editComponents={editComponents}
+    actions={actions}
 />

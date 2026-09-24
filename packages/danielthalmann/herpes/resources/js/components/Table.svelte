@@ -16,6 +16,12 @@
         computed?: (row: any) => void;
     }>;
 
+    export type TableAction = {
+        label: string;
+        variant?: 'default' | 'primary' | 'warning';
+        onclick: (row: any) => void;
+    };
+
     type TableProps = {
         title?: string;
         columns?: TableColumn;
@@ -35,6 +41,7 @@
         onopen?: (row: any) => void;
         onedit?: (row: any) => void;
         ondelete?: (row: any) => void;
+        actions?: TableAction[];
     };
 
     let {
@@ -56,6 +63,7 @@
         onopen,
         onedit,
         ondelete,
+        actions = [],
     }: TableProps = $props();
 
     let items = [{
@@ -167,6 +175,9 @@
                         {#if onopen}
                             <Button variant="primary" onclick={() => {onopen(row)}}>open</Button>
                         {/if}
+                        {#each actions as action}
+                            <Button variant={action.variant ?? 'default'} onclick={() => {action.onclick(row)}}>{action.label}</Button>
+                        {/each}
                         {#if ondelete}
                             {#if row._timerhandler}
                                 <Button variant="warning" onclick={() => {canceldelete(row)}}>cancel delete</Button>

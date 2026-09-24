@@ -261,13 +261,13 @@
                 {{ $position['quantity_type'] }}
             </div>
             <div class="col-span-2 text-right">
-                {{ number_format($position['unit_price'], 2, '.', '\'') }}
+                {{ number_format((float)$position['unit_price'], 2, '.', '\'') }}
             </div>
             <div class="col-span-2 text-right">
-                {{ number_format($position['quantity'] * $position['unit_price'], 2, '.', '\'') }}
+                {{ number_format((float)$position['quantity'] * (float)$position['unit_price'], 2, '.', '\'') }}
             </div>
             @php
-                $total += $position['quantity'] * $position['unit_price']
+                $total += (float)$position['quantity'] * (float)$position['unit_price']
             @endphp
         @endif
     @endforeach
