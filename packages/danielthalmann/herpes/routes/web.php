@@ -18,6 +18,7 @@ use Danielthalmann\Herpes\Http\Controllers\InvoicePdfController;
 use Danielthalmann\Herpes\Http\Controllers\InvoicePrintController;
 use Danielthalmann\Herpes\Http\Controllers\InvoicesController;
 use Danielthalmann\Herpes\Http\Controllers\TicketController;
+use Danielthalmann\Herpes\Http\Controllers\TimesheetController;
 use Danielthalmann\Herpes\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/transactions/', TransactionController::class)->name('transaction');
     Route::get('/accounts/', AccountController::class)->name('account');
     Route::get('/tickets/', TicketController::class)->name('ticket');
+    Route::get('/timesheets/', TimesheetController::class)->name('timesheet');
     Route::get('/balancesheets/{id?}', GridController::class)->name('balancesheet');
 
 });

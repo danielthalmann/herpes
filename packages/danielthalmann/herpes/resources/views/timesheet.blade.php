@@ -4,39 +4,42 @@
 
     <x-herpes.layout>
         <x-slot name="appid">
-            tickets
+            timesheets
         </x-slot>
         <x-slot name="name">
-            Tickets
+            Timesheets
         </x-slot>
         <x-slot name="index">
-            {{ route('ticket.index') }}
+            {{ route('timesheet.index') }}
         </x-slot>
         <x-slot name="store">
-            {{ route('ticket.store') }}
+            {{ route('timesheet.store') }}
         </x-slot>
         <x-slot name="create">
-            {{ route('ticket.create') }}
+            {{ route('timesheet.create') }}
         </x-slot>
         <x-slot name="destroy">
-            {{ route('ticket.destroy', ['ticket' => '|id|']) }}
+            {{ route('timesheet.destroy', ['timesheet' => '|id|']) }}
         </x-slot>
         <x-slot name="update">
-            {{ route('ticket.update', ['ticket' => '|id|']) }}
+            {{ route('timesheet.update', ['timesheet' => '|id|']) }}
+        </x-slot>
+        <x-slot name="api.ticket-index">
+            {{ route('ticket.index') }}
         </x-slot>
         <x-slot name="breadcrumb">
             {{ json_encode([
                 [
-                    'label' => 'Tickets',
-                    'url' => route('ticket')
+                    'label' => 'Timesheets',
+                    'url' => route('timesheet')
                 ],
                 [
-                    'label' => 'List',
+                    'label' => 'Calendar',
                 ],
             ])  }}
         </x-slot>
         <x-slot>
-            
+
         </x-slot>
     </x-herpes.layout>
 
