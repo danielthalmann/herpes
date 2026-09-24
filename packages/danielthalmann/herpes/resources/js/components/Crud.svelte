@@ -76,7 +76,9 @@
         }
         fetch((<string>api.store).replace('|id|', customer.id!), fetchOptions)
         .then(response => {
-            loadRows();
+            if (response.ok) {
+                loadRows();
+            }
         });
 
         newRow = null;
@@ -98,7 +100,9 @@
             }
             fetch((<string>api.update).replace('|id|', customer.id!), fetchOptions)
             .then(response => {
-                rows!.data[index] = customer;
+                if (response.ok) {
+                    rows!.data[index] = customer;
+                }
             });
         }
         selectedRow = null;
@@ -125,11 +129,18 @@
         });
         if (index > -1) {
             const fetchOptions: RequestInit = {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                },
             }
             fetch((<string>api.destroy).replace('|id|', customer.id!), fetchOptions)
             .then(response => {
-                rows!.data.splice(index, 1);
+                if (response.ok) {
+                    rows!.data.splice(index, 1);
+                }
             });
         }
     };
