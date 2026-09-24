@@ -13,11 +13,11 @@ main () {
     npm_install
     init_environment
     db_migration
-    optimize_app
 
     if [ "$WORKER" = "true" ]; then
         exec "$@"
     else
+        optimize_app
         wait_for_db
         run_server "$@"
     fi
