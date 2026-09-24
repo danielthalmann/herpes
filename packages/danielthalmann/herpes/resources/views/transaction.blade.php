@@ -25,6 +25,9 @@
         <x-slot name="update">
             {{ route('transaction.update', ['transaction' => '|id|']) }}
         </x-slot>
+        <x-slot name="api.account-index">
+            {{ route('account.index') }}
+        </x-slot>
         <x-slot name="breadcrumb">
             {{ json_encode([
                 [

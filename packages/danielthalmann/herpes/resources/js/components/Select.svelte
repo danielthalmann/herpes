@@ -138,6 +138,9 @@ from the perspective of the consumer of this component, it will be typed appropr
                 border-neutral-300!
                 px-1!
                 py-3!
+                overflow-y-auto!
+                max-h-96!
+
                 ">
 
                     <div class="text-neutral-700 text-center m-auto">

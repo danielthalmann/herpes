@@ -29,8 +29,8 @@ class ApiTransactionController extends Controller
         $transaction->transaction_group = $request->input('transaction_group');
         $transaction->user_id = $request->input('user_id');
         $transaction->user_name = $request->input('user_name');
-        $transaction->account_id = $request->input('account_id');
-        $transaction->account_text = $request->input('account_text');
+        $transaction->account_from_id = $request->input('account_from_id');
+        $transaction->account_to_id = $request->input('account_to_id');
         $transaction->invoice_id = $request->input('invoice_id');
         $transaction->accounting_text = $request->input('accounting_text');
         $transaction->tax_code = $request->input('tax_code');
@@ -67,8 +67,8 @@ class ApiTransactionController extends Controller
             $transaction->transaction_group = $request->input('transaction_group');
             $transaction->user_id = $request->input('user_id');
             $transaction->user_name = $request->input('user_name');
-            $transaction->account_id = $request->input('account_id');
-            $transaction->account_text = $request->input('account_text');
+            $transaction->account_from_id = $request->input('account_from_id');
+            $transaction->account_to_id = $request->input('account_to_id');
             $transaction->invoice_id = $request->input('invoice_id');
             $transaction->accounting_text = $request->input('accounting_text');
             $transaction->tax_code = $request->input('tax_code');
