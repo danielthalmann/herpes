@@ -71,6 +71,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'destroy' => 'invoice.destroy',
     ]);
     Route::resource('/api/invoices/{invoice}/items', ApiInvoiceItemController::class)->names([
+        'edit' => 'invoice.item.edit',
         'index' => 'invoice.item.index',
         'create' => 'invoice.item.create',
         'store' => 'invoice.item.store',
@@ -103,6 +104,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'destroy' => 'balancesheet.destroy',
     ]);
     Route::resource('/api/balancesheets/{balancesheet}/items', ApiBalanceSheetItemController::class)->names([
+        'edit' => 'balancesheet.item.edit',
         'index' => 'balancesheet.item.index',
         'create' => 'balancesheet.item.create',
         'store' => 'balancesheet.item.store',
