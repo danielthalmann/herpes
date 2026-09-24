@@ -99,4 +99,4 @@ prepare_storage
 
 {
     main "$@"
-} > "$LOG_FILE" 2>&1 | tee -a "$LOG_FILE"
+} 2>&1 | tee -a "$LOG_FILE"

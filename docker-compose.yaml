@@ -20,6 +20,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+      start_period: 300s # laisse le temps à composer/npm/migrations avant de compter les échecs
+      start_interval: 5s
     restart: unless-stopped
     ports:
       - '${APP_PORT_SSL:-8443}:443'
@@ -75,6 +77,8 @@ services:
       LOG_FILE: /app/storage/logs/entrypoint-cron.log
     depends_on:
       app:
+        condition: service_healthy # Attend que tout soit totalement prête
+      queue:
         condition: service_healthy # Attend que tout soit totalement prête
     restart: unless-stopped
     volumes:
