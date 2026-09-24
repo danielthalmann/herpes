@@ -1,7 +1,7 @@
 <script lang="ts">
     import { type ClassValue, clsx } from 'clsx';
     import { twMerge } from 'tailwind-merge';
-    import { onMount } from 'svelte';
+    import { onMount, tick } from 'svelte';
 
     export type SelectOption = {
         value: string;
@@ -17,7 +17,9 @@
         classLabel?: string | undefined | null;
         classOutline?: string | undefined | null;
         onchange?: (value: any) => void;
-        items?: SelectOption[]
+        items?: SelectOption[];
+        searchable?: boolean;
+        searchPlaceholder?: string;
     };
 
     let {
@@ -28,6 +30,8 @@
         classOutline,
         label,
         placeholder,
+        searchable = true,
+        searchPlaceholder = 'Rechercher...',
         onchange = (value: any) => {},
         ...restProps
     }: SelectProps = $props();
@@ -43,8 +47,37 @@
     let openClass: string = $derived( draweropened ?  '' :  'rounded-b-lg' );
     let selectedItem : SelectOption | undefined = $state();
 
+    // Resynchronise l'élément affiché quand les options (ex. chargées en asynchrone) ou la valeur changent.
+    $effect(() => {
+        selectedItem = items.find((item) => (item.value === value || (value == null && item.value == '')));
+    });
+
+    let search: string = $state('');
+    let searchInput: HTMLInputElement | undefined = $state();
+    let highlightedIndex: number = $state(0);
+
+    // Normalise un texte pour une recherche insensible à la casse et aux accents.
+    function normalize(text: string): string {
+        return (text ?? '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
+
+    let filteredItems: SelectOption[] = $derived(
+        search.trim() === ''
+            ? items
+            : items.filter((item) => normalize(item.label).includes(normalize(search.trim())))
+    );
+
+    async function toggleDrawer() {
+        draweropened = !draweropened;
+        if (draweropened) {
+            search = '';
+            highlightedIndex = Math.max(0, items.findIndex((item) => item === selectedItem));
+            await tick();
+            searchInput?.focus();
+        }
+    }
+
     function selectItem(item : SelectOption) {
-        console.log(item);
         if (value != item.value) {
             onchange(item.value);
         }
@@ -53,6 +86,24 @@
         selectedItem = item;
 
         draweropened = false;
+    }
+
+    function searchKeydown(event: KeyboardEvent) {
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            highlightedIndex = Math.min(highlightedIndex + 1, filteredItems.length - 1);
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            highlightedIndex = Math.max(highlightedIndex - 1, 0);
+        } else if (event.key === 'Enter') {
+            event.preventDefault();
+            if (filteredItems[highlightedIndex]) {
+                selectItem(filteredItems[highlightedIndex]);
+            }
+        } else if (event.key === 'Escape') {
+            event.preventDefault();
+            draweropened = false;
+        }
     }
 
     function clickExterior(event : MouseEvent) {
@@ -67,7 +118,6 @@
     }
 
     onMount(() => {
-        selectedItem = items.find((item) => (item.value === value || (value == null && item.value == '')) );
         selectStyle = 'min-width: ' + select.clientWidth.toString() + 'px;';
     });
 
@@ -98,7 +148,7 @@ from the perspective of the consumer of this component, it will be typed appropr
         )}>
 
         <button
-            onclick={() => {draweropened = !draweropened}}
+            onclick={toggleDrawer}
             tabindex="0"
             class={cn(
                 "bg-white w-full dark:bg-gray-800 flex min-h-11 rounded-md px-2 border border-gray-500 rounded-t-lg outline-none transition-all cursor-pointer",
@@ -158,11 +208,27 @@ from the perspective of the consumer of this component, it will be typed appropr
 
                     {/snippet}
 
-                    <div>
-                        {#each items as item}
+                    {#if searchable}
+                        <div class="px-2 pb-2">
+                            <input
+                                bind:this={searchInput}
+                                bind:value={search}
+                                oninput={() => { highlightedIndex = 0; }}
+                                onkeydown={searchKeydown}
+                                type="text"
+                                placeholder={searchPlaceholder}
+                                class="w-full px-3 py-1.5 text-sm border border-gray-500 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            />
+                        </div>
+                    {/if}
+
+                    <div class="max-h-72 overflow-y-auto">
+                        {#each filteredItems as item, index}
                             <button
+                                type="button"
                                 onclick={() => {selectItem(item)}}
-                                class="
+                                onmouseenter={() => { highlightedIndex = index; }}
+                                class={cn(`
                                 outline-hidden
                                 data-disabled:opacity-50
                                 flex
@@ -178,10 +244,12 @@ from the perspective of the consumer of this component, it will be typed appropr
                                 overflow-hidden
                                 text-ellipsis
                                 text-nowrap
-                                ">
+                                `, searchable && index === highlightedIndex ? "bg-gray-100 dark:bg-gray-700 rounded-md" : "")}>
                                 {@render option(item)}
 
                             </button>
+                        {:else}
+                            <div class="py-3 pl-3 text-sm text-gray-500">Aucun résultat</div>
                         {/each}
                     </div>
 

@@ -222,7 +222,7 @@
                 Rows per page :
             </div>
             <div class="mr-3 content-center">
-                <Select value={(perpage).toString()} onchange={onchangeperpage} items={items} />
+                <Select value={(perpage).toString()} onchange={onchangeperpage} items={items} searchable={false} />
             </div>
         </div>
     </div>
