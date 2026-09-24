@@ -26,8 +26,17 @@
     let tablecolumns: TableColumn = $state.raw([
         { key: "id", label: "id", type: "id" },
         { key: "date", label: "Date", type: "text" },
+        { key: "account_from_id", label: "Compte Débit", type: "fn",
+            computed : (row) => {
+                return accountOptions.find((option) => option.value === row.account_from_id)?.label || '';
+            }
+        },
+        { key: "account_to_id", label: "Compte Crédit", type: "fn",
+            computed : (row) => {
+                return accountOptions.find((option) => option.value === row.account_to_id)?.label || '';
+            }
+        },        
         { key: "accounting_text", label: "Texte comptable", type: "text" },
-        { key: "account_text", label: "Compte", type: "text" },
         { key: "debit", label: "Débit", type: "fn",
             computed : (row) => {
                 return row.debit / 100;
