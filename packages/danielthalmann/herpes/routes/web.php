@@ -1,6 +1,8 @@
 <?php
 
+use Danielthalmann\Herpes\Http\Controllers\AccountController;
 use Danielthalmann\Herpes\Http\Controllers\AddressCustomerController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiAccountController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiAddressCustomerController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiCustomerController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiInvoiceController;
@@ -29,6 +31,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/invoices/{id}/pdf/', InvoicePdfController::class)->name('invoice.pdf');
     Route::get('/invoices/{id}/print', InvoicePrintController::class)->name('invoice.print');
     Route::get('/transactions/', TransactionController::class)->name('transaction');
+    Route::get('/accounts/', AccountController::class)->name('account');
     Route::get('/tickets/', TicketController::class)->name('ticket');
     Route::get('/balancesheets/{id?}', GridController::class)->name('balancesheet');
 
@@ -74,6 +77,14 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'show' => 'transaction.show',
         'update' => 'transaction.update',
         'destroy' => 'transaction.destroy',
+    ]);
+    Route::resource('/api/accounts', ApiAccountController::class)->names([
+        'index' => 'account.index',
+        'create' => 'account.create',
+        'store' => 'account.store',
+        'show' => 'account.show',
+        'update' => 'account.update',
+        'destroy' => 'account.destroy',
     ]);
     Route::resource('/api/tickets', ApiTicketController::class)->names([
         'index' => 'ticket.index',

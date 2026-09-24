@@ -17,7 +17,7 @@
         },
         { key: "credit", label: "Crédit", type: "fn",
             computed : (row) => {
-                return row.debit / 100;
+                return row.credit / 100;
             }
         },
     ]);

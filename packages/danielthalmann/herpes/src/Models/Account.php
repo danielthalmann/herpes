@@ -10,10 +10,14 @@ class Account extends Model
     use HasUlids;
 
     protected $fillable = [
+        'code',
         'name',
+        'type',
     ];
 
     protected $attributes = [
+        'code' => null,
         'name' => null,
+        'type' => null,
     ];
 }

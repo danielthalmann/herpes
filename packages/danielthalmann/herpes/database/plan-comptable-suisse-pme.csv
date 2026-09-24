@@ -1,0 +1,177 @@
+N°;Compte;Type
+1;Actifs;Assets
+10;Actifs circulants;Assets
+100;Liquidités;Assets
+1000;Caisse;Assets
+1020;Compte postal;Assets
+1020;Banque (avoir);Assets
+106;Avoirs à court terme cotés en bourse;Assets
+1060;Titres;Assets
+1069;Ajustement de la valeur des titres;Assets
+110;Créances résultant de livraisons et prestations;Assets
+1100;Créances provenant de livraisons et de prestations (Débiteurs);Assets
+1109;Ducroire;Assets
+1110;Créances résultant de livr. et prest. envers les sociétés du groupe;Assets
+114;Autres créances à court terme;Assets
+1140;Avances et prêts;Assets
+1149;Ajustement de la valeur des avances et des prêts;Assets
+1170;Impôt préalable: TVA s/matériel, marchandises, prestations et énergie;Assets
+1171;Impôt préalable: TVA s/investissements et autres Charges d’exploitation;Assets
+1176;Impôt anticipé;Assets
+1180;Créances envers les assurances sociales et institutions de prévoyance;Assets
+1189;Impôt à la source;Assets
+1190;Autres créances à court terme;Assets
+1199;Ajustement de la valeur des créances à court terme;Assets
+120;Stocks et prestations non facturées;Assets
+1200;Marchandises commerciales;Assets
+1210;Matières premières;Assets
+1220;Matières auxiliaires;Assets
+1230;Matières consommables;Assets
+1250;Marchandises en consignation;Assets
+1260;Stocks de produits finis;Assets
+1280;Travaux en cours;Assets
+130;Compte de régularisation de l’Assets;Assets
+1300;Charges payées d‘avance;Assets
+1301;Produits à recevoir;Assets
+14;Actifs immobilisés;Assets
+140;Immobilisations financières;Assets
+1400;Titres à long terme;Assets
+1409;Ajustement de la valeur des titres;Assets
+1440;Prêts;Assets
+1441;Hypothèques;Assets
+1449;Ajustement de la valeur des créances à long terme;Assets
+148;Participations;Assets
+1480;Participations;Assets
+1489;Ajustement de la valeur des participations;Assets
+150;Immobilisations corporelles meubles;Assets
+1500;Machines et appareils;Assets
+1509;Ajustement de la valeur des machines et appareils;Assets
+1510;Mobilier et installations;Assets
+1519;Ajustement de la valeur du mobilier et des installations;Assets
+1520;Machines de bureau, informatique, systèmes de communication;Assets
+1529;Ajustement de la valeur des machines de bureau, inf. et syst. comm.;Assets
+1530;Véhicules;Assets
+1539;Ajustement de la valeur des véhicules;Assets
+1540;Outillages et appareils;Assets
+1549;Ajustement de la valeur des outillages et appareils;Assets
+160;Immobilisations corporelles immeubles;Assets
+1600;Immeubles d’exploitation;Assets
+1609;Ajustement de la valeur des immeubles d’exploitation;Assets
+170;Immobilisations incorporelles;Assets
+1700;Brevets, know-how, licences, droits, développement;Assets
+1709;Ajustement de la valeur des brevets, know-how, licences, droits, dév.;Assets
+1770;Goodwill;Assets
+1779;Ajustement de la valeur des goodwill;Assets
+180;Capital non versé : capital social, capital de fondation;Assets
+1850;Capital actions, capital social, droits de participations ou capital de fondation non versés;Assets
+2;Passif;Liabilities
+20;Dettes à court terme;Liabilities
+200;Dettes à court terme résultant d’achats et de prestations de services;Liabilities
+2000;Dettes résultant d’achats et de prestation de services (créanciers);Liabilities
+2030;Acomptes de clients;Liabilities
+2050;Dettes résultant d’achats et de prestations de services envers des sociétés du groupe;Liabilities
+210;Dettes à court terme rémunérés;Liabilities
+2100;Dettes bancaires;Liabilities
+2120;Engagements de financement par leasing;Liabilities
+2140;Autres dettes à court terme rémunérées;Liabilities
+220;Autres dettes à court terme;Liabilities
+2200;TVA due;Liabilities
+2201;Décompte TVA;Liabilities
+2206;Impôt anticipé dû;Liabilities
+2208;Impôts directs;Liabilities
+2210;Autres dettes à court terme;Liabilities
+2261;Dividendes;Liabilities
+2270;Assurances sociales et institutions de prévoyance;Liabilities
+2279;Impôt à la source;Liabilities
+230;Liabilitiess de régularisation et provisions à court terme;Liabilities
+2300;Charges à payer;Liabilities
+2301;Produits encaissés d’avance;Liabilities
+2330;Provisions à court terme;Liabilities
+24;Dettes à long terme;Liabilities
+240;Dettes à long terme rémunérées;Liabilities
+2400;Dettes bancaires;Liabilities
+2420;Engagements de financement par leasing;Liabilities
+2430;Emprunts obligataires;Liabilities
+2450;Emprunts;Liabilities
+2451;Hypothèques;Liabilities
+250;Autres dettes à long terme;Liabilities
+2500;Autres dettes à long terme;Liabilities
+260;Provisions à long termes et provisions légales;Liabilities
+2600;Provisions;Liabilities
+28;Fonds propres (personnes morales);Liabilities
+280;Capital social ou capital de fondation;Liabilities
+2800;Capital-actions, capital social, capital de fondation;Liabilities
+290;Réserves / bénéfices et pertes;Liabilities
+2900;Réserves légales issues du capital;Liabilities
+2930;Réserves sur participations propres au capital;Liabilities
+2940;Réserves d‘évaluation;Liabilities
+2950;Réserves légales issues du bénéfice;Liabilities
+2960;Réserves libres;Liabilities
+2970;Bénéfice / perte reporté;Liabilities
+2979;Bénéfice / perte de l’exercice;Liabilities
+2980;Propres actions, parts sociales, droits de participations (poste négatif);Liabilities
+28;Capital propre (raisons individuelles);Liabilities
+2800;Capital propre en début d’exercice;Liabilities
+2820;Apports de capital / prélèvements sur capital;Liabilities
+2850;Compte privé;Liabilities
+2891;Bénéfice / perte de l’exercice;Liabilities
+28;Capital propre (sociétés de personnes);Liabilities
+2800;Capital, associés A en début d’exercice;Liabilities
+2810;Apports de capital / prélèvements sur capital, associé A;Liabilities
+2820;Compte privé, associé A;Liabilities
+2831;Bénéfice / perte de l’exercice, associé A;Liabilities
+2850;Capital, commanditaire A en début d’exercice;Liabilities
+2810;Apport de capital / prélèvements sur capital, commanditaire A;Liabilities
+2820;Compte privé, commanditaire A;Liabilities
+2831;Bénéfice / perte de l’exercice, commanditaire A;Liabilities
+3;Chiffre d’affaires résultant des ventes et des prestations de services;Revenue
+3000;Ventes de produits fabriqués;Revenue
+3200;Ventes de marchandises;Revenue
+3400;Ventes de prestations;Revenue
+3600;Autres ventes et prestations de services;Revenue
+3700;Prestations propres;Revenue
+3710;Consommations propres;Revenue
+3800;Déductions sur ventes;Expenses
+3805;Pertes sur clients, variation du ducroire;Expenses
+3900;Variation des stocks de produits semi-finis;Revenue_Expenses
+3901;Variation des stocks de produits finis;Revenue_Expenses
+3940;Variation de la valeur des prestations non facturées;Revenue_Expenses
+4;Charges de matériel, de marchandises et de prestations de tiers;Expenses
+4000;Charges de matériel de l‘atelier;Expenses
+4200;Achats de marchandises destinées à la revente;Expenses
+4400;Prestations / travaux de tiers;Expenses
+4500;Charges d‘énergie pour l‘exploitation;Expenses
+4900;Déductions sur les charges;Revenue
+5;Charges de personnel;Expenses
+5000;Salaires;Expenses
+5700;Charges sociales;Expenses
+5800;Autres charges du personnel;Expenses
+5900;Charges de personnels temporaires;Expenses
+6;Autres charges d‘exploitation, Amortissements et ajustement de valeur, Résultat financier;Net Income
+6000;Charges de locaux;Expenses
+6100;Entretien, réparations et remplacement des inst. servant à l’exploitation;Expenses
+6105;Leasing immobilisations corporelles meubles;Expenses
+6200;Charges de véhicules et de transport;Expenses
+6260;Leasing et location de véhicules;Expenses
+6300;Assurances-choses, droits, taxes, autorisations;Expenses
+6400;Charges d’énergie et évacuation des déchets;Expenses
+6500;Charges d‘administration;Expenses
+6570;Charges et leasing d’informatique;Expenses
+6600;Publicité;Expenses
+6700;Autres charges d‘exploitation;Expenses
+6800;Amortissement et ajustement de valeur des postes sur immobilisations corporelles;Expenses
+6900;Charges financières;Expenses
+6950;Produits financiers;Revenue
+7;Résultat des activités annexes d‘exploitation;Net Income
+7000;Produits accessoires;Revenue
+7010;Charges accessoires;Expenses
+7500;Produits des immeubles d‘exploitation;Revenue
+7510;Charges des immeubles d‘exploitation;Expenses
+8;Résultats extraordinaires et hors exploitation;Net Income
+8000;Charges hors exploitation;Expenses
+8100;Produits hors exploitation;Revenue
+8500;Charges extraordinaires, exceptionnelles ou hors période;Expenses
+8510;Produits extraordinaires, exceptionnels ou hors période;Revenue
+8900;Impôts directs;Expenses
+9;Clôture;Year-end closing
+9200;Bénéfice / perte de l’exercice;Revenue_Expenses

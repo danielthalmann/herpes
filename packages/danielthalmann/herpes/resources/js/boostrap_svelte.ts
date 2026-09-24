@@ -5,6 +5,7 @@ import Invoices from './pages/Invoices.svelte'
 import InvoiceItems from './pages/InvoiceItems.svelte'
 import Tickets from './pages/Tickets.svelte'
 import Transactions from './pages/Transactions.svelte'
+import Accounts from './pages/Accounts.svelte'
 
 // import Demo from './pages/Demo.svelte'
 /*
@@ -46,6 +47,12 @@ if (document.getElementById('transactions')) {
     app = mount(Transactions, {
       target: document.getElementById('transactions')!,
       props: { api: document.getElementById('transactions')!.dataset }
+    })
+}
+if (document.getElementById('accounts')) {
+    app = mount(Accounts, {
+      target: document.getElementById('accounts')!,
+      props: { api: document.getElementById('accounts')!.dataset }
     })
 }
 if (document.getElementById('tickets')) {
