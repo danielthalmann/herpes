@@ -5,6 +5,8 @@ import Invoices from './pages/Invoices.svelte'
 import InvoiceItems from './pages/InvoiceItems.svelte'
 import Tickets from './pages/Tickets.svelte'
 import Timesheets from './pages/Timesheets.svelte'
+import BalanceSheets from './pages/BalanceSheets.svelte'
+import BalanceSheetItems from './pages/BalanceSheetItems.svelte'
 import Transactions from './pages/Transactions.svelte'
 import Accounts from './pages/Accounts.svelte'
 
@@ -66,6 +68,18 @@ if (document.getElementById('timesheets')) {
     app = mount(Timesheets, {
       target: document.getElementById('timesheets')!,
       props: { api: document.getElementById('timesheets')!.dataset }
+    })
+}
+if (document.getElementById('balancesheets')) {
+    app = mount(BalanceSheets, {
+      target: document.getElementById('balancesheets')!,
+      props: { api: document.getElementById('balancesheets')!.dataset }
+    })
+}
+if (document.getElementById('balancesheet-item')) {
+    app = mount(BalanceSheetItems, {
+      target: document.getElementById('balancesheet-item')!,
+      props: { api: document.getElementById('balancesheet-item')!.dataset }
     })
 }
 export default app

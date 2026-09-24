@@ -2,6 +2,8 @@
 
 use Danielthalmann\Herpes\Http\Controllers\AccountController;
 use Danielthalmann\Herpes\Http\Controllers\AddressCustomerController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiBalanceSheetController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiBalanceSheetItemController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiAccountController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiAddressCustomerController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiCustomerController;
@@ -10,6 +12,8 @@ use Danielthalmann\Herpes\Http\Controllers\Api\ApiInvoiceItemController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTicketController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTimesheetController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTransactionController;
+use Danielthalmann\Herpes\Http\Controllers\BalanceSheetController;
+use Danielthalmann\Herpes\Http\Controllers\BalanceSheetItemController;
 use Danielthalmann\Herpes\Http\Controllers\CustomerController;
 use Danielthalmann\Herpes\Http\Controllers\DashboardController;
 use Danielthalmann\Herpes\Http\Controllers\GridController;
@@ -35,7 +39,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/accounts/', AccountController::class)->name('account');
     Route::get('/tickets/', TicketController::class)->name('ticket');
     Route::get('/timesheets/', TimesheetController::class)->name('timesheet');
-    Route::get('/balancesheets/{id?}', GridController::class)->name('balancesheet');
+    Route::get('/balancesheets/', BalanceSheetController::class)->name('balancesheet');
+    Route::get('/balancesheets/{balancesheet}/items/', BalanceSheetItemController::class)->name('balancesheet.item');
+    Route::get('/balancesheets/{id}/print', GridController::class)->name('balancesheet.print');
 
 });
 
@@ -87,6 +93,22 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'show' => 'account.show',
         'update' => 'account.update',
         'destroy' => 'account.destroy',
+    ]);
+    Route::resource('/api/balancesheets', ApiBalanceSheetController::class)->names([
+        'index' => 'balancesheet.index',
+        'create' => 'balancesheet.create',
+        'store' => 'balancesheet.store',
+        'show' => 'balancesheet.show',
+        'update' => 'balancesheet.update',
+        'destroy' => 'balancesheet.destroy',
+    ]);
+    Route::resource('/api/balancesheets/{balancesheet}/items', ApiBalanceSheetItemController::class)->names([
+        'index' => 'balancesheet.item.index',
+        'create' => 'balancesheet.item.create',
+        'store' => 'balancesheet.item.store',
+        'show' => 'balancesheet.item.show',
+        'update' => 'balancesheet.item.update',
+        'destroy' => 'balancesheet.item.destroy',
     ]);
     Route::resource('/api/tickets', ApiTicketController::class)->names([
         'index' => 'ticket.index',

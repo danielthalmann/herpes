@@ -11,11 +11,11 @@ class GridController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, string $id)
     {
-        $balanceSheet = BalanceSheet::query()->first();
+        $balanceSheet = BalanceSheet::query()->findOrFail($id);
         $items = BalanceSheetItem::where('balance_sheet_id', $balanceSheet->id);
 
-        return view('balance', compact('items', 'balanceSheet'));
+        return view('herpes::balance', compact('items', 'balanceSheet'));
     }
 }
