@@ -36,6 +36,17 @@
     let now = $state(new Date());
     let gridEl: HTMLDivElement | undefined = $state();
 
+    const MIN_GRID_HEIGHT = 240; // px
+    const BOTTOM_SPACING = 32;   // px laissés sous le calendrier (bordure + marge de la page)
+    let gridHeight: number = $state(MIN_GRID_HEIGHT);
+
+    // Étend la grille horaire jusqu'au bas de la fenêtre.
+    function updateGridHeight() {
+        if (!gridEl) return;
+        const top = gridEl.getBoundingClientRect().top + window.scrollY;
+        gridHeight = Math.max(MIN_GRID_HEIGHT, window.innerHeight - top - BOTTOM_SPACING);
+    }
+
     function getWeekStart(date: Date): Date {
         const d = new Date(date);
         d.setHours(0, 0, 0, 0);
@@ -259,13 +270,16 @@
     }
 
     onMount(() => {
+        updateGridHeight();
         scrollToNow();
         const id = setInterval(() => { now = new Date(); }, 60_000);
         return () => clearInterval(id);
     });
 </script>
 
-<div class="flex flex-col bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden h-full">
+<svelte:window onresize={updateGridHeight} />
+
+<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden h-full">
 
     <!-- ── Navigation ── -->
     <div class="flex items-center justify-between px-4 py-2.5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shrink-0">
@@ -348,7 +362,7 @@
     </div>
 
     <!-- ── Scrollable time grid ── -->
-    <div bind:this={gridEl} class="flex-1 overflow-y-auto overflow-x-hidden max-h-96">
+    <div bind:this={gridEl} class="flex-1 overflow-y-auto overflow-x-hidden" style="height: {gridHeight}px;">
         <div class="flex" style="height: {24 * HOUR_HEIGHT}px; min-height: {24 * HOUR_HEIGHT}px;">
 
             <!-- Time gutter -->
