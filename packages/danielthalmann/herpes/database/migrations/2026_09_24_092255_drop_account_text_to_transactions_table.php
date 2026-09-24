@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->renameColumn('account_id', 'account_from_id');
-            $table->uuid('account_to_id')->nullable();
-            $table->dropColumn('account_text');
+            if (Schema::hasColumn('transactions', 'account_text')) {
+                $table->dropColumn('account_text');
+            }
         });
     }
 
@@ -24,9 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->renameColumn('account_from_id', 'account_id');
-            $table->dropColumn('account_to_id');
-            $table->string('account_text', 1024)->nullable();
+            if (Schema::hasColumn('transactions', 'account_text')) {
+                $table->dropColumn('account_text');
+            }
         });
     }
 };
