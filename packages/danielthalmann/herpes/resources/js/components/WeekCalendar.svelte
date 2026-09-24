@@ -138,24 +138,58 @@
         return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
     }
 
-    function getTimedEventsForDay(day: Date): CalendarEvent[] {
-        return events.filter(e => !e.allDay && sameDay(new Date(e.start), day));
+    // Portion d'un événement affichée dans une journée (un événement sur plusieurs jours est découpé à minuit).
+    type DaySegment = {
+        event: CalendarEvent;
+        start: Date;
+        end: Date;
+        continuesBefore: boolean;
+        continuesAfter: boolean;
+    };
+
+    function getTimedEventsForDay(day: Date): DaySegment[] {
+        const dayStart = new Date(day);
+        dayStart.setHours(0, 0, 0, 0);
+        const dayEnd = new Date(dayStart);
+        dayEnd.setDate(dayEnd.getDate() + 1);
+
+        const segments: DaySegment[] = [];
+        for (const event of events) {
+            if (event.allDay) continue;
+
+            const start = new Date(event.start);
+            const end = new Date(event.end);
+            // Un événement sans durée (ou avec une fin invalide) reste visible le jour de son début.
+            const overlaps = end > start
+                ? start < dayEnd && end > dayStart
+                : start >= dayStart && start < dayEnd;
+            if (!overlaps) continue;
+
+            segments.push({
+                event,
+                start: start < dayStart ? dayStart : start,
+                end: end > dayEnd ? dayEnd : end,
+                continuesBefore: start < dayStart,
+                continuesAfter: end > dayEnd,
+            });
+        }
+        return segments;
     }
 
     function getAllDayEventsForDay(day: Date): CalendarEvent[] {
         return events.filter(e => e.allDay && sameDay(new Date(e.start), day));
     }
 
-    type LaidOutEvent = { event: CalendarEvent; col: number; cols: number };
+    type LaidOutEvent = { segment: DaySegment; col: number; cols: number };
 
     // Répartit les événements qui se chevauchent en colonnes côte à côte, comme un calendrier classique.
-    function layoutDayEvents(dayEvents: CalendarEvent[]): LaidOutEvent[] {
+    function layoutDayEvents(dayEvents: DaySegment[]): LaidOutEvent[] {
         const sorted = [...dayEvents].sort(
-            (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
+            (a, b) => a.start.getTime() - b.start.getTime()
         );
 
         const result: LaidOutEvent[] = [];
-        let cluster: { event: CalendarEvent; col: number }[] = [];
+        let cluster: { segment: DaySegment; col: number }[] = [];
         let columnsEnd: number[] = [];
         let clusterEnd = -Infinity;
 
@@ -163,16 +197,16 @@
             if (cluster.length === 0) return;
             const cols = columnsEnd.length;
             for (const c of cluster) {
-                result.push({ event: c.event, col: c.col, cols });
+                result.push({ segment: c.segment, col: c.col, cols });
             }
             cluster = [];
             columnsEnd = [];
             clusterEnd = -Infinity;
         }
 
-        for (const event of sorted) {
-            const start = new Date(event.start).getTime();
-            const end = new Date(event.end).getTime();
+        for (const segment of sorted) {
+            const start = segment.start.getTime();
+            const end = segment.end.getTime();
 
             if (cluster.length > 0 && start >= clusterEnd) {
                 flushCluster();
@@ -186,7 +220,7 @@
                 columnsEnd[col] = end;
             }
 
-            cluster.push({ event, col });
+            cluster.push({ segment, col });
             clusterEnd = Math.max(clusterEnd, end);
         }
         flushCluster();
@@ -194,15 +228,13 @@
         return result;
     }
 
-    function eventTop(event: CalendarEvent): number {
-        const s = new Date(event.start);
+    function eventTop(segment: DaySegment): number {
+        const s = segment.start;
         return (s.getHours() + s.getMinutes() / 60) * HOUR_HEIGHT;
     }
 
-    function eventHeight(event: CalendarEvent): number {
-        const s = new Date(event.start);
-        const e = new Date(event.end);
-        const hours = (e.getTime() - s.getTime()) / 3_600_000;
+    function eventHeight(segment: DaySegment): number {
+        const hours = (segment.end.getTime() - segment.start.getTime()) / 3_600_000;
         return Math.max(hours * HOUR_HEIGHT, HOUR_HEIGHT * 0.25);
     }
 
@@ -392,15 +424,18 @@
                         {/if}
 
                         <!-- Events -->
-                        {#each layoutDayEvents(getTimedEventsForDay(day)) as { event, col, cols }}
-                            {@const height = eventHeight(event)}
+                        {#each layoutDayEvents(getTimedEventsForDay(day)) as { segment, col, cols }}
+                            {@const event = segment.event}
+                            {@const height = eventHeight(segment)}
                             <button
                                 onclick={(e) => { e.stopPropagation(); onEventClick?.(event); }}
                                 class="absolute cursor-pointer rounded-md px-1.5 py-0.5 overflow-hidden
                                        text-left text-xs border-l-[3px] shadow-sm z-10
+                                       {segment.continuesBefore ? 'rounded-t-none' : ''}
+                                       {segment.continuesAfter ? 'rounded-b-none' : ''}
                                        {eventColorClass(event)}
                                        hover:brightness-110 hover:shadow-md hover:z-20 transition-all"
-                                style="top: {eventTop(event)}px; height: {height}px;
+                                style="top: {eventTop(segment)}px; height: {height}px;
                                        left: calc({(col * 100) / cols}% + 2px);
                                        width: calc({100 / cols}% - 4px);"
                             >
