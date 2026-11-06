@@ -18,6 +18,7 @@ class ApiTimesheetController extends Controller
         if ($request->input('search')) {
             $query->where('comment', 'like', '%' . $request->input('search') . '%');
         }
+        $query->orderBy($request->input('sort_by', 'start'), $request->input('sort_order', 'desc'));
 
         return $query->paginate($request->input('paginate', 20));
     }

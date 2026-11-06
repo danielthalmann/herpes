@@ -20,6 +20,7 @@ class ApiInvoiceController extends Controller
                     ->orWhere('customer_company', 'like', '%' . $request->input('search') . '%');
             });
         }
+        $query->orderBy($request->input('sort_by', 'invoice_date'), $request->input('sort_order', 'desc'));
 
         return $query->paginate($request->input('paginate', 20));
     }
