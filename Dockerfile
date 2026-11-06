@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:latest-php8.3 AS base
+FROM dunglas/frankenphp:1.13.5-php8.3 AS base
 
 # Install php extension
 RUN install-php-extensions pdo_sqlite gd curl imap mbstring xml zip bcmath soap intl opcache
@@ -11,7 +11,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y nodejs
 
 # install crontab, git, ps, wkhtmltopdf
-RUN apt-get update && apt-get -y install git procps cron wkhtmltopdf
+RUN apt update && apt -y install git procps cron 
 
 ADD cronjob /etc/cronjob
 RUN chmod 0744 /etc/cronjob && crontab /etc/cronjob
