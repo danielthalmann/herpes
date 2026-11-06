@@ -18,7 +18,7 @@ class ApiTransactionController extends Controller
                     ->orWhere('account_text', 'like', '%' . $request->input('search') . '%');
             });
         }
-
+        $query->orderBy($request->input('sort_by', 'date'), $request->input('sort_order', 'desc'));
         return $query->paginate($request->input('paginate', 20));
     }
 
