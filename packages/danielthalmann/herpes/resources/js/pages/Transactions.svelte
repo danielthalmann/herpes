@@ -9,9 +9,14 @@
     let { api } = $props();
 
     let accounts: any[] = $state.raw([]);
+    let invoices: any[] = $state.raw([]);
 
     let accountOptions: SelectOption[] = $derived(
         accounts.map((account) => ({ label: account.code + ' - ' + account.name, value: account.id }))
+    );
+
+    let invoiceOptions: SelectOption[] = $derived(
+        invoices.map((invoice) => ({ label: invoice.ref, value: invoice.id }))
     );
 
     onMount(() => {
@@ -19,6 +24,15 @@
             response.json().then((json) => {
                 const rows: Paginate = json;
                 accounts = rows.data;
+                accounts.unshift({ code: '0', name: 'None', id: '' })
+            });
+        });
+
+        fetch(api.invoiceIndex + '?paginate=1000').then((response) => {
+            response.json().then((json) => {
+                const rows: Paginate = json;
+                invoices = rows.data;
+                invoices.unshift({ ref: 'None', id: '' })
             });
         });
     });
@@ -54,7 +68,7 @@
         { key: "account_from_id", label: "Compte from ID", type: "select", options: accountOptions },
         { key: "account_to_id", label: "Compte to ID", type: "select", options: accountOptions },
         { key: "accounting_text", label: "Texte comptable", type: "text" },
-        { key: "invoice_id", label: "Facture ID", type: "text" },
+        { key: "invoice_id", label: "Facture ID", type: "select", options: invoiceOptions },
 //        { key: "tax_code", label: "Code TVA", type: "text" },
 //        { key: "tax_rate", label: "Taux TVA", type: "text" },
 //        { key: "tax_value", label: "Valeur TVA", type: "text" },
@@ -68,7 +82,7 @@
         { key: "account_from_id", label: "Compte from ID", type: "select", options: accountOptions },
         { key: "account_to_id", label: "Compte to ID", type: "select", options: accountOptions },
         { key: "accounting_text", label: "Texte comptable", type: "text" },
-        { key: "invoice_id", label: "Facture ID", type: "text" },
+        { key: "invoice_id", label: "Facture ID", type: "select", options: invoiceOptions },
 //        { key: "tax_code", label: "Code TVA", type: "text" },
 //        { key: "tax_rate", label: "Taux TVA", type: "text" },
 //        { key: "tax_value", label: "Valeur TVA", type: "text" },
