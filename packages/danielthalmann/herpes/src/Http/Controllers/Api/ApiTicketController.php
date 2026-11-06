@@ -49,11 +49,18 @@ class ApiTicketController extends Controller
         $ticket->eval_times = $request->input('eval_times');
         $ticket->customer_id = $request->input('customer_id');
         $ticket->parent_id = $request->input('parent_id');
-        $ticket->reporter_id = $request->input('reporter_id');
+        $ticket->reporter_id = request()->user()->id;
         $ticket->assignee_id = $request->input('assignee_id');
         $ticket->invoice = $request->input('invoice', false);
         $ticket->invoiced_at = $request->input('invoiced_at');
         $ticket->save();
+
+        if ($ticket->type === 'EPIC') {
+            $ticket->parent_id = null;
+            $ticket->save();
+            Ticket::query()->where('parent_id', $ticket->id)->update(['customer_id' => $ticket->customer_id]);
+            Ticket::query()->where('parent_id', $ticket->id)->where(function ($query) { $query->whereNull('assignee_id')->orWhere('assignee_id', '=', ''); })->update(['assignee_id' => $ticket->assignee_id]);
+        }
 
         return $ticket;
     }
