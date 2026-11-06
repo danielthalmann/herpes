@@ -244,7 +244,7 @@ from the perspective of the consumer of this component, it will be typed appropr
                                 overflow-hidden
                                 text-ellipsis
                                 text-nowrap
-                                `, searchable && index === highlightedIndex ? "bg-gray-100 dark:bg-gray-700 rounded-md" : "")}>
+                                `, searchable && index == highlightedIndex ? "bg-gray-100 dark:bg-gray-700 rounded-md" : "")}>
                                 {@render option(item)}
 
                             </button>

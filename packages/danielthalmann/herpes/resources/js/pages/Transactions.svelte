@@ -51,16 +51,8 @@
             }
         },        
         { key: "accounting_text", label: "Texte comptable", type: "text" },
-        { key: "debit", label: "Débit", type: "fn",
-            computed : (row) => {
-                return row.debit / 100;
-            }
-        },
-        { key: "credit", label: "Crédit", type: "fn",
-            computed : (row) => {
-                return row.credit / 100;
-            }
-        },
+        { key: "debit", label: "Débit", type: "text"},
+        { key: "credit", label: "Crédit", type: "text"},
     ]);
 
     let createComponents: FormComponent = $derived([

@@ -76,7 +76,7 @@
                 <Table rows={<Array<any>>(data[component.key])} columns={component.columns} onopen={(row) => { JSON.parse(JSON.stringify(row)) }} ></Table>
             {/if}
             {#if component.type == 'select'}
-                <Select label={component.label} bind:value={data[component.key] as string} items={component.options}  ></Select>
+                <Select label={component.label} onchange={() => {change(component.key)}} bind:value={data[component.key] as string} items={component.options}  ></Select>
             {/if}
 
         {/if}
