@@ -112,6 +112,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'update' => 'balancesheet.item.update',
         'destroy' => 'balancesheet.item.destroy',
     ]);
+
+    Route::get('/api/tickets/epic', [ApiTicketController::class, 'epicIndex'])->name('ticket.epic.index');
     Route::resource('/api/tickets', ApiTicketController::class)->names([
         'index' => 'ticket.index',
         'create' => 'ticket.create',
@@ -120,6 +122,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'update' => 'ticket.update',
         'destroy' => 'ticket.destroy',
     ]);
+
     Route::resource('/api/timesheets', ApiTimesheetController::class)->names([
         'index' => 'timesheet.index',
         'create' => 'timesheet.create',

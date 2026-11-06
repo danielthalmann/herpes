@@ -23,6 +23,20 @@ class ApiTicketController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function epicIndex(Request $request)
+    {
+        $query = Ticket::query()->where('parent_id', null)->where('type', 'EPIC');
+
+        if ($request->input('search')) {
+            $query->where('summary', 'like', '%' . $request->input('search') . '%');
+        }
+
+        return $query->paginate($request->input('paginate', 20));
+    }    
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
