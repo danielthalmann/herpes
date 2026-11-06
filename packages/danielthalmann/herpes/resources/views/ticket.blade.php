@@ -27,6 +27,12 @@
         <x-slot name="api.ticket-epic-index">
             {{ route('ticket.epic.index') }}
         </x-slot>
+        <x-slot name="api.user-index">
+            {{ route('user.index') }}
+        </x-slot>
+        <x-slot name="api.customer-index">
+            {{ route('customer.index') }}
+        </x-slot>              
         <x-slot name="breadcrumb">
             {{ json_encode([
                 [

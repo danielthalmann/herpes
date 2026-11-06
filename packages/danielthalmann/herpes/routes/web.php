@@ -2,16 +2,17 @@
 
 use Danielthalmann\Herpes\Http\Controllers\AccountController;
 use Danielthalmann\Herpes\Http\Controllers\AddressCustomerController;
-use Danielthalmann\Herpes\Http\Controllers\Api\ApiBalanceSheetController;
-use Danielthalmann\Herpes\Http\Controllers\Api\ApiBalanceSheetItemController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiAccountController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiAddressCustomerController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiBalanceSheetController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiBalanceSheetItemController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiCustomerController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiInvoiceController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiInvoiceItemController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTicketController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTimesheetController;
 use Danielthalmann\Herpes\Http\Controllers\Api\ApiTransactionController;
+use Danielthalmann\Herpes\Http\Controllers\Api\ApiUserController;
 use Danielthalmann\Herpes\Http\Controllers\BalanceSheetController;
 use Danielthalmann\Herpes\Http\Controllers\BalanceSheetItemController;
 use Danielthalmann\Herpes\Http\Controllers\CustomerController;
@@ -131,4 +132,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'update' => 'timesheet.update',
         'destroy' => 'timesheet.destroy',
     ]);
+
+    Route::get('/api/users', [ApiUserController::class, 'index'])->name('user.index');
+
 });

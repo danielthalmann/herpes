@@ -16,7 +16,7 @@
         ...restProps
     }: ButtonProps = $props();
 
-    let style : string = "rounded border-gray-300 w-8 accent-indigo-600 focus:ring-indigo-500 scale-150";
+    let style : string = "rounded border-gray-300 w-5 accent-indigo-600 focus:ring-indigo-500 h-5";
 
 </script>
 
