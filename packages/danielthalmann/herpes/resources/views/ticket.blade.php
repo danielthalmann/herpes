@@ -24,6 +24,9 @@
         <x-slot name="update">
             {{ route('ticket.update', ['ticket' => '|id|']) }}
         </x-slot>
+        <x-slot name="open">
+            {{ route('ticket.timesheets', ['ticket' => '|id|']) }}
+        </x-slot>        
         <x-slot name="api.ticket-epic-index">
             {{ route('ticket.epic.index') }}
         </x-slot>

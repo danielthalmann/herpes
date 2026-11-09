@@ -6,6 +6,12 @@
     import { type ClassValue, clsx } from 'clsx';
     import { twMerge } from "tailwind-merge";
 
+    export type TableContext = {
+        page: number;
+        perpage: number;
+        search: string;
+    };
+
     export type TableColumn = Array<{
         key: string;
         label?: string;

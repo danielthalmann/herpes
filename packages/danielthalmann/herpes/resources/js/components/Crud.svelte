@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import Table, { type TableColumn, type TableAction } from "../components/Table.svelte";
+    import Table, { type TableContext, type TableColumn, type TableAction } from "../components/Table.svelte";
     import Breadcrumb from "../components/Breadcrumb.svelte";
     import Form, { type FormComponent } from "../components/Form.svelte";
     import Button from "../components/Button.svelte";
@@ -8,12 +8,6 @@
     import { type CustomerType } from "../types/App";
     import Dialog from "../components/Dialog.svelte";
     import { decodeHTML } from "../Utils/Encoding";
-
-    export type TableContext = {
-        page: number;
-        perpage: number;
-        search: string;
-    };
 
     export type CrudProps = {
         api: any;

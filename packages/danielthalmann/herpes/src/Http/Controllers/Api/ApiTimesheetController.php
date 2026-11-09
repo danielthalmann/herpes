@@ -18,10 +18,30 @@ class ApiTimesheetController extends Controller
         if ($request->input('search')) {
             $query->where('comment', 'like', '%' . $request->input('search') . '%');
         }
+        if ($request->input('ticket')) {
+            $query->where('ticket_id', $request->input('ticket'));
+        }
         $query->orderBy($request->input('sort_by', 'start'), $request->input('sort_order', 'desc'));
 
         return $query->paginate($request->input('paginate', 20));
     }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function timesheetsIndex(Request $request, string $ticket)
+    {
+        $query = Timesheet::query();
+
+        if ($request->input('search')) {
+            $query->where('comment', 'like', '%' . $request->input('search') . '%');
+        }
+        $query->where('ticket_id', $ticket);
+
+        $query->orderBy($request->input('sort_by', 'start'), $request->input('sort_order', 'desc'));
+
+        return $query->paginate($request->input('paginate', 20));
+    } 
 
     /**
      * Store a newly created resource in storage.

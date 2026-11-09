@@ -23,21 +23,27 @@ class ApiTicketController extends Controller
         $query->with(['timesheets']);
         $tickets = $query->paginate($request->input('paginate', 20));
         $tickets->each(function ($ticket) {
-            $ticket->times = 0;
+            $ticket->times = 0.0;
+            $ticket->times_planning_calculate = floatval($ticket->times_planning);
+
             if ($ticket->type === 'EPIC') {
 
                 $ticket->children()->join('timesheets', 'tickets.id', '=', 'timesheets.ticket_id')->get()->each(function ($timesheet) use ($ticket) {
                     if($timesheet->start) {
-                        $ticket->times += Carbon::parse($timesheet->start)->diffInMinutes(Carbon::parse($timesheet->end));
+                        $ticket->times += floatval(Carbon::parse($timesheet->start)->diffInMinutes(Carbon::parse($timesheet->end)));
                     }
                 });
+
+                $ticket->children->each(function ($timesheet) use ($ticket) {
+                    $ticket->times_planning_calculate += floatval($timesheet->times_planning);
+                });                
 
             }
 
             $ticket->timesheets->each(function ($timesheet) use ($ticket) {
-                $ticket->times += $timesheet->start->diffInMinutes($timesheet->end);
+                $ticket->times += floatval($timesheet->start->diffInMinutes($timesheet->end));
             });
-            $ticket->times /= 60;
+            $ticket->times /= 60.0;
         });
 
         return $tickets;
@@ -67,7 +73,7 @@ class ApiTicketController extends Controller
         $ticket->status = $request->input('status') ?? 'TODO';
         $ticket->summary = $request->input('summary');
         $ticket->description = $request->input('description');
-        $ticket->eval_times = $request->input('eval_times');
+        $ticket->times_planning = $request->input('times_planning');
         $ticket->customer_id = $request->input('customer_id');
         $ticket->parent_id = $request->input('parent_id');
         $ticket->reporter_id = request()->user()->id;
@@ -119,7 +125,7 @@ class ApiTicketController extends Controller
             $ticket->parent_id = $request->input('parent_id');
             $ticket->reporter_id = $request->input('reporter_id');
             $ticket->assignee_id = $request->input('assignee_id');
-            $ticket->eval_times = $request->input('eval_times');
+            $ticket->times_planning = $request->input('times_planning');
             $ticket->invoice = $request->input('invoice', false);
             $ticket->invoiced_at = $request->input('invoiced_at');
 

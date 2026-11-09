@@ -19,7 +19,7 @@ export type TicketType = {
     reporter_id?: number;
     assignee_id?: number;
     times?: number;
-    eval_times?: string;
+    times_planning?: number;
     invoice?: boolean;
     invoiced_at?: string;
     created_at?: string;

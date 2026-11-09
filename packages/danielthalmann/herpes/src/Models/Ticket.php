@@ -24,7 +24,7 @@ class Ticket extends Model
         'reporter_id',
         'assignee_id',
         'times',
-        'eval_times',
+        'times_planning',
         'invoice',
         'invoiced_at',
     ];
@@ -39,7 +39,7 @@ class Ticket extends Model
         'reporter_id' => null,
         'assignee_id' => null,
         'times' => null,
-        'eval_times' => null,
+        'times_planning' => null,
         'invoice' => false,
         'invoiced_at' => null,
     ];

@@ -4,6 +4,7 @@ import AddressCustomers from './pages/AddressCustomers.svelte'
 import Invoices from './pages/Invoices.svelte'
 import InvoiceItems from './pages/InvoiceItems.svelte'
 import Tickets from './pages/Tickets.svelte'
+import TicketTimesheets from './pages/TicketTimesheets.svelte'
 import Timesheets from './pages/Timesheets.svelte'
 import BalanceSheets from './pages/BalanceSheets.svelte'
 import BalanceSheetItems from './pages/BalanceSheetItems.svelte'
@@ -82,4 +83,11 @@ if (document.getElementById('balancesheet-item')) {
       props: { api: document.getElementById('balancesheet-item')!.dataset }
     })
 }
+if (document.getElementById('tickettimesheets')) {
+    app = mount(TicketTimesheets, {
+      target: document.getElementById('tickettimesheets')!,
+      props: { api: document.getElementById('tickettimesheets')!.dataset }
+    })
+}
+
 export default app

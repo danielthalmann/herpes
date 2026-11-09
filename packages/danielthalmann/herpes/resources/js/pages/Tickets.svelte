@@ -31,9 +31,8 @@
         { key: "status", label: "Statut", type: "select" , options: [ {label: 'À faire', value: 'TODO'},  {label: 'En cours', value: 'WIP'},  {label: 'Terminé', value: 'FINISH'} ] },
         { key: "summary", label: "Résumé", type: "text", className: "w-96" },
         { key: "times", label: "Temps", type: "text" },
-        { key: "eval_times", label: "Évaluation du temps de travail", type: "text" },
-        
-//        { key: "customer_id", label: "Client", type: "text" },
+        { key: "times_planning_calculate", label: "planification du temps", type: "text" },
+        // { key: "customer_id", label: "Client", type: "text" },
     ]);
 
     let createComponents: FormComponent = $derived([
@@ -42,9 +41,9 @@
         { key: "summary", label: "Résumé", type: "text", required: true },
         { key: "parent_id", label: "Parent", type: "select" , options: ticketOptions },
         { key: "description", label: "Description", type: "textarea" },
-        { key: "eval_times", label: "Évaluation du temps de travail", type: "text" },
+        { key: "times_planning", label: "Évaluation du temps de travail", type: "text" },
         { key: "customer_id", label: "Client ID", type: "select", options: customerOptions  },
-//        { key: "reporter_id", label: "Rapporteur ID", type: "select" },
+        // { key: "reporter_id", label: "Rapporteur ID", type: "select" },
         { key: "assignee_id", label: "Assigné ID", type: "select" , options: userOptions },
     ]);
 
@@ -55,9 +54,9 @@
         { key: "summary", label: "Résumé", type: "text", required: true },
         { key: "parent_id", label: "Parent", type: "select" , options: ticketOptions },
         { key: "description", label: "Description", type: "textarea" },
-        { key: "eval_times", label: "Évaluation du temps de travail", type: "text" },
+        { key: "times_planning", label: "Évaluation du temps de travail", type: "text" },
         { key: "customer_id", label: "Client ID", type: "select" , options: customerOptions },
-//        { key: "reporter_id", label: "Rapporteur ID", type: "text" },
+        // { key: "reporter_id", label: "Rapporteur ID", type: "text" },
         { key: "assignee_id", label: "Assigné ID", type: "select" , options: userOptions },
         { key: "invoice", label: "À Facturer", type: "checkbox" },
         // { key: "invoiced_at", label: "Date de facturation", type: "text" },

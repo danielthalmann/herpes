@@ -23,6 +23,7 @@ use Danielthalmann\Herpes\Http\Controllers\InvoicePdfController;
 use Danielthalmann\Herpes\Http\Controllers\InvoicePrintController;
 use Danielthalmann\Herpes\Http\Controllers\InvoicesController;
 use Danielthalmann\Herpes\Http\Controllers\TicketController;
+use Danielthalmann\Herpes\Http\Controllers\TicketTimesheetController;
 use Danielthalmann\Herpes\Http\Controllers\TimesheetController;
 use Danielthalmann\Herpes\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/transactions/', TransactionController::class)->name('transaction');
     Route::get('/accounts/', AccountController::class)->name('account');
     Route::get('/tickets/', TicketController::class)->name('ticket');
+    Route::get('/tickets/{ticket}/timesheets/', TicketTimesheetController::class)->name('ticket.timesheets');
     Route::get('/timesheets/', TimesheetController::class)->name('timesheet');
     Route::get('/balancesheets/', BalanceSheetController::class)->name('balancesheet');
     Route::get('/balancesheets/{balancesheet}/items/', BalanceSheetItemController::class)->name('balancesheet.item');
@@ -115,6 +117,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     ]);
 
     Route::get('/api/tickets/epic', [ApiTicketController::class, 'epicIndex'])->name('ticket.epic.index');
+    Route::get('/api/tickets/{ticket}/timesheets/', [ApiTimesheetController::class, 'timesheetsIndex'])->name('ticket.timesheets.index');
     Route::resource('/api/tickets', ApiTicketController::class)->names([
         'index' => 'ticket.index',
         'create' => 'ticket.create',
@@ -123,6 +126,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'update' => 'ticket.update',
         'destroy' => 'ticket.destroy',
     ]);
+
 
     Route::resource('/api/timesheets', ApiTimesheetController::class)->names([
         'index' => 'timesheet.index',
