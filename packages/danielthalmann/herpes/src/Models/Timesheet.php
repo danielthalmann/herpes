@@ -24,4 +24,18 @@ class Timesheet extends Model
         'end' => null,
         'comment' => null,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'start' => 'datetime:Y-m-d H:i:s',
+            'end' => 'datetime:Y-m-d H:i:s',
+        ];
+    }
+
 }

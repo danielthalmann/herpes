@@ -2,6 +2,7 @@
 
 namespace Danielthalmann\Herpes\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Danielthalmann\Herpes\Http\Controllers\Controller;
 use Danielthalmann\Herpes\Models\Ticket;
 use Illuminate\Http\Request;
@@ -19,7 +20,27 @@ class ApiTicketController extends Controller
             $query->where('summary', 'like', '%' . $request->input('search') . '%');
         }
 
-        return $query->paginate($request->input('paginate', 20));
+        $query->with(['timesheets']);
+        $tickets = $query->paginate($request->input('paginate', 20));
+        $tickets->each(function ($ticket) {
+            $ticket->times = 0;
+            if ($ticket->type === 'EPIC') {
+
+                $ticket->children()->join('timesheets', 'tickets.id', '=', 'timesheets.ticket_id')->get()->each(function ($timesheet) use ($ticket) {
+                    if($timesheet->start) {
+                        $ticket->times += Carbon::parse($timesheet->start)->diffInMinutes(Carbon::parse($timesheet->end));
+                    }
+                });
+
+            }
+
+            $ticket->timesheets->each(function ($timesheet) use ($ticket) {
+                $ticket->times += $timesheet->start->diffInMinutes($timesheet->end);
+            });
+            $ticket->times /= 60;
+        });
+
+        return $tickets;
     }
 
     /**

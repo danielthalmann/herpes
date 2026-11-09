@@ -30,7 +30,9 @@
         { key: "type", label: "Type", type: "select", options: [ {label: 'EPIC', value: 'EPIC'},  {label: 'TICKET', value: 'TICKET'}] },
         { key: "status", label: "Statut", type: "select" , options: [ {label: 'À faire', value: 'TODO'},  {label: 'En cours', value: 'WIP'},  {label: 'Terminé', value: 'FINISH'} ] },
         { key: "summary", label: "Résumé", type: "text", className: "w-96" },
+        { key: "times", label: "Temps", type: "text" },
         { key: "eval_times", label: "Évaluation du temps de travail", type: "text" },
+        
 //        { key: "customer_id", label: "Client", type: "text" },
     ]);
 

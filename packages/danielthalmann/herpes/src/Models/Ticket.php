@@ -75,5 +75,9 @@ class Ticket extends Model
         return $this->hasOne(Ticket::class, 'id', 'parent_id');
     } 
 
+    public function children(): HasMany
+    {
+        return $this->hasMany(Ticket::class, 'parent_id', 'id');
+    }
 
 }
